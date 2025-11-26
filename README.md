@@ -1,13 +1,25 @@
-# Internet-Draft Template Repository
+# Composite KEM
 
-Use this repository as a template if you want to start working on
-[IETF](https://www.ietf.org/) documents. [Click here to create a new repository using the
-template](https://github.com/martinthomson/internet-draft-template/generate).
-Make sure to check "Include all branches", or you will need to enable GitHub Pages manually.
+This is the working area for the individual Internet-Draft, "Composite KEMs For Use In Internet PKI".
 
-[Read the
-instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/TEMPLATE.md)
-for more information.
+* [Editor's Copy](https://lamps-wg.github.io/cms-composite-kem/draft-todo-yourname-protocol.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-kem)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem)
+* [Compare Editor's Copy to Individual Draft](https://lamps-wg.github.io/cms-composite-kem/#go.draft-todo-yourname-protocol.diff)
 
-Once you have created your own repository, start work by
-[renaming the `draft-todo-yourname-protocol.md` file](../../edit/main/draft-todo-yourname-protocol.md).
+
+## Contributing
+
+We welcome contributions via pull requests, github issues, or emails to the authors.
+
+## Command Line Usage
+
+Formatted text and HTML versions of the draft can be built using `make`.
+
+```sh
+$ make
+```
+
+Command line usage requires that you have the necessary software installed.  See
+[the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
+
