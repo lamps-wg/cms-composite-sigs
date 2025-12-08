@@ -1,16 +1,22 @@
-# Composite KEM
+<!-- regenerate: on (set to off if you edit this file) -->
 
-This is the working area for the individual Internet-Draft, "Composite KEMs For Use In Internet PKI".
+# Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
 
-* [Editor's Copy](https://lamps-wg.github.io/cms-composite-kem/draft-todo-yourname-protocol.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lamps-pq-composite-kem)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem)
-* [Compare Editor's Copy to Individual Draft](https://lamps-wg.github.io/cms-composite-kem/#go.draft-todo-yourname-protocol.diff)
+This is the working area for the IETF [LAMPS Working Group](https://datatracker.ietf.org/group/lamps/documents/) Internet-Draft, "Composite ML-DSA for use in Cryptographic Message Syntax (CMS)".
+
+* [Editor's Copy](https://lamps-wg.github.io/cms-composite-sigs/#go.draft-ietf-lamps-cms-composite-sigs.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-sigs)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lamps-cms-composite-sigs)
+* [Compare Editor's Copy to Working Group Draft](https://lamps-wg.github.io/cms-composite-sigs/#go.draft-ietf-lamps-cms-composite-sigs.diff)
 
 
 ## Contributing
 
-We welcome contributions via pull requests, github issues, or emails to the authors.
+See the
+[guidelines for contributions](https://github.com/lamps-wg/cms-composite-sigs/blob/main/CONTRIBUTING.md).
+
+The contributing file also has tips on how to make contributions, if you
+don't already know how to do that.
 
 ## Command Line Usage
 
