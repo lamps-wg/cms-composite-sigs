@@ -1,5 +1,7 @@
 DEPS_FILES := \
-	Composite-MLDSA-CMS-2026.asn
+	Composite-MLDSA-CMS-2026.asn \
+	examples/id-MLDSA65-ECDSA-P256-SHA512-signed-attrs.pem \
+	examples/id-MLDSA65-ECDSA-P256-SHA512-signed-attrs.txt
 
 LIBDIR := lib
 include $(LIBDIR)/main.mk
