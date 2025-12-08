@@ -4,17 +4,17 @@ abbrev: Composite ML-DSA CMS
 docname: draft-ietf-lamps-cms-composite-sigs-latest
 
 ipr: trust200902
-# area: Security
+area: Security
 wg: LAMPS
 kw: Internet-Draft
 cat: std
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 
 venue:
-#  group: LAMPS
-#  type: Working Group
-#  mail: spams@ietf.org
-#  arch: https://datatracker.ietf.org/wg/lamps/about/
+  group: LAMPS
+  type: Working Group
+  mail: spams@ietf.org
+  arch: https://datatracker.ietf.org/wg/lamps/about/
   github: "lamps-wg/cms-composite-sigs"
   latest: "https://lamps-wg.github.io/cms-composite-sigs/draft-ietf-lamps-cms-composite-sigs.html"
 
