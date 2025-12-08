@@ -1,3 +1,6 @@
+DEPS_FILES := \
+	Composite-MLDSA-CMS-2026.asn
+
 LIBDIR := lib
 include $(LIBDIR)/main.mk
 

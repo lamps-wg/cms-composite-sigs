@@ -3,13 +3,15 @@ title: Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
 abbrev: Composite ML-DSA CMS
 docname: draft-ietf-lamps-cms-composite-sigs-latest
 
+stand_alone: true # This lets us do fancy auto-generation of references
 ipr: trust200902
 area: Security
 wg: LAMPS
-kw: Internet-Draft
 cat: std
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
-
+keyword:
+  - cms
+  - composite ml-dsa
 venue:
   group: LAMPS
   type: Working Group
@@ -48,106 +50,40 @@ author:
     code: 10969
     city: Berlin
     country: Germany
-
+  -
+    ins: D. Van Geest
+    name: Daniel Van Geest
+    org: CryptoNext Security
+    email: daniel.vangeest@cryptonext-security.com
+    street: ‍16, Boulevard Saint-Germain
+    code: 75007
+    city: Paris
+    country: France
 
 
 normative:
-  RFC2119:
-  RFC2986:
-  RFC4210:
-  RFC4211:
-  RFC4262:
-  RFC5280:
-  RFC5480:
-  RFC5639:
-  RFC5652:
-  RFC5758:
-  RFC5958:
-  RFC6090:
-  RFC6234:
-  RFC7748:
-  RFC8032:
-  RFC8174:
-  RFC8410:
-  RFC8411:
-  I-D.draft-ietf-lamps-pq-composite-sigs-13:
-  X.690:
-      title: "Information technology - ASN.1 encoding Rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"
-      date: November 2015
-      author:
-        org: ITU-T
-      seriesinfo:
-        ISO/IEC: 8825-1:2015
-  FIPS.180:
-    title: "Secure Hash Standard (SHS)"
-    date: August 2015
-    author:
-      org: "National Institute of Standards and Technology (NIST)"
-    target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
-  FIPS.186-5:
-    title: "Digital Signature Standard (DSS)"
-    date: February 3, 2023
-    author:
-      org: "National Institute of Standards and Technology (NIST)"
-    target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf
-  FIPS.204:
-    title: "Module-Lattice-Based Digital Signature Standard"
-    date: August 13, 2024
-    author:
-      org: "National Institute of Standards and Technology (NIST)"
-    target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
+  FIPS180: DOI.10.6028/NIST.FIPS.180-4
+  FIPS202: DOI.10.6028/NIST.FIPS.202
+  FIPS204: DOI.10.6028/NIST.FIPS.204
 
 
 informative:
-  RFC3279:
-  RFC5914:
-  RFC7292:
-  RFC7296:
-  RFC7299:
-  RFC8446:
-  RFC8551:
-  RFC8017:
-  RFC9794: # I-D.draft-ietf-pquip-pqt-hybrid-terminology-04:
-  RFC9881: # I-D.draft-ietf-lamps-dilithium-certificates-04:
-  RFC9882: # I-D.draft-ietf-lamps-cms-ml-dsa-02:
-  I-D.draft-ietf-pquip-hybrid-signature-spectrums-07:
-  Bindel2017:
-    title: "Transitioning to a quantum-resistant public key infrastructure"
-    target: "https://link.springer.com/chapter/10.1007/978-3-319-59879-6_22"
+  X680:
+    target: https://www.itu.int/rec/T-REC-X.680
+    title: >
+      Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation
     author:
-      -
-        ins: N. Bindel
-        name: Nina Bindel
-      -
-        ins: U. Herath
-        name: Udyani Herath
-      -
-        ins: M. McKague
-        name: Matthew McKague
-      -
-        ins: D. Stebila
-        name: Douglas Stebila
-    date: 2017
-  BSI2021:
-    title: "Quantum-safe cryptography - fundamentals, current developments and recommendations"
-    target: https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/Brochure/quantum-safe-cryptography.pdf
-    author:
-      - org: "Federal Office for Information Security (BSI)"
-    date: October 2021
-  ANSSI2024:
-    title: "Position Paper on Quantum Key Distribution"
-    target: https://cyber.gouv.fr/sites/default/files/document/Quantum_Key_Distribution_Position_Paper.pdf
-    author:
-      - org: "French Cybersecurity Agency (ANSSI)"
-      - org: "Federal Office for Information Security (BSI)"
-      - org: "Netherlands National Communications Security Agency (NLNCSA)"
-      - org: "Swedish National Communications Security Authority, Swedish Armed Forces"
-
+      org: ITU-T
+    date: February 2021
+    seriesinfo:
+      ITU-T Recommendation: X.680
+      ISO/IEC: 8824-1:2021
 
 
 --- abstract
 
-This document defines conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS).
+Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+This document specifies the conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS).
 
 
 --- middle
@@ -155,142 +91,205 @@ This document defines conventions for using Composite ML-DSA within the Cryptogr
 
 # Introduction {#sec-intro}
 
-This document acts as a companion to {{I-D.ietf-lamps-pq-composite-sigs}} by providing conventions for using the Composite ML-DSA algorithm within the Cryptographic Message Syntax (CMS).
-
+{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS204}} with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
+This document acts as a companion to {{I-D.ietf-lamps-pq-composite-sigs}} by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) {{!RFC5652}}.
 
 
 ## Conventions and Terminology {#sec-terminology}
 
 {::boilerplate bcp14+}
 
-This document is consistent with the terminology defined in [rfc9794]. In addition, the following terminology is used throughout this document:
-
-**ALGORITHM**:
-          The usage of the term "algorithm" within this
-          document generally refers to any function which
-          has a registered Object Identifier (OID) for
-          use within an ASN.1 AlgorithmIdentifier. This
-          loosely, but not precisely, aligns with the
-          definitions of "cryptographic algorithm" and
-          "cryptographic scheme" given in [rfc9794].
-
-**BER**:
-          Basic Encoding Rules (BER) as defined in [X.690].
-
-**CLIENT**:
-          Any software that is making use of a cryptographic key.
-          This includes a signer, verifier, encrypter, decrypter.
-          This is not meant to imply any sort of client-server
-          relationship between the communicating parties.
-
-**DER**:
-          Distinguished Encoding Rules as defined in [X.690].
-
-**PKI**:
-          Public Key Infrastructure, as defined in [RFC5280].
-
-**PUBLIC / PRIVATE KEY**:
-          The public and private portion of an asymmetric cryptographic
-          key, making no assumptions about which algorithm.
-
-**SIGNATURE**:
-          A digital cryptographic signature, making no assumptions
-            about which algorithm.
+This document is consistent with the terminology defined in {{?RFC9794}}.
 
 
+# Composite ML-DSA Algorithm Identifiers {#algorithm-identifiers}
 
-# Use in CMS
+Many ASN.1 data structure types use the AlgorithmIdentifier type to identify cryptographic algorithms.
+In the CMS, AlgorithmIdentifiers are used to identify Composite ML-DSA signatures in the signed-data content type.
+They may also appear in X.509 certificates used to verify those signatures.
+The same AlgorithmIdentifiers are used to identify Composite ML-DSA public keys and signature algorithms.
+{{I-D.ietf-lamps-pq-composite-sigs}} describes the use of Composite ML-DSA in X.509 certificates.
+The AlgorithmIdentifier type is defined as follows:
 
-Composite Signature algorithms MAY be employed for one or more recipients in the CMS signed-data content type [RFC5652].
-
-All recommendations for using Composite ML-DSA in CMS are fully aligned with the use of ML-DSA in CMS [RFC9882].
-
-## Underlying Components {#cms-underlying-components}
-
-A compliant implementation MUST support SHA-512 [FIPS.180] for all composite variants in this document. Implementations MAY also support other algorithms for the SignerInfo `digestAlgorithm` and SHOULD use algorithms that produce a hash value of a size that is at least twice the collision strength of the internal commitment hash used by ML-DSA.
-
-Note: The Hash ML-DSA Composite identifiers are relevant here because this algorithm operation mode is not provided in CMS, which is consistent with [RFC9882].
-
-
-TODO -- DO we need to specify mandatory-to-implement digest algorithms, the same way we specify KDF algs for KEMs?
-
-## SignedData Conventions
-
-As specified in CMS [RFC5652], the digital signature is produced from the message digest and the signer's private key. The signature is computed over different values depending on whether signed attributes are absent or present.
-
-When signed attributes are absent, the composite signature is computed over the content of the signed-data. The "content" of a signed-data is the value of the encapContentInfo eContent OCTET STRING. The tag and length octets are not included.
-When signed attributes are present, a hash is computed over the content using the hash function specified in {{cms-underlying-components}}, and then a message-digest attribute is constructed to contain the resulting hash value, and then the result of DER encoding the set of signed attributes, which MUST include a content-type attribute and a message-digest attribute, and then the composite signature is computed over the DER-encoded output. In summary:
-
-~~~
-IF (signed attributes are absent)
-   THEN Composite-ML-DSA.Sign(content)
-ELSE message-digest attribute = Hash(content);
-   Composite-ML-DSA.Sign(DER(SignedAttributes))
+~~~ asn.1
+AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+        SEQUENCE {
+            algorithm   ALGORITHM-TYPE.&id({AlgorithmSet}),
+            parameters  ALGORITHM-TYPE.
+                   &Params({AlgorithmSet}{@algorithm}) OPTIONAL
+        }
 ~~~
 
-When using Composite Signatures, the fields in the SignerInfo are used as follows:
+<aside markdown="block">
+  NOTE: The above syntax is from {{!RFC5911}} and is compatible with the
+  2021 ASN.1 syntax {{X680}}. See {{?RFC5280}} for the 1988 ASN.1 syntax.
+</aside>
+
+The fields in the AlgorithmIdentifier type have the following meanings:
+
+algorithm:
+
+: The algorithm field contains an OID that identifies the cryptographic algorithm in use.
+The OIDs for Composite ML-DSA are described below.
+
+parameters:
+
+: The parameters field contains parameter information for the algorithm identified by the OID in the algorithm field.
+Each Composite ML-DSA parameter set is identified by its own algorithm OID, so there is no relevant information to include in this field.
+As such, parameters MUST be omitted when encoding a Composite ML-DSA AlgorithmIdentifier.
+
+The object identifiers for Composite ML-DSA are defined in {{I-D.ietf-lamps-pq-composite-sigs}}, and are reproduced here for convenience.
+
+~~~ asn.1
+id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 37 }
+id-MLDSA44-RSA2048-PKCS15-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 38 }
+id-MLDSA44-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 39 }
+id-MLDSA44-ECDSA-P256-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 40 }
+id-MLDSA65-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 41 }
+id-MLDSA65-RSA3072-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 42 }
+id-MLDSA65-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 43 }
+id-MLDSA65-RSA4096-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 44 }
+id-MLDSA65-ECDSA-P256-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 45 }
+id-MLDSA65-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 46 }
+id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 47 }
+id-MLDSA65-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 48 }
+id-MLDSA87-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 49 }
+id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 50 }
+id-MLDSA87-Ed448-SHAKE256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 51 }
+id-MLDSA87-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 52 }
+id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 53 }
+id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 54 }
+~~~
+
+# Signed-Data Conventions
+
+## Pre-Hashing
+
+{{RFC5652}} specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
+At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
+Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardised, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
+
+Composite ML-DSA operates only in a "pre-hash" mode, however unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its digest.
+
+When Composite ML-DSA is used in CMS, the digest algorithm used by CMS is the same digest algorithm used by the Composite ML-DSA algorithm.
+
+
+## Signature Generation and Verification
+
+{{RFC5652}} describes the two methods that are used to calculate and verify signatures in the CMS.
+One method is used when signed attributes are present in the signedAttrs field of the relevant SignerInfo, and another is used when signed attributes are absent.
+Use of signed attributes is preferred, but the conventions for signed-data without signed attributes is also described below for completeness.
+
+When signed attributes are absent, Composite ML-DSA signatures are computed over the content of the signed-data.
+As described in {{Section 5.4 of RFC5652}}, the "content" of a signed-data is the value of the encapContentInfo eContent OCTET STRING.
+The tag and length octets are not included.
+
+When signed attributes are included, Composite ML-DSA signatures are computed over the complete DER encoding of the SignedAttrs value contained in the SignerInfo's signedAttrs field.
+As described in {{Section 5.4 of RFC5652}}, this encoding includes the tag and length octets, but an EXPLICIT SET OF tag is used rather than the IMPLICIT \[0\] tag that appears in the final message.
+At a minimum, the signedAttrs field MUST include a content-type attribute and a message-digest attribute.
+The message-digest attribute contains a hash of the content of the signed-data, where the content is as described for the absent signed attributes case above.
+Recalculation of the hash value by the recipient is an important step in signature verification.
+
+Composite ML-DSA has a context string input that can be used to ensure that different signatures are generated for different application contexts.
+When using Composite ML-DSA as specified in this document, the context string is set to the empty string.
+
+
+## SignerInfo Content
+
+When using Composite ML-DSA, the fields of a SignerInfo are used as follows:
 
 digestAlgorithm:
-    Per Section 5.3 of [RFC5652], the digestAlgorithm contains the one-way hash function used by the CMS signer.
-    To ensure collision resistance, the identified message digest algorithm SHOULD produce a hash
-    value of a size that is at least twice the collision strength of the internal commitment hash used by ML-DSA
-    component algorithm of the Composite Signature.
+
+: Per {{Section 5.3 of RFC5652}}, the digestAlgorithm field identifies the message digest algorithm used by the signer and any associated parameters.
+This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
+See {{digest-algs}} for exact algorithm mappings.
+
+: {{!RFC5754}} defineds the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the used of SHAKE256 {{FIPS202}} in CMS (id-shake256).
+When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
+When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.
+
+| Signature Algorithm                     | Digest Algorithms |
+| id-MLDSA44-RSA2048-PSS-SHA256           | id-sha256         |
+| id-MLDSA44-RSA2048-PKCS15-SHA256        | id-sha256         |
+| id-MLDSA44-Ed25519-SHA512               | id-sha512         |
+| id-MLDSA44-ECDSA-P256-SHA256            | id-sha256         |
+| id-MLDSA65-RSA3072-PSS-SHA512           | id-sha512         |
+| id-MLDSA65-RSA3072-PKCS15-SHA512        | id-sha512         |
+| id-MLDSA65-RSA4096-PSS-SHA512           | id-sha512         |
+| id-MLDSA65-RSA4096-PKCS15-SHA512        | id-sha512         |
+| id-MLDSA65-ECDSA-P256-SHA512            | id-sha512         |
+| id-MLDSA65-ECDSA-P384-SHA512            | id-sha512         |
+| id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 | id-sha512         |
+| id-MLDSA65-Ed25519-SHA512               | id-sha512         |
+| id-MLDSA87-ECDSA-P384-SHA512            | id-sha512         |
+| id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 | id-sha512         |
+| id-MLDSA87-Ed448-SHAKE256               | id-shake256       |
+| id-MLDSA87-RSA3072-PSS-SHA512           | id-sha512         |
+| id-MLDSA87-RSA4096-PSS-SHA512           | id-sha512         |
+| id-MLDSA87-ECDSA-P521-SHA512            | id-sha512         |
+{: #digest-algs title="Digest Algorithms for Composite ML-DSA"}
 
 signatureAlgorithm:
-    The signatureAlgorithm MUST contain one of the the Composite Signature algorithm identifiers as specified in {{cms-underlying-components}}}
 
-signature:
-    The signature field contains the signature value resulting from the composite signing operation of the specified signatureAlgorithm.
+ : The signatureAlgorithm field MUST contain one of the Composite ML-DSA signature algorithm OIDs, and the parameters field MUST be absent. The algorithm OID MUST be one of the OIDs described in {{algorithm-identifiers}}.
 
+ signature:
 
-## Signature generation and verification
-
-Composite signatures have a context string input that can be used to ensure that different signatures are generated for different application contexts.  When using composite signatures for CMS, the context string is the empty string.
-
-
-## Certificate Conventions
-
-The conventions specified in this section augment RFC 5280 [RFC5280].
-
-The willingness to accept a composite Signature Algorithm MAY be signaled by the use of the SMIMECapabilities Attribute as specified in Section 2.5.2. of [RFC8551] or the SMIMECapabilities certificate extension as specified in [RFC4262].
-
-The intended application for the public key MAY be indicated in the key usage certificate extension as specified in Section 4.2.1.3 of [RFC5280]. If the keyUsage extension is present in a certificate that conveys a composite Signature public key, then the key usage extension MUST contain only the following value:
-
-~~~
-digitalSignature
-nonRepudiation
-keyCertSign
-cRLSign
-~~~
-
-The keyEncipherment and dataEncipherment values MUST NOT be present. That is, a public key intended to be employed only with a composite signature algorithm MUST NOT also be employed for data encryption. This requirement does not carry any particular security consideration; only the convention that signature keys be identified with 'digitalSignature','nonRepudiation','keyCertSign' or 'cRLSign' key usages.
-
-
-## SMIMECapabilities Attribute Conventions
-
-Section 2.5.2 of [RFC8551] defines the SMIMECapabilities attribute to announce a partial list of algorithms that an S/MIME implementation can support. When constructing a CMS signed-data content type [RFC5652], a compliant implementation MAY include the SMIMECapabilities attribute.
-
-The SMIMECapability SEQUENCE representing a composite signature Algorithm MUST include the appropriate object identifier as per {{cms-underlying-components}} in the capabilityID field.
-
+ : The signature field contains the signature value resulting from the use of the Composite ML-DSA signature algorithm identified by the signatureAlgorithm field.
+ The Composite ML-DSA signature-generation operation is specified in {{Section 4.2 of I-D.ietf-lamps-pq-composite-sigs}}, and the signature-verification operation is specified in {{Section 4.3 of I-D.ietf-lamps-pq-composite-sigs}}.
+ Note that {{Section 5.6 of RFC5652}} places further requirements on the successful verification of a signature.
 
 # ASN.1 Module {#sec-asn1-module}
 
 ~~~ asn.1
-
-<CODE STARTS>
-
-{::include Composite-MLDSA-CMS-2025.asn}
-
+<CODE BEGINS>
+{::include Composite-MLDSA-CMS-2026.asn}
 <CODE ENDS>
-
 ~~~
 
 
 # IANA Considerations {#sec-iana}
-IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry [RFC7299] for the included ASN.1 module.
+IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.
 
--  Decimal: IANA Assigned - **Replace TBDMOD**
--  Description: Composite-Signatures-CMS-2025 - id-mod-composite-cms-signatures
+-  Decimal: IANA Assigned - **Replace TBDCompositeMOD**
+-  Description: Composite-Signatures-CMS-2026 - id-mod-composite-mldsa-cms-2026
 -  References: This Document
 
 
@@ -301,72 +300,32 @@ IANA is requested to allocate a value from the "SMI Security for PKIX Module Ide
 
 All security considerations from {{I-D.ietf-lamps-pq-composite-sigs}} apply.
 
+Security of the Composite ML-DSA private key is critical.
+Compromise of the private key will enable an adversary to forge arbitrary signatures.
 
-## Use of ctx
+Composite ML-DSA depends on high-quality random numbers that are suitable for use in cryptography.
+The use of inadequate pseudo-random number generators (PRNGs) to generate such values can significantly undermine the security properties offered by a cryptographic algorithm.
+For instance, an attacker may find it much easier to reproduce the PRNG environment that produced any private keys, searching the resulting small set of possibilities, rather than brute-force searching the whole key space.
+The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of {{FIPS204}} for some additional information.
 
-TODO
-
+To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in {{!RFC6211}} SHOULD be included in signed attributes.
 
 
 --- back
 
 
+# Examples
 
-# Implementation Considerations {#sec-imp-considers}
+This appendix contains example signed-data encodings.
 
+TODO
 
-## Backwards Compatibility {#sec-backwards-compat}
-
-TODO - say something meaningful about backwards compatibility within the CMS context.
-
-
-<!-- End of Implementation Considerations section -->
-
-
-# Test Vectors {#appdx-samples}
-
-TODO - Fix this once we have test vectors.
-
-
-
-The following test vectors are provided in a format similar to the NIST ACVP Known-Answer-Tests (KATs).
-
-The structure is that a global message `m` is signed over in all test cases. `m` is the ASCII string "The quick brown fox jumps over the lazy dog."
-Within each test case there are the following values:
-
-* `tcId` the name of the algorithm.
-* `pk` the verification public key.
-* `x5c` a self-signed X.509 certificate of the public key.
-* `sk` the decapsulation private key.
-* `s` the signature value.
-
-Implementers should be able to perform the following tests using the test vectors below:
-
-1. Load the public key `pk` or certificate `x5c` and use it to verify the signature `s` over the message `m`.
-2. Validate the self-signed certificate `x5c`.
-3. Load the signing private key `sk` and use it to produce a new signature which can be verified using the provided `pk` or `x5c`.
-
-Test vectors are provided for each underlying component in isolation for the purposes of debugging.
-
-Due to the length of the test vectors, you may prefer to retrieve them from GitHub. The reference implementation that generated them is also available:
-
-https://github.com/lamps-wg/draft-composite-sigs/tree/main/src
-
-# ~~~
-# {::include src/testvectors_wrapped.json}
-# ~~~
-
-
-# Intellectual Property Considerations
-
-None.
-
-
-# Contributors and Acknowledgements
+# Acknowledgements
+{:numbered="false"}
 
 TODO -- update this.
 
 
 This document borrows text from similar documents, including those referenced below. Thanks go to the authors of those
-   documents.  "Copying always makes things easier and less error prone" - [RFC8411].
+   documents.  "Copying always makes things easier and less error prone" - {{?RFC8411}}.
 
