@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-07T01:21:59.830601+00:00",
+  "timestamp": "2025-12-09T01:14:54.638145+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -50,5 +50,32 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOQdmGXs63yLqX",
+      "title": "Rewrite",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/1",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-08T22:58:36Z",
+      "updatedAt": "2025-12-08T22:58:36Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "a64c41482c388e7973b044f98a8143ad152e1898",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/rewrite",
+      "headRefOid": "19978286918c0f5f7dbc6c6589758016b2fea7b0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
