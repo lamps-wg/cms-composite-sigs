@@ -316,13 +316,16 @@ To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute de
 
 # Examples
 
-This appendix contains example signed-data encodings with the id-MLDSA65-ECDSA-P256-SHA512 signature algorithm.
+This appendix contains an example signed-data encoding with the id-MLDSA65-ECDSA-P256-SHA512 signature algorithm.
 
-They can be verified using the example public keys and certificates specified in {{Appendix E of I-D.ietf-lamps-pq-composite-sigs}}.
+It can be verified using the example public keys and certificates specified in {{Appendix E of I-D.ietf-lamps-pq-composite-sigs}}.
 Specifically, the following example:
 
 - tcId: id-MLDSA65-ECDSA-P256-SHA512
-- x5c: Base64 of the DER encoding of the certificate.  Write this in PEM headers and footers to get a PEM certificate.
+- x5c: Base64 of the DER encoding of the certificate.  Wrap this in PEM headers and footers to get a PEM certificate.
+
+To keep example size down, the signing certificate is not included in the CMS encoding.
+The example certificate from {{I-D.ietf-lamps-pq-composite-sigs}} used to sign the CMS content is self-signed.
 
 The following is an example of a signed-data with a single id-MLDSA65-ECDSA-P256-SHA512 signer, with signed attributes included:
 
