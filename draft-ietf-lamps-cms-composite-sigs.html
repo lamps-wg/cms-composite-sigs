@@ -2,17 +2,20 @@
 <html lang="en" class="Internet-Draft">
 <head>
 <meta charset="utf-8">
-<meta content="Common,Latin" name="scripts">
+<meta content="Common,Inherited,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</title>
 <meta content="Mike Ounsworth" name="author">
 <meta content="John Gray" name="author">
 <meta content="Jan Klaussner" name="author">
+<meta content="Daniel Van Geest" name="author">
 <meta content="
-       This document defines conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS). 
+       Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+This document specifies the conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS). 
     " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
-<meta content="Internet-Draft" name="keyword">
+<meta content="cms" name="keyword">
+<meta content="composite ml-dsa" name="keyword">
 <meta content="draft-ietf-lamps-cms-composite-sigs-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.31.0
@@ -1049,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 11 June 2026</td>
+<td class="center">Expires 18 June 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-sigs-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-08" class="published">8 December 2025</time>
+<time datetime="2025-12-15" class="published">15 December 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-11">11 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-06-18">18 June 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1082,13 +1085,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <div class="author-name">J. Klaussner</div>
 <div class="org">Bundesdruckerei GmbH</div>
 </div>
+<div class="author">
+      <div class="author-name">D. Van Geest</div>
+<div class="org">CryptoNext Security</div>
+</div>
 </dd>
 </dl>
 </div>
 <h1 id="title">Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+This document specifies the conventions for using Composite ML-DSA within the Cryptographic Message Syntax (CMS).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1125,7 +1133,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1163,72 +1171,50 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-use-in-cms" class="internal xref">Use in CMS</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-underlying-components" class="internal xref">Underlying Components</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
-                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-signeddata-conventions" class="internal xref">SignedData Conventions</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-signature-generation-and-ve" class="internal xref">Signature generation and verification</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
-                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-certificate-conventions" class="internal xref">Certificate Conventions</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5">
-                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="auto internal xref">2.5</a>.  <a href="#name-smimecapabilities-attribute" class="internal xref">SMIMECapabilities Attribute Conventions</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-composite-ml-dsa-algorithm-" class="internal xref">Composite ML-DSA Algorithm Identifiers</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-signed-data-conventions" class="internal xref">Signed-Data Conventions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-pre-hashing" class="internal xref">Pre-Hashing</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-signature-generation-and-ve" class="internal xref">Signature Generation and Verification</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-signerinfo-content" class="internal xref">SignerInfo Content</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-use-of-ctx" class="internal xref">Use of ctx</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-references" class="internal xref">References</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-backwards-compatibility" class="internal xref">Backwards Compatibility</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-test-vectors" class="internal xref">Test Vectors</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-" class="internal xref">~~~</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-D" class="auto internal xref">Appendix D</a>.  <a href="#name-intellectual-property-consi" class="internal xref">Intellectual Property Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-E" class="auto internal xref">Appendix E</a>.  <a href="#name-contributors-and-acknowledg" class="internal xref">Contributors and Acknowledgements</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-F" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1239,7 +1225,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> by providing conventions for using the Composite ML-DSA algorithm within the Cryptographic Message Syntax (CMS).<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
+This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <div id="sec-terminology">
 <section id="section-1.1">
         <h3 id="name-conventions-and-terminology">
@@ -1252,169 +1239,346 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.
 These words may also appear in this document in
 lower case as plain English words, absent their normative meanings.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">This document is consistent with the terminology defined in <span>[<a href="#RFC9794" class="cite xref">RFC9794</a>]</span>. In addition, the following terminology is used throughout this document:<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-<p id="section-1.1-3"><strong>ALGORITHM</strong>:
-          The usage of the term "algorithm" within this
-          document generally refers to any function which
-          has a registered Object Identifier (OID) for
-          use within an ASN.1 AlgorithmIdentifier. This
-          loosely, but not precisely, aligns with the
-          definitions of "cryptographic algorithm" and
-          "cryptographic scheme" given in <span>[<a href="#RFC9794" class="cite xref">RFC9794</a>]</span>.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.1-4"><strong>BER</strong>:
-          Basic Encoding Rules (BER) as defined in <span>[<a href="#X.690" class="cite xref">X.690</a>]</span>.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
-<p id="section-1.1-5"><strong>CLIENT</strong>:
-          Any software that is making use of a cryptographic key.
-          This includes a signer, verifier, encrypter, decrypter.
-          This is not meant to imply any sort of client-server
-          relationship between the communicating parties.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
-<p id="section-1.1-6"><strong>DER</strong>:
-          Distinguished Encoding Rules as defined in <span>[<a href="#X.690" class="cite xref">X.690</a>]</span>.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7"><strong>PKI</strong>:
-          Public Key Infrastructure, as defined in <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<p id="section-1.1-8"><strong>PUBLIC / PRIVATE KEY</strong>:
-          The public and private portion of an asymmetric cryptographic
-          key, making no assumptions about which algorithm.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
-<p id="section-1.1-9"><strong>SIGNATURE</strong>:
-          A digital cryptographic signature, making no assumptions
-            about which algorithm.<a href="#section-1.1-9" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">This document is consistent with the terminology defined in <span>[<a href="#RFC9794" class="cite xref">RFC9794</a>]</span>.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="use-in-cms">
+<div id="algorithm-identifiers">
 <section id="section-2">
-      <h2 id="name-use-in-cms">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-use-in-cms" class="section-name selfRef">Use in CMS</a>
+      <h2 id="name-composite-ml-dsa-algorithm-">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-composite-ml-dsa-algorithm-" class="section-name selfRef">Composite ML-DSA Algorithm Identifiers</a>
       </h2>
-<p id="section-2-1">Composite Signature algorithms MAY be employed for one or more recipients in the CMS signed-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">All recommendations for using Composite ML-DSA in CMS are fully aligned with the use of ML-DSA in CMS <span>[<a href="#RFC9882" class="cite xref">RFC9882</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<div id="cms-underlying-components">
-<section id="section-2.1">
-        <h3 id="name-underlying-components">
-<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-underlying-components" class="section-name selfRef">Underlying Components</a>
-        </h3>
-<p id="section-2.1-1">A compliant implementation MUST support SHA-512 <span>[<a href="#FIPS.180" class="cite xref">FIPS.180</a>]</span> for all composite variants in this document. Implementations MAY also support other algorithms for the SignerInfo <code>digestAlgorithm</code> and SHOULD use algorithms that produce a hash value of a size that is at least twice the collision strength of the internal commitment hash used by ML-DSA.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">Note: The Hash ML-DSA Composite identifiers are relevant here because this algorithm operation mode is not provided in CMS, which is consistent with <span>[<a href="#RFC9882" class="cite xref">RFC9882</a>]</span>.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1-3">TODO -- DO we need to specify mandatory-to-implement digest algorithms, the same way we specify KDF algs for KEMs?<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2-1">Many ASN.1 data structure types use the AlgorithmIdentifier type to identify cryptographic algorithms.
+In the CMS, AlgorithmIdentifiers are used to identify Composite ML-DSA signatures in the signed-data content type.
+They may also appear in X.509 certificates used to verify those signatures.
+The same AlgorithmIdentifiers are used to identify Composite ML-DSA public keys and signature algorithms.
+<span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> describes the use of Composite ML-DSA in X.509 certificates.
+The AlgorithmIdentifier type is defined as follows:<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div class="lang-asn.1 sourcecode" id="section-2-2">
+<pre>
+AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+        SEQUENCE {
+            algorithm   ALGORITHM-TYPE.&amp;id({AlgorithmSet}),
+            parameters  ALGORITHM-TYPE.
+                   &amp;Params({AlgorithmSet}{@algorithm}) OPTIONAL
+        }
+</pre><a href="#section-2-2" class="pilcrow">¶</a>
+</div>
+<aside id="section-2-3">
+        <p id="section-2-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1 syntax.<a href="#section-2-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-2-4">The fields in the AlgorithmIdentifier type have the following meanings:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-5">
+        <dt id="section-2-5.1">algorithm:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.2">
+          <p id="section-2-5.2.1">The algorithm field contains an OID that identifies the cryptographic algorithm in use.
+The OIDs for Composite ML-DSA are described below.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-5.3">parameters:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.4">
+          <p id="section-2-5.4.1">The parameters field contains parameter information for the algorithm identified by the OID in the algorithm field.
+Each Composite ML-DSA parameter set is identified by its own algorithm OID, so there is no relevant information to include in this field.
+As such, parameters MUST be omitted when encoding a Composite ML-DSA AlgorithmIdentifier.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-2-6">The object identifiers for Composite ML-DSA are defined in <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and are reproduced here for convenience.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<div class="breakable lang-asn.1 sourcecode" id="section-2-7">
+<pre>
+id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 37 }
+id-MLDSA44-RSA2048-PKCS15-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 38 }
+id-MLDSA44-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 39 }
+id-MLDSA44-ECDSA-P256-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 40 }
+id-MLDSA65-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 41 }
+id-MLDSA65-RSA3072-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 42 }
+id-MLDSA65-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 43 }
+id-MLDSA65-RSA4096-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 44 }
+id-MLDSA65-ECDSA-P256-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 45 }
+id-MLDSA65-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 46 }
+id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 47 }
+id-MLDSA65-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 48 }
+id-MLDSA87-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 49 }
+id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 50 }
+id-MLDSA87-Ed448-SHAKE256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 51 }
+id-MLDSA87-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 52 }
+id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 53 }
+id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 54 }
+</pre><a href="#section-2-7" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
-<div id="signeddata-conventions">
-<section id="section-2.2">
-        <h3 id="name-signeddata-conventions">
-<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-signeddata-conventions" class="section-name selfRef">SignedData Conventions</a>
+<div id="signed-data-conventions">
+<section id="section-3">
+      <h2 id="name-signed-data-conventions">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-signed-data-conventions" class="section-name selfRef">Signed-Data Conventions</a>
+      </h2>
+<div id="pre-hashing">
+<section id="section-3.1">
+        <h3 id="name-pre-hashing">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-pre-hashing" class="section-name selfRef">Pre-Hashing</a>
         </h3>
-<p id="section-2.2-1">As specified in CMS <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the digital signature is produced from the message digest and the signer's private key. The signature is computed over different values depending on whether signed attributes are absent or present.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.2-2">When signed attributes are absent, the composite signature is computed over the content of the signed-data. The "content" of a signed-data is the value of the encapContentInfo eContent OCTET STRING. The tag and length octets are not included.
-When signed attributes are present, a hash is computed over the content using the hash function specified in <a href="#cms-underlying-components" class="auto internal xref">Section 2.1</a>, and then a message-digest attribute is constructed to contain the resulting hash value, and then the result of DER encoding the set of signed attributes, which MUST include a content-type attribute and a message-digest attribute, and then the composite signature is computed over the DER-encoded output. In summary:<a href="#section-2.2-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.2-3">
-<pre>
-IF (signed attributes are absent)
-   THEN Composite-ML-DSA.Sign(content)
-ELSE message-digest attribute = Hash(content);
-   Composite-ML-DSA.Sign(DER(SignedAttributes))
-</pre><a href="#section-2.2-3" class="pilcrow">¶</a>
-</div>
-<p id="section-2.2-4">When using Composite Signatures, the fields in the SignerInfo are used as follows:<a href="#section-2.2-4" class="pilcrow">¶</a></p>
-<p id="section-2.2-5">digestAlgorithm:
-    Per Section 5.3 of <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the digestAlgorithm contains the one-way hash function used by the CMS signer.
-    To ensure collision resistance, the identified message digest algorithm SHOULD produce a hash
-    value of a size that is at least twice the collision strength of the internal commitment hash used by ML-DSA
-    component algorithm of the Composite Signature.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
-<p id="section-2.2-6">signatureAlgorithm:
-    The signatureAlgorithm MUST contain one of the the Composite Signature algorithm identifiers as specified in <a href="#cms-underlying-components" class="auto internal xref">Section 2.1</a>}<a href="#section-2.2-6" class="pilcrow">¶</a></p>
-<p id="section-2.2-7">signature:
-    The signature field contains the signature value resulting from the composite signing operation of the specified signatureAlgorithm.<a href="#section-2.2-7" class="pilcrow">¶</a></p>
+<p id="section-3.1-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
+At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
+Since then, EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> and ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> have also been standardised, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Composite ML-DSA operates only in a "pre-hash" mode, however unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its digest.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS is the same digest algorithm used by the Composite ML-DSA algorithm.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signature-generation-and-verification">
-<section id="section-2.3">
+<section id="section-3.2">
         <h3 id="name-signature-generation-and-ve">
-<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-signature-generation-and-ve" class="section-name selfRef">Signature generation and verification</a>
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-signature-generation-and-ve" class="section-name selfRef">Signature Generation and Verification</a>
         </h3>
-<p id="section-2.3-1">Composite signatures have a context string input that can be used to ensure that different signatures are generated for different application contexts.  When using composite signatures for CMS, the context string is the empty string.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> describes the two methods that are used to calculate and verify signatures in the CMS.
+One method is used when signed attributes are present in the signedAttrs field of the relevant SignerInfo, and another is used when signed attributes are absent.
+Use of signed attributes is preferred, but the conventions for signed-data without signed attributes is also described below for completeness.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">When signed attributes are absent, Composite ML-DSA signatures are computed over the content of the signed-data.
+As described in <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the "content" of a signed-data is the value of the encapContentInfo eContent OCTET STRING.
+The tag and length octets are not included.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">When signed attributes are included, Composite ML-DSA signatures are computed over the complete DER encoding of the SignedAttrs value contained in the SignerInfo's signedAttrs field.
+As described in <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, this encoding includes the tag and length octets, but an EXPLICIT SET OF tag is used rather than the IMPLICIT [0] tag that appears in the final message.
+At a minimum, the signedAttrs field MUST include a content-type attribute and a message-digest attribute.
+The message-digest attribute contains a hash of the content of the signed-data, where the content is as described for the absent signed attributes case above.
+Recalculation of the hash value by the recipient is an important step in signature verification.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">Composite ML-DSA has a context string input that can be used to ensure that different signatures are generated for different application contexts.
+When using Composite ML-DSA as specified in this document, the context string is set to the empty string.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="certificate-conventions">
-<section id="section-2.4">
-        <h3 id="name-certificate-conventions">
-<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-certificate-conventions" class="section-name selfRef">Certificate Conventions</a>
+<div id="signerinfo-content">
+<section id="section-3.3">
+        <h3 id="name-signerinfo-content">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-signerinfo-content" class="section-name selfRef">SignerInfo Content</a>
         </h3>
-<p id="section-2.4-1">The conventions specified in this section augment RFC 5280 <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
-<p id="section-2.4-2">The willingness to accept a composite Signature Algorithm MAY be signaled by the use of the SMIMECapabilities Attribute as specified in Section 2.5.2. of <span>[<a href="#RFC8551" class="cite xref">RFC8551</a>]</span> or the SMIMECapabilities certificate extension as specified in <span>[<a href="#RFC4262" class="cite xref">RFC4262</a>]</span>.<a href="#section-2.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.4-3">The intended application for the public key MAY be indicated in the key usage certificate extension as specified in Section 4.2.1.3 of <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. If the keyUsage extension is present in a certificate that conveys a composite Signature public key, then the key usage extension MUST contain only the following value:<a href="#section-2.4-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.4-4">
-<pre>
-digitalSignature
-nonRepudiation
-keyCertSign
-cRLSign
-</pre><a href="#section-2.4-4" class="pilcrow">¶</a>
+<p id="section-3.3-1">When using Composite ML-DSA, the fields of a SignerInfo are used as follows:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.3-2">
+          <dt id="section-3.3-2.1">digestAlgorithm:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.2">
+            <p id="section-3.3-2.2.1">Per <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.3" class="relref">Section 5.3</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the digestAlgorithm field identifies the message digest algorithm used by the signer and any associated parameters.
+This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
+See <a href="#digest-algs" class="auto internal xref">Table 1</a> for exact algorithm mappings.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.3-2.3"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-2.4">
+            <p id="section-3.3-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defineds the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the used of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
+When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
+When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<span id="name-digest-algorithms-for-compo"></span><div id="digest-algs">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-digest-algorithms-for-compo" class="selfRef">Digest Algorithms for Composite ML-DSA</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Signature Algorithm</th>
+              <th class="text-left" rowspan="1" colspan="1">Digest Algorithms</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-RSA2048-PSS-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-RSA2048-PKCS15-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-Ed25519-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-ECDSA-P256-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA3072-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA3072-PKCS15-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA4096-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA4096-PKCS15-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-P256-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-P384-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-brainpoolP256r1-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-Ed25519-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-P384-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-brainpoolP384r1-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-Ed448-SHAKE256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-shake256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-RSA3072-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-RSA4096-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-P521-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+          </tbody>
+        </table>
 </div>
-<p id="section-2.4-5">The keyEncipherment and dataEncipherment values MUST NOT be present. That is, a public key intended to be employed only with a composite signature algorithm MUST NOT also be employed for data encryption. This requirement does not carry any particular security consideration; only the convention that signature keys be identified with 'digitalSignature','nonRepudiation','keyCertSign' or 'cRLSign' key usages.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="smimecapabilities-attribute-conventions">
-<section id="section-2.5">
-        <h3 id="name-smimecapabilities-attribute">
-<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-smimecapabilities-attribute" class="section-name selfRef">SMIMECapabilities Attribute Conventions</a>
-        </h3>
-<p id="section-2.5-1">Section 2.5.2 of <span>[<a href="#RFC8551" class="cite xref">RFC8551</a>]</span> defines the SMIMECapabilities attribute to announce a partial list of algorithms that an S/MIME implementation can support. When constructing a CMS signed-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, a compliant implementation MAY include the SMIMECapabilities attribute.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
-<p id="section-2.5-2">The SMIMECapability SEQUENCE representing a composite signature Algorithm MUST include the appropriate object identifier as per <a href="#cms-underlying-components" class="auto internal xref">Section 2.1</a> in the capabilityID field.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.3-4">
+          <dt id="section-3.3-4.1">signatureAlgorithm:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-4.2">
+            <p id="section-3.3-4.2.1">The signatureAlgorithm field MUST contain one of the Composite ML-DSA signature algorithm OIDs, and the parameters field MUST be absent. The algorithm OID MUST be one of the OIDs described in <a href="#algorithm-identifiers" class="auto internal xref">Section 2</a>.<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.3-4.3">signature:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.3-4.4">
+            <p id="section-3.3-4.4.1">The signature field contains the signature value resulting from the use of the Composite ML-DSA signature algorithm identified by the signatureAlgorithm field.
+ The Composite ML-DSA signature-generation operation is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-13#section-4.2" class="relref">Section 4.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and the signature-verification operation is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-13#section-4.3" class="relref">Section 4.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>.
+ Note that <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.6" class="relref">Section 5.6</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> places further requirements on the successful verification of a signature.<a href="#section-3.3-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
 </section>
 </div>
 </section>
 </div>
 <div id="sec-asn1-module">
-<section id="section-3">
+<section id="section-4">
       <h2 id="name-asn1-module">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
       </h2>
-<div class="breakable lang-asn.1 sourcecode" id="section-3-1">
+<div class="breakable lang-asn.1 sourcecode" id="section-4-1">
 <pre>
-&lt;CODE STARTS&gt;
-
-Composite-MLDSA-CMS-2025
+&lt;CODE BEGINS&gt;
+Composite-MLDSA-CMS-2026
   { iso(1) identified-organization(3) dod(6) internet(1)
         security(5) mechanisms(5) pkix(7) id-mod(0)
-        id-mod-composite-mldsa-cms-2025(TBDMOD) }
-
+        id-mod-composite-mldsa-cms-2026(TBDMOD) }
 
 DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
 EXPORTS ALL;
 
 IMPORTS
-  SMIME-CAPS,
-    FROM AlgorithmInformation-2009  -- RFC 5912 [X509ASN1]
+  SIGNATURE-ALGORITHM, SMIME-CAPS
+    FROM AlgorithmInformation-2009  -- [RFC5911]
       { iso(1) identified-organization(3) dod(6) internet(1)
         security(5) mechanisms(5) pkix(7) id-mod(0)
         id-mod-algorithmInformation-02(58) }
 
-  sa-MLDSA44-RSA2048-PKCS15-SHA256, sa-MLDSA44-Ed25519-SHA512,
-  sa-MLDSA44-ECDSA-P256-SHA256, sa-MLDSA65-RSA3072-PSS-SHA512,
-  sa-MLDSA65-RSA3072-PKCS15-SHA512, sa-MLDSA65-RSA4096-PSS-SHA512,
-  sa-MLDSA65-RSA4096-PKCS15-SHA512, sa-MLDSA65-ECDSA-P256-SHA512,
-  sa-MLDSA65-ECDSA-P384-SHA512, sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512,
-  sa-MLDSA65-Ed25519-SHA512, sa-MLDSA87-ECDSA-P384-SHA512,
-  sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512, sa-MLDSA87-Ed448-SHA512,
-  sa-MLDSA87-RSA4096-PSS-SHA512
+  sa-MLDSA44-RSA2048-PSS-SHA256, sa-MLDSA44-RSA2048-PKCS15-SHA256,
+  sa-MLDSA44-Ed25519-SHA512, sa-MLDSA44-ECDSA-P256-SHA256,
+  sa-MLDSA65-RSA3072-PSS-SHA512, sa-MLDSA65-RSA3072-PKCS15-SHA512,
+  sa-MLDSA65-RSA4096-PSS-SHA512, sa-MLDSA65-RSA4096-PKCS15-SHA512,
+  sa-MLDSA65-ECDSA-P256-SHA512, sa-MLDSA65-ECDSA-P384-SHA512,
+  sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512, sa-MLDSA65-Ed25519-SHA512,
+  sa-MLDSA87-ECDSA-P384-SHA512, sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512,
+  sa-MLDSA87-Ed448-SHAKE256, sa-MLDSA87-RSA3072-PSS-SHA512,
+  sa-MLDSA87-RSA4096-PSS-SHA512, sa-MLDSA87-ECDSA-P521-SHA512
    FROM Composite-MLDSA-2025
       { iso(1) identified-organization(3) dod(6) internet(1)
         security(5) mechanisms(5) pkix(7) id-mod(0)
         id-mod-composite-mldsa-2025(TBDCompositeMOD) }
-
 ;
 
+--
+-- Expand the signature algorithm set used by CMS [RFC5911]
+--
+
+SignatureAlgorithmSet SIGNATURE-ALGORITHM ::= {
+  sa-MLDSA44-RSA2048-PSS-SHA256 |
+  sa-MLDSA44-RSA2048-PKCS15-SHA256 |
+  sa-MLDSA44-Ed25519-SHA512 |
+  sa-MLDSA44-ECDSA-P256-SHA256 |
+  sa-MLDSA65-RSA3072-PSS-SHA512 |
+  sa-MLDSA65-RSA3072-PKCS15-SHA512 |
+  sa-MLDSA65-RSA4096-PSS-SHA512 |
+  sa-MLDSA65-RSA4096-PKCS15-SHA512 |
+  sa-MLDSA65-ECDSA-P256-SHA512 |
+  sa-MLDSA65-ECDSA-P384-SHA512 |
+  sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512 |
+  sa-MLDSA65-Ed25519-SHA512 |
+  sa-MLDSA87-ECDSA-P384-SHA512 |
+  sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512 |
+  sa-MLDSA87-Ed448-SHAKE256 |
+  sa-MLDSA87-RSA3072-PSS-SHA512 |
+  sa-MLDSA87-RSA4096-PSS-SHA512 |
+  sa-MLDSA87-ECDSA-P521-SHA512,
+  ... }
 
 --
 -- Expand the S/MIME capabilities set used by CMS [RFC5911]
 --
-
--- TODO: this doesn't compile, error:
--- "The referenced object in the 'ValueFromObject'
--- syntax with the field '&amp;smimeCaps' is invalid or does not exist."
--- We need help from an SMIME expert
 
 SMimeCaps SMIME-CAPS ::= {
   sa-MLDSA44-RSA2048-PSS-SHA256.&amp;smimeCaps |
@@ -1431,317 +1595,458 @@ SMimeCaps SMIME-CAPS ::= {
   sa-MLDSA65-Ed25519-SHA512.&amp;smimeCaps |
   sa-MLDSA87-ECDSA-P384-SHA512.&amp;smimeCaps |
   sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512.&amp;smimeCaps |
-  sa-MLDSA87-Ed448-SHA512.&amp;smimeCaps |
-  sa-MLDSA87-RSA4096-PSS-SHA512.&amp;smimeCaps,
+  sa-MLDSA87-Ed448-SHAKE256.&amp;smimeCaps |
+  sa-MLDSA87-RSA3072-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-RSA4096-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-ECDSA-P521-SHA512.&amp;smimeCaps,
   ... }
 
 END
-
 &lt;CODE ENDS&gt;
-
-</pre><a href="#section-3-1" class="pilcrow">¶</a>
+</pre><a href="#section-4-1" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="sec-iana">
-<section id="section-4">
+<section id="section-5">
       <h2 id="name-iana-considerations">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-4-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry <span>[<a href="#RFC7299" class="cite xref">RFC7299</a>]</span> for the included ASN.1 module.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4-2.1">
-          <p id="section-4-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDCompositeMOD</strong><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-4-2.2">
-          <p id="section-4-2.2.1">Description: Composite-Signatures-CMS-2025 - id-mod-composite-cms-signatures<a href="#section-4-2.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">Description: Composite-Signatures-CMS-2026 - id-mod-composite-mldsa-cms-2026<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-4-2.3">
-          <p id="section-4-2.3.1">References: This Document<a href="#section-4-2.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">References: This Document<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-security-considerations">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-5-1">All security considerations from <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> apply.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<div id="use-of-ctx">
-<section id="section-5.1">
-        <h3 id="name-use-of-ctx">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-use-of-ctx" class="section-name selfRef">Use of ctx</a>
-        </h3>
-<p id="section-5.1-1">TODO<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-6-1">All security considerations from <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> apply.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">Security of the Composite ML-DSA private key is critical.
+Compromise of the private key will enable an adversary to forge arbitrary signatures.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Composite ML-DSA depends on high-quality random numbers that are suitable for use in cryptography.
+The use of inadequate pseudo-random number generators (PRNGs) to generate such values can significantly undermine the security properties offered by a cryptographic algorithm.
+For instance, an attacker may find it much easier to reproduce the PRNG environment that produced any private keys, searching the resulting small set of possibilities, rather than brute-force searching the whole key space.
+The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> for some additional information.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in <span>[<a href="#RFC6211" class="cite xref">RFC6211</a>]</span> SHOULD be included in signed attributes.<a href="#section-6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-references">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-6.1">
+<section id="section-7.1">
         <h3 id="name-normative-references">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="RFC2119">[RFC2119]</dt>
+<dt id="FIPS180">[FIPS180]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<span class="refTitle">"Secure hash standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.180-4</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.180-4">https://doi.org/10.6028/nist.fips.180-4</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC2986">[RFC2986]</dt>
+<dt id="FIPS202">[FIPS202]</dt>
         <dd>
-<span class="refAuthor">Nystrom, M.</span> and <span class="refAuthor">B. Kaliski</span>, <span class="refTitle">"PKCS #10: Certification Request Syntax Specification Version 1.7"</span>, <span class="seriesInfo">RFC 2986</span>, <span class="seriesInfo">DOI 10.17487/RFC2986</span>, <time datetime="2000-11" class="refDate">November 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2986">https://www.rfc-editor.org/info/rfc2986</a>&gt;</span>. </dd>
+<span class="refTitle">"SHA-3 standard :: permutation-based hash and extendable-output functions"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.202</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.202">https://doi.org/10.6028/nist.fips.202</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC4210">[RFC4210]</dt>
+<dt id="FIPS204">[FIPS204]</dt>
         <dd>
-<span class="refAuthor">Adams, C.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Kause, T.</span>, and <span class="refAuthor">T. Mononen</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Management Protocol (CMP)"</span>, <span class="seriesInfo">RFC 4210</span>, <span class="seriesInfo">DOI 10.17487/RFC4210</span>, <time datetime="2005-09" class="refDate">September 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4210">https://www.rfc-editor.org/info/rfc4210</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC4211">[RFC4211]</dt>
-        <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Request Message Format (CRMF)"</span>, <span class="seriesInfo">RFC 4211</span>, <span class="seriesInfo">DOI 10.17487/RFC4211</span>, <time datetime="2005-09" class="refDate">September 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4211">https://www.rfc-editor.org/info/rfc4211</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC4262">[RFC4262]</dt>
-        <dd>
-<span class="refAuthor">Santesson, S.</span>, <span class="refTitle">"X.509 Certificate Extension for Secure/Multipurpose Internet Mail Extensions (S/MIME) Capabilities"</span>, <span class="seriesInfo">RFC 4262</span>, <span class="seriesInfo">DOI 10.17487/RFC4262</span>, <time datetime="2005-12" class="refDate">December 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4262">https://www.rfc-editor.org/info/rfc4262</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5280">[RFC5280]</dt>
-        <dd>
-<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5280">https://www.rfc-editor.org/info/rfc5280</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5480">[RFC5480]</dt>
-        <dd>
-<span class="refAuthor">Turner, S.</span>, <span class="refAuthor">Brown, D.</span>, <span class="refAuthor">Yiu, K.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">T. Polk</span>, <span class="refTitle">"Elliptic Curve Cryptography Subject Public Key Information"</span>, <span class="seriesInfo">RFC 5480</span>, <span class="seriesInfo">DOI 10.17487/RFC5480</span>, <time datetime="2009-03" class="refDate">March 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5480">https://www.rfc-editor.org/info/rfc5480</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5639">[RFC5639]</dt>
-        <dd>
-<span class="refAuthor">Lochter, M.</span> and <span class="refAuthor">J. Merkle</span>, <span class="refTitle">"Elliptic Curve Cryptography (ECC) Brainpool Standard Curves and Curve Generation"</span>, <span class="seriesInfo">RFC 5639</span>, <span class="seriesInfo">DOI 10.17487/RFC5639</span>, <time datetime="2010-03" class="refDate">March 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5639">https://www.rfc-editor.org/info/rfc5639</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5652">[RFC5652]</dt>
-        <dd>
-<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">STD 70</span>, <span class="seriesInfo">RFC 5652</span>, <span class="seriesInfo">DOI 10.17487/RFC5652</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5652">https://www.rfc-editor.org/info/rfc5652</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5758">[RFC5758]</dt>
-        <dd>
-<span class="refAuthor">Dang, Q.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Moriarty, K.</span>, <span class="refAuthor">Brown, D.</span>, and <span class="refAuthor">T. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure: Additional Algorithms and Identifiers for DSA and ECDSA"</span>, <span class="seriesInfo">RFC 5758</span>, <span class="seriesInfo">DOI 10.17487/RFC5758</span>, <time datetime="2010-01" class="refDate">January 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5758">https://www.rfc-editor.org/info/rfc5758</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5958">[RFC5958]</dt>
-        <dd>
-<span class="refAuthor">Turner, S.</span>, <span class="refTitle">"Asymmetric Key Packages"</span>, <span class="seriesInfo">RFC 5958</span>, <span class="seriesInfo">DOI 10.17487/RFC5958</span>, <time datetime="2010-08" class="refDate">August 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5958">https://www.rfc-editor.org/info/rfc5958</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6090">[RFC6090]</dt>
-        <dd>
-<span class="refAuthor">McGrew, D.</span>, <span class="refAuthor">Igoe, K.</span>, and <span class="refAuthor">M. Salter</span>, <span class="refTitle">"Fundamental Elliptic Curve Cryptography Algorithms"</span>, <span class="seriesInfo">RFC 6090</span>, <span class="seriesInfo">DOI 10.17487/RFC6090</span>, <time datetime="2011-02" class="refDate">February 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6090">https://www.rfc-editor.org/info/rfc6090</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6234">[RFC6234]</dt>
-        <dd>
-<span class="refAuthor">Eastlake 3rd, D.</span> and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"US Secure Hash Algorithms (SHA and SHA-based HMAC and HKDF)"</span>, <span class="seriesInfo">RFC 6234</span>, <span class="seriesInfo">DOI 10.17487/RFC6234</span>, <time datetime="2011-05" class="refDate">May 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6234">https://www.rfc-editor.org/info/rfc6234</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7748">[RFC7748]</dt>
-        <dd>
-<span class="refAuthor">Langley, A.</span>, <span class="refAuthor">Hamburg, M.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Elliptic Curves for Security"</span>, <span class="seriesInfo">RFC 7748</span>, <span class="seriesInfo">DOI 10.17487/RFC7748</span>, <time datetime="2016-01" class="refDate">January 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7748">https://www.rfc-editor.org/info/rfc7748</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8032">[RFC8032]</dt>
-        <dd>
-<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8032">https://www.rfc-editor.org/info/rfc8032</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8174">[RFC8174]</dt>
-        <dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8410">[RFC8410]</dt>
-        <dd>
-<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"Algorithm Identifiers for Ed25519, Ed448, X25519, and X448 for Use in the Internet X.509 Public Key Infrastructure"</span>, <span class="seriesInfo">RFC 8410</span>, <span class="seriesInfo">DOI 10.17487/RFC8410</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8410">https://www.rfc-editor.org/info/rfc8410</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8411">[RFC8411]</dt>
-        <dd>
-<span class="refAuthor">Schaad, J.</span> and <span class="refAuthor">R. Andrews</span>, <span class="refTitle">"IANA Registration for the Cryptographic Algorithm Object Identifier Range"</span>, <span class="seriesInfo">RFC 8411</span>, <span class="seriesInfo">DOI 10.17487/RFC8411</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8411">https://www.rfc-editor.org/info/rfc8411</a>&gt;</span>. </dd>
+<span class="refTitle">"Module-lattice-based digital signature standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.204</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.204">https://doi.org/10.6028/nist.fips.204</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lamps-pq-composite-sigs">[I-D.ietf-lamps-pq-composite-sigs]</dt>
         <dd>
 <span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite ML-DSA for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-sigs-13</span>, <time datetime="2025-10-31" class="refDate">31 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-13">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="X.690">[X.690]</dt>
+<dt id="RFC5652">[RFC5652]</dt>
         <dd>
-<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - ASN.1 encoding Rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ISO/IEC 8825-1:2015</span>, <time datetime="2015-11" class="refDate">November 2015</time>. </dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">STD 70</span>, <span class="seriesInfo">RFC 5652</span>, <span class="seriesInfo">DOI 10.17487/RFC5652</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5652">https://www.rfc-editor.org/rfc/rfc5652</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="FIPS.180">[FIPS.180]</dt>
+<dt id="RFC2119">[RFC2119]</dt>
         <dd>
-<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Secure Hash Standard (SHS)"</span>, <time datetime="2015-08" class="refDate">August 2015</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="FIPS.186-5">[FIPS.186-5]</dt>
+<dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Digital Signature Standard (DSS)"</span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="FIPS.204">[FIPS.204]</dt>
+<dt id="RFC5911">[RFC5911]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for Cryptographic Message Syntax (CMS) and S/MIME"</span>, <span class="seriesInfo">RFC 5911</span>, <span class="seriesInfo">DOI 10.17487/RFC5911</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5911">https://www.rfc-editor.org/rfc/rfc5911</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5754">[RFC5754]</dt>
+        <dd>
+<span class="refAuthor">Turner, S.</span>, <span class="refTitle">"Using SHA2 Algorithms with Cryptographic Message Syntax"</span>, <span class="seriesInfo">RFC 5754</span>, <span class="seriesInfo">DOI 10.17487/RFC5754</span>, <time datetime="2010-01" class="refDate">January 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5754">https://www.rfc-editor.org/rfc/rfc5754</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8702">[RFC8702]</dt>
+        <dd>
+<span class="refAuthor">Kampanakis, P.</span> and <span class="refAuthor">Q. Dang</span>, <span class="refTitle">"Use of the SHAKE One-Way Hash Functions in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 8702</span>, <span class="seriesInfo">DOI 10.17487/RFC8702</span>, <time datetime="2020-01" class="refDate">January 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8702">https://www.rfc-editor.org/rfc/rfc8702</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6211">[RFC6211]</dt>
       <dd>
-<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Module-Lattice-Based Digital Signature Standard"</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS) Algorithm Identifier Protection Attribute"</span>, <span class="seriesInfo">RFC 6211</span>, <span class="seriesInfo">DOI 10.17487/RFC6211</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6211">https://www.rfc-editor.org/rfc/rfc6211</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-6.2">
+<section id="section-7.2">
         <h3 id="name-informative-references">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="RFC3279">[RFC3279]</dt>
+<dt id="X680">[X680]</dt>
         <dd>
-<span class="refAuthor">Bassham, L.</span>, <span class="refAuthor">Polk, W.</span>, and <span class="refAuthor">R. Housley</span>, <span class="refTitle">"Algorithms and Identifiers for the Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 3279</span>, <span class="seriesInfo">DOI 10.17487/RFC3279</span>, <time datetime="2002-04" class="refDate">April 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3279">https://www.rfc-editor.org/info/rfc3279</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5914">[RFC5914]</dt>
-        <dd>
-<span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Ashmore, S.</span>, and <span class="refAuthor">C. Wallace</span>, <span class="refTitle">"Trust Anchor Format"</span>, <span class="seriesInfo">RFC 5914</span>, <span class="seriesInfo">DOI 10.17487/RFC5914</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5914">https://www.rfc-editor.org/info/rfc5914</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7292">[RFC7292]</dt>
-        <dd>
-<span class="refAuthor">Moriarty, K., Ed.</span>, <span class="refAuthor">Nystrom, M.</span>, <span class="refAuthor">Parkinson, S.</span>, <span class="refAuthor">Rusch, A.</span>, and <span class="refAuthor">M. Scott</span>, <span class="refTitle">"PKCS #12: Personal Information Exchange Syntax v1.1"</span>, <span class="seriesInfo">RFC 7292</span>, <span class="seriesInfo">DOI 10.17487/RFC7292</span>, <time datetime="2014-07" class="refDate">July 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7292">https://www.rfc-editor.org/info/rfc7292</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7296">[RFC7296]</dt>
-        <dd>
-<span class="refAuthor">Kaufman, C.</span>, <span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Nir, Y.</span>, <span class="refAuthor">Eronen, P.</span>, and <span class="refAuthor">T. Kivinen</span>, <span class="refTitle">"Internet Key Exchange Protocol Version 2 (IKEv2)"</span>, <span class="seriesInfo">STD 79</span>, <span class="seriesInfo">RFC 7296</span>, <span class="seriesInfo">DOI 10.17487/RFC7296</span>, <time datetime="2014-10" class="refDate">October 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7296">https://www.rfc-editor.org/info/rfc7296</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7299">[RFC7299]</dt>
-        <dd>
-<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Object Identifier Registry for the PKIX Working Group"</span>, <span class="seriesInfo">RFC 7299</span>, <span class="seriesInfo">DOI 10.17487/RFC7299</span>, <time datetime="2014-07" class="refDate">July 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7299">https://www.rfc-editor.org/info/rfc7299</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8446">[RFC8446]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8551">[RFC8551]</dt>
-        <dd>
-<span class="refAuthor">Schaad, J.</span>, <span class="refAuthor">Ramsdell, B.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Message Specification"</span>, <span class="seriesInfo">RFC 8551</span>, <span class="seriesInfo">DOI 10.17487/RFC8551</span>, <time datetime="2019-04" class="refDate">April 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8551">https://www.rfc-editor.org/info/rfc8551</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8017">[RFC8017]</dt>
-        <dd>
-<span class="refAuthor">Moriarty, K., Ed.</span>, <span class="refAuthor">Kaliski, B.</span>, <span class="refAuthor">Jonsson, J.</span>, and <span class="refAuthor">A. Rusch</span>, <span class="refTitle">"PKCS #1: RSA Cryptography Specifications Version 2.2"</span>, <span class="seriesInfo">RFC 8017</span>, <span class="seriesInfo">DOI 10.17487/RFC8017</span>, <time datetime="2016-11" class="refDate">November 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8017">https://www.rfc-editor.org/info/rfc8017</a>&gt;</span>. </dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9794">[RFC9794]</dt>
         <dd>
-<span class="refAuthor">Driscoll, F.</span>, <span class="refAuthor">Parsons, M.</span>, and <span class="refAuthor">B. Hale</span>, <span class="refTitle">"Terminology for Post-Quantum Traditional Hybrid Schemes"</span>, <span class="seriesInfo">RFC 9794</span>, <span class="seriesInfo">DOI 10.17487/RFC9794</span>, <time datetime="2025-06" class="refDate">June 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9794">https://www.rfc-editor.org/info/rfc9794</a>&gt;</span>. </dd>
+<span class="refAuthor">Driscoll, F.</span>, <span class="refAuthor">Parsons, M.</span>, and <span class="refAuthor">B. Hale</span>, <span class="refTitle">"Terminology for Post-Quantum Traditional Hybrid Schemes"</span>, <span class="seriesInfo">RFC 9794</span>, <span class="seriesInfo">DOI 10.17487/RFC9794</span>, <time datetime="2025-06" class="refDate">June 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9794">https://www.rfc-editor.org/rfc/rfc9794</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9881">[RFC9881]</dt>
+<dt id="RFC5280">[RFC5280]</dt>
         <dd>
-<span class="refAuthor">Massimo, J.</span>, <span class="refAuthor">Kampanakis, P.</span>, <span class="refAuthor">Turner, S.</span>, and <span class="refAuthor">B. E. Westerbaan</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for the Module-Lattice-Based Digital Signature Algorithm (ML-DSA)"</span>, <span class="seriesInfo">RFC 9881</span>, <span class="seriesInfo">DOI 10.17487/RFC9881</span>, <time datetime="2025-10" class="refDate">October 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9881">https://www.rfc-editor.org/info/rfc9881</a>&gt;</span>. </dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9882">[RFC9882]</dt>
+<dt id="RFC8032">[RFC8032]</dt>
         <dd>
-<span class="refAuthor">Salter, B.</span>, <span class="refAuthor">Raine, A.</span>, and <span class="refAuthor">D. Van Geest</span>, <span class="refTitle">"Use of the ML-DSA Signature Algorithm in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 9882</span>, <span class="seriesInfo">DOI 10.17487/RFC9882</span>, <time datetime="2025-10" class="refDate">October 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9882">https://www.rfc-editor.org/info/rfc9882</a>&gt;</span>. </dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8032">https://www.rfc-editor.org/rfc/rfc8032</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-pquip-hybrid-signature-spectrums">[I-D.ietf-pquip-hybrid-signature-spectrums]</dt>
-        <dd>
-<span class="refAuthor">Bindel, N.</span>, <span class="refAuthor">Hale, B.</span>, <span class="refAuthor">Connolly, D.</span>, and <span class="refAuthor">F. D</span>, <span class="refTitle">"Hybrid signature spectrums"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-pquip-hybrid-signature-spectrums-07</span>, <time datetime="2025-06-20" class="refDate">20 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-pquip-hybrid-signature-spectrums-07">https://datatracker.ietf.org/doc/html/draft-ietf-pquip-hybrid-signature-spectrums-07</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="Bindel2017">[Bindel2017]</dt>
-        <dd>
-<span class="refAuthor">Bindel, N.</span>, <span class="refAuthor">Herath, U.</span>, <span class="refAuthor">McKague, M.</span>, and <span class="refAuthor">D. Stebila</span>, <span class="refTitle">"Transitioning to a quantum-resistant public key infrastructure"</span>, <time datetime="2017" class="refDate">2017</time>, <span>&lt;<a href="https://link.springer.com/chapter/10.1007/978-3-319-59879-6_22">https://link.springer.com/chapter/10.1007/978-3-319-59879-6_22</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="BSI2021">[BSI2021]</dt>
-        <dd>
-<span class="refAuthor">Federal Office for Information Security (BSI)</span>, <span class="refTitle">"Quantum-safe cryptography - fundamentals, current developments and recommendations"</span>, <time datetime="2021-10" class="refDate">October 2021</time>, <span>&lt;<a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/Brochure/quantum-safe-cryptography.pdf">https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/Brochure/quantum-safe-cryptography.pdf</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="ANSSI2024">[ANSSI2024]</dt>
+<dt id="RFC8411">[RFC8411]</dt>
       <dd>
-<span class="refAuthor">French Cybersecurity Agency (ANSSI)</span>, <span class="refAuthor">Federal Office for Information Security (BSI)</span>, <span class="refAuthor">Netherlands National Communications Security Agency (NLNCSA)</span>, and <span class="refAuthor">Swedish National Communications Security Authority, Swedish Armed Forces</span>, <span class="refTitle">"Position Paper on Quantum Key Distribution"</span>, <span>n.d.</span>, <span>&lt;<a href="https://cyber.gouv.fr/sites/default/files/document/Quantum_Key_Distribution_Position_Paper.pdf">https://cyber.gouv.fr/sites/default/files/document/Quantum_Key_Distribution_Position_Paper.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Schaad, J.</span> and <span class="refAuthor">R. Andrews</span>, <span class="refTitle">"IANA Registration for the Cryptographic Algorithm Object Identifier Range"</span>, <span class="seriesInfo">RFC 8411</span>, <span class="seriesInfo">DOI 10.17487/RFC8411</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8411">https://www.rfc-editor.org/rfc/rfc8411</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 </section>
 </div>
-<div id="sec-imp-considers">
+<div id="examples">
 <section id="appendix-A">
-      <h2 id="name-implementation-consideratio">
-<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
+      <h2 id="name-examples">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
-<div id="sec-backwards-compat">
-<section id="appendix-A.1">
-        <h3 id="name-backwards-compatibility">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-backwards-compatibility" class="section-name selfRef">Backwards Compatibility</a>
-        </h3>
-<p id="appendix-A.1-1">TODO - say something meaningful about backwards compatibility within the CMS context.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="appdx-samples">
-<section id="appendix-B">
-      <h2 id="name-test-vectors">
-<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
-      </h2>
-<p id="appendix-B-1">TODO - Fix this once we have test vectors.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<p id="appendix-B-2">The following test vectors are provided in a format similar to the NIST ACVP Known-Answer-Tests (KATs).<a href="#appendix-B-2" class="pilcrow">¶</a></p>
-<p id="appendix-B-3">The structure is that a global message <code>m</code> is signed over in all test cases. <code>m</code> is the ASCII string "The quick brown fox jumps over the lazy dog."
-Within each test case there are the following values:<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">This appendix contains an example signed-data encoding with the id-MLDSA65-ECDSA-P256-SHA512 signature algorithm.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">It can be verified using the example public keys and certificates specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-13#appendix-E" class="relref">Appendix E</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>.
+Specifically, the following example:<a href="#appendix-A-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-4.1">
-          <p id="appendix-B-4.1.1"><code>tcId</code> the name of the algorithm.<a href="#appendix-B-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-3.1">
+          <p id="appendix-A-3.1.1">tcId: id-MLDSA65-ECDSA-P256-SHA512<a href="#appendix-A-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-4.2">
-          <p id="appendix-B-4.2.1"><code>pk</code> the verification public key.<a href="#appendix-B-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-4.3">
-          <p id="appendix-B-4.3.1"><code>x5c</code> a self-signed X.509 certificate of the public key.<a href="#appendix-B-4.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-4.4">
-          <p id="appendix-B-4.4.1"><code>sk</code> the decapsulation private key.<a href="#appendix-B-4.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-4.5">
-          <p id="appendix-B-4.5.1"><code>s</code> the signature value.<a href="#appendix-B-4.5.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-A-3.2">
+          <p id="appendix-A-3.2.1">x5c: Base64 of the DER encoding of the certificate.  Wrap this in PEM headers and footers to get a PEM certificate.<a href="#appendix-A-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-5">Implementers should be able to perform the following tests using the test vectors below:<a href="#appendix-B-5" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="appendix-B-6">
-<li id="appendix-B-6.1">
-          <p id="appendix-B-6.1.1">Load the public key <code>pk</code> or certificate <code>x5c</code> and use it to verify the signature <code>s</code> over the message <code>m</code>.<a href="#appendix-B-6.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="appendix-B-6.2">
-          <p id="appendix-B-6.2.1">Validate the self-signed certificate <code>x5c</code>.<a href="#appendix-B-6.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="appendix-B-6.3">
-          <p id="appendix-B-6.3.1">Load the signing private key <code>sk</code> and use it to produce a new signature which can be verified using the provided <code>pk</code> or <code>x5c</code>.<a href="#appendix-B-6.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ol>
-<p id="appendix-B-7">Test vectors are provided for each underlying component in isolation for the purposes of debugging.<a href="#appendix-B-7" class="pilcrow">¶</a></p>
-<p id="appendix-B-8">Due to the length of the test vectors, you may prefer to retrieve them from GitHub. The reference implementation that generated them is also available:<a href="#appendix-B-8" class="pilcrow">¶</a></p>
-<p id="appendix-B-9">https://github.com/lamps-wg/draft-composite-sigs/tree/main/src<a href="#appendix-B-9" class="pilcrow">¶</a></p>
+<p id="appendix-A-4">To keep example size down, the signing certificate is not included in the CMS encoding.
+The example certificate from <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> used to sign the CMS content is self-signed.<a href="#appendix-A-4" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">The following is an example of a signed-data with a single id-MLDSA65-ECDSA-P256-SHA512 signer, with signed attributes included:<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A-6">
+<pre>
+-----BEGIN CMS-----
+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
+-----END CMS-----
+</pre><a href="#appendix-A-6" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-A-7">
+<pre>
+SEQUENCE {
+  # signedData
+  OBJECT_IDENTIFIER { 1.2.840.113549.1.7.2 }
+  [0] {
+    SEQUENCE {
+      INTEGER { 1 }
+      SET {
+        SEQUENCE {
+          # sha512
+          OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+        }
+      }
+      SEQUENCE {
+        # data
+        OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+        [0] {
+          OCTET_STRING { "id-MLDSA65-ECDSA-P256-SHA512 signed-da
+ta example with signed attributes" }
+        }
+      }
+      SET {
+        SEQUENCE {
+          INTEGER { 1 }
+          SEQUENCE {
+            SEQUENCE {
+              SET {
+                SEQUENCE {
+                  # organizationName
+                  OBJECT_IDENTIFIER { 2.5.4.10 }
+                  UTF8String { "IETF" }
+                }
+              }
+              SET {
+                SEQUENCE {
+                  # organizationUnitName
+                  OBJECT_IDENTIFIER { 2.5.4.11 }
+                  UTF8String { "LAMPS" }
+                }
+              }
+              SET {
+                SEQUENCE {
+                  # commonName
+                  OBJECT_IDENTIFIER { 2.5.4.3 }
+                  UTF8String { "id-MLDSA65-ECDSA-P256-SHA512" }
+                }
+              }
+            }
+            INTEGER { `7013120c0ccae243aaf17470dace0125bc6d2ce0`
+ }
+          }
+          SEQUENCE {
+            # sha512
+            OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+          }
+          [0] {
+            SEQUENCE {
+              # contentType
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.3 }
+              SET {
+                # data
+                OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+              }
+            }
+            SEQUENCE {
+              # signingTime
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.5 }
+              SET {
+                UTCTime { "251208175211Z" }
+              }
+            }
+            SEQUENCE {
+              # messageDigest
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.4 }
+              SET {
+                OCTET_STRING { `88d87347f688afe2febdf4f37a2e1115
+e14074925ee9611fcb7a8e22d252530ae846d6e71345b2744b6d523d3d874ebe
+154ba8a6a8a1506b6d5bf18993c85f4d` }
+              }
+            }
+          }
+          SEQUENCE {
+            OBJECT_IDENTIFIER { 1.3.6.1.5.5.7.6.45 }
+          }
+          OCTET_STRING { `ab1ac0484ac44f3abeaf2127a18841180d1cf9
+039e26dd0a43a296fdbcf913fc496272ee522da050a73b0d0b007f38452a5ac8
+b737db9aedfef0627eb0c87358561ec059d9cde4ff7048952c712154f0753b02
+f72ffeb7492d03c501fe9fcec0a4ec590b99d5f27c9ee408c6bc20b130629bdc
+feffec9f35c0832c2c98aececb9731522c3f9cee279fb781eae57d4c328f224a
+31bdcf4566257e2fb14b1a644381d4d9b1492ea1b44f1ba62aecdba9c4dc3a2b
+b2947c0b572657127ebe41411e57e938fdd8a437b67435927ea38780dd810d52
+7547dff77f6b16fc359c35432c9e18a11fe854ba0537298289dfcd4ea81d968c
+f8c896d11a335dcabb2ae7364cf64a07263f426aff2b91766082f983c0c9aec3
+6bf09790ad27f708da802e419e678b0a8e2720e15e4451d6e062488e0750e0fd
+3e6720e764cb8eef54506d9bc9374f5465143e79990c5441fafddee91afce0f2
+cfb81259ea5a9b5dce113d8a3cec2019f37989f7cdb135baab6be9e058dd19d2
+ecf5f633275d1b75de958c50b9a1b735008c3bc90568c44a347e31b9cb1c1a7b
+3adba3f7151cfd4af93dcbb29fa8f3e5549b16be58a744f785afde498bae37e5
+7d0d424c52a736234e17ddccd2b6351a3dac60171456a5b198e7cb9d2c724313
+2c4a6fcbf820868aff43715ffffa3868b0dd4b61d81a60dd20ee902261ceacb7
+f4ec7837df016d5e1516e8a999ffb79145368f757d3af219bc2ae57b63d6764f
+8ea1e3079a0404112a2825c5607051a85fb5cc104f10b545aff64bd6b7773be5
+be25a37b0e260fde5834f38fc1a93277eedb9fb94de161a3ae8c310823dd04a9
+2b03bf9eea64ffc19a78e6e2311dd18d0441258f0b20dbc174f25bcfbbafc497
+f4a4d856131871876da39e29268d82039556d2152f15ce0dacab3bb878e28414
+73a68a503732d66b55fbecb3436487072d8d3716c4c8ed39fe16ca9f9f9d9905
+56b6fa4001d1a7a587e846f6a604242f6a413fe9fb15a32cfe30dedfa2793661
+110368536a1dff48f90505ac730f76c0ae1800dee7881cbf905cabce04cbe443
+cff5a1a4ce8147345a37c9ed5bbe7d35a7a876019c756e2660516f30b403396f
+b1b78fbbc376f9f3a553cad3ac3540e8013edf49b8c14cfdd9366e664f8fa979
+08721198271a8369c65b737e8911a4869ad03aae7054174f5916f6895e305181
+75259f71b458d2d4aa1945e526a08e4e2a2198a11f824b9c954b64f1b0d50bd0
+e13b0fe8872a6e00bb96d566a7fec8dd1ca5cb14822b47719bea735b3e87da68
+49dbfa0ab824f4e2de68a4072fb4507fb7605dda2aca933b0bacff2fbc767e97
+3c1269d7cee5b7903ac331d20f870a31b8e021138cb4b9ab4efc1b9de9396f4a
+649213156cf141631f22872fb50d4d0fb9945d3899a97da9c337c1c9bacac259
+b66ac22c31acd8c9c03ec879c7d72c42292258a77d7d33f35a78b5c2614a1e29
+adda5aa4878873570de22518f362697ea80a12d8da1a88bd97217405724593e9
+1eadcd83f3fac4b64f4ed529a0791f1aeb39e728fb95c38e95d2d5a779beb9ba
+665415541b9307e294bff586637721124c59cbdbb3af40f7fab601fc3503a07b
+2d64817ada1d9a83b83a5dec4a4b2d141e43a03f90cdfee958fb9c6d5a046799
+162cc29be17199a1f02b2077809adff990c1d68fe1560880ac5488dfaf4aad93
+ffc8902dd7775b0bb4acc82bc1dc4b7cb79e53535d8637c7ee386e4c274d768c
+eda1c32913b34cdcfa22ead0e1d397fb1934b4b85691bf4f982f0aaafcc5ddc5
+0cce66b56924af5dab465121d89ff11dea9e3fe44eb6db204ea5442d5bdfac0f
+928c2b3781e6859cb2cf08454573227b59e8c4c8f3145de33054aa6525b42cf3
+66163c0c6cca3f5fec7de36708bd97498fc25099f54fe3649d0438fb62f66543
+4577fe10bfa808a195450380cb598c2347c596e22907cc29f180e16f156bf91b
+950348cf31ebbaabe8f4fcae76dede9e7e258d0ec98c84233d49a73919427f75
+4e4040e34871cda436e16b5c66f4a3ecd2ec153caf83dbd5b1dfccda63ec00c4
+92c9ae9b97a9efa589615515e2ee4fe210bf9207892a11ee9123343380c6cd3f
+b576d23d1a8bc861ee3903eeea855838346cc384d5bd315bc6ecccbdb294a39f
+47f8dbdacb85f431e96e0dd6b4cb797ef52eec2c7ac7dd18a5d699900b901c7d
+edb31ad1dd8973d58f9f7d891ec51d9d75c66970519a3b2e862f2b51e86778ee
+1ca965162ba08a086f0c3f69de1e3353fba021aa516dda612ff961e960b24c3f
+5a750a09571bd1e2955aa1cda56dfa360eddc1dad3b171bc810c214ef6c2ef09
+1a343fe1faf6b149eebcfbf1c7cb7c7ff98691830b542fbed6d0c824af958804
+c944fab2c6399cd4649f235139369e1ba50ce834b135e7bc0149b7f706c88245
+809281947d962e3607b75cf9177496d16e769dfeacd6098ef6e19651e9aa71bb
+5c90a7b84553dd2e860a03090aec7ef6cc27dad7d57951788933b7884c4809d3
+c39689e24666b40172653d155bf3d07bdde8c0a7a1967f3e636fb0817338c768
+e6ca2ed9054128ea3ab5fc67cf85ec8e822c7bf44a330d7571f82d9a500e32ce
+28702108bb0c2d15a8f34e64a6fe72923d62c6b2e9aefb2e56746c786bb62b01
+28cefbf1dd65634a11c4dd497122fa429c31befc8ecd15b45b3a7acd0b909e42
+39d98c4fe12e31f0daf1446a3a185a0ca1cdb1ffe654fa1d9c9942212086e9c0
+29689367b314a122b0237c5f9633ef10ab1d9fbc79f6a78a9d47d7e1a4b05dd0
+a1f8fba67e65c4da2a24ae379f2ad7c69f9c7f2f16cfe91ef738f7c165c3cd2e
+e05ffe1475bd9a665ee433e6b62454cabdc36bafd1b68c6a51c4b4be879c68d8
+7a1abe6799a9463962da4ecab7c662835d07998bcf3e8360ff46ca8a6c2b1434
+c9e64a7940805440572484ad0c9849f0b4cd23a65c9b8a359e3ef338adbfad90
+f7ba71f2093903671f3f1a7b2ea694f16b1ec227b3c8b10a61a07ad012158f3b
+f79cf0cfa4f907901e295538d9974a4ad3760ecfef8dd312a6d1b0f142006f75
+942a5e217eec43a35ace222b5259031c45ff0f940ec1b63837e2838a667c6994
+67820202abfee2d754700e4ed78cf1a45ee8ee60b96d1d1dff67782389c286a7
+1806d4fdc28a19d815bba3f09a04f6950e98b7335875999159689041048170a4
+f32d94de74031d28fce347f312ed4747ed2378dedf943f46745c9ca565750270
+9e4ae4f1fc93001a43ee3e65fa72e2177a80265fd8d318dff200239e350fe69c
+24aacb580d6a7c70e937b42a2d52fc101f35a778cf3076c9001ee25d42ec5fa4
+82146062fec810bd118fee32f7c5edd82ed2335a858a4dc538f265952384c169
+f3c8548d8521ba98d7120235479ade3e6fa396be5531d8d7f644e3a2dd727202
+b6a01c028eb8e003c7c4a7b41630f00f577fa1553437ed554c15c6e286715092
+465bfe01c9a865968d90a766c87147b867df1fc6109fdee0162c75bfe8a44039
+b295661a12773e20fe054d5e51374e78c945dbe7d2f3e0c59b3deec531c01742
+e24f9120a0f57ce8184eb5efb30417a31bc23c121206f293236d4e173c1b4f53
+68032141ad570ae6e4ed650a4411065f43283683d78f4793f5589edf80b11fbe
+fc1a4c1442abe74f8939dc155b8716b6e951246e608776e916e0ae4331215933
+47cde7ce9699a2231907125e480740fbf80099f79fb5bc9f48d5d246759d77d3
+82b838e59cd440c3de938ebb46deb9de2f8a0f9871a7ddc6f5b32a93fa18d1cd
+3e2ef9ab4565a77028e39849cfbba195584f7136bd96ff34fd17d6c3715cd9f6
+38720419ee4c8bd86ec1ad1de54bfbc80817af35404610a0b0c78ce8dfcc0e87
+c9a4df6f7f5a5a971515424dadc03a4d3a31d8eabdb56c9cd691724cc46ac279
+869f8081202eec2afcdfb933cb6c16ee04eebca522db88a150d2f7ee87abd652
+d5abb9d872853d81425d5f81a73662e8813bc123bcd45f80aba0a4f739a76257
+8003f181778bcafaf8f9caf2ceeb97442e00457284d69c77d27d2bf493b1e497
+4573b573980a0f2d71e42294eac806622790ebbe18412ce3a26f1dd60e25cb6a
+a63e43e4fe022e4004992d362f8761a82c23de26174a06116ffbed60eb25d2fc
+a62aced7a17e4fb60174b97f38973115aa4904a96168195eab7e3fb412d8b5e7
+e055ed97a9824d2985a90a1f78715c40516822454703e0a6ff13fb2b60e5ca1f
+c5e244edac517476fa14c24a33596496565b7006626da344b2f7c72f179b5eb3
+1414ce2bec07b21553e77295b5c2c52a2233cfdb4f5e8b501f9739cfcd7608ea
+f03be4648500ec1308b92e989b0e30f2e1e2a42d7d81c0d629ad002c9054cfa5
+d4095dd527b57009dc048a331ed866647a71952e1136bec5dbc7641f96020083
+6ebb951781a9b759c03a56d49dddfb8e4c4da4f8ef8730e8a4e37ade843b97b0
+fca5fe8bf99f8d79590322a6525583c73bb3ec3aa35520eae0e3f44840955f6f
+6f2dd10176d93e2bacc516de984fb5bca3ba72582a9aa8081b5c81ebe7aedabc
+ff13418220aa668e1ecceb3db471c89c7aa8d8207eb0f93d06d02632f7177898
+cb418894d5e3ee253739cddc2347579eb0d123414e547ba0e611203c4a5ab0ea
+ff00000000000000000000000000000000000000040a0f151c2430450221008b
+d2c7da2011f7941589966d8bd8201669d222af3a86ad5a43b654f7d811730d02
+20382baaec17d94b4d313c0e6d2176900bcd9d23b1b9706464c76a66a1ca53b1
+83` }
+        }
+      }
+    }
+  }
+}
+</pre><a href="#appendix-A-7" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
-<div id="section">
-<section id="appendix-C">
-      <h2 id="name-">
-<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-" class="section-name selfRef">~~~</a>
+<div id="acknowledgements">
+<section id="appendix-B">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
       </h2>
-<p id="appendix-C-1"># {::include src/testvectors_wrapped.json}
-# ~~~<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="intellectual-property-considerations">
-<section id="appendix-D">
-      <h2 id="name-intellectual-property-consi">
-<a href="#appendix-D" class="section-number selfRef">Appendix D. </a><a href="#name-intellectual-property-consi" class="section-name selfRef">Intellectual Property Considerations</a>
-      </h2>
-<p id="appendix-D-1">None.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="contributors-and-acknowledgements">
-<section id="appendix-E">
-      <h2 id="name-contributors-and-acknowledg">
-<a href="#appendix-E" class="section-number selfRef">Appendix E. </a><a href="#name-contributors-and-acknowledg" class="section-name selfRef">Contributors and Acknowledgements</a>
-      </h2>
-<p id="appendix-E-1">TODO -- update this.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
-<p id="appendix-E-2">This document borrows text from similar documents, including those referenced below. Thanks go to the authors of those
-   documents.  "Copying always makes things easier and less error prone" - <span>[<a href="#RFC8411" class="cite xref">RFC8411</a>]</span>.<a href="#appendix-E-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">TODO -- update this.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">This document borrows text from similar documents, including those referenced below. Thanks go to the authors of those
+   documents.  "Copying always makes things easier and less error prone" - <span>[<a href="#RFC8411" class="cite xref">RFC8411</a>]</span>.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-F">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
@@ -1782,6 +2087,19 @@ Within each test case there are the following values:<a href="#appendix-B-3" cla
 <div class="email">
 <span>Email:</span>
 <a href="mailto:jan.klaussner@bdr.de" class="email">jan.klaussner@bdr.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Van Geest</span></div>
+<div dir="auto" class="left"><span class="org">CryptoNext Security</span></div>
+<div dir="auto" class="left"><span class="street-address">‍16, Boulevard Saint-Germain</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">75007</span> <span class="locality">Paris</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:daniel.vangeest@cryptonext-security.com" class="email">daniel.vangeest@cryptonext-security.com</a>
 </div>
 </address>
 </section>
