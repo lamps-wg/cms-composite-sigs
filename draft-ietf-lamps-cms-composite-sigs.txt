@@ -19,8 +19,8 @@ Abstract
 
    Composite ML-DSA defines combinations of ML-DSA, as defined by NIST
    in FIPS 204, with RSA, ECDSA, and EdDSA.  This document specifies the
-   conventions for using Composite ML-DSA within the Cryptographic
-   Message Syntax (CMS).
+   conventions for using Composite ML-DSA algorithms within the
+   Cryptographic Message Syntax (CMS).
 
 About This Document
 
@@ -78,8 +78,9 @@ Table of Contents
    2.  Composite ML-DSA Algorithm Identifiers
    3.  Signed-Data Conventions
      3.1.  Pre-Hashing
-     3.2.  Signature Generation and Verification
-     3.3.  SignerInfo Content
+     3.2.  SignedData digestAlgorithms
+     3.3.  Signature Generation and Verification
+     3.4.  SignerInfo Content
    4.  ASN.1 Module
    5.  IANA Considerations
    6.  Security Considerations
@@ -140,8 +141,8 @@ Table of Contents
    meanings:
 
    algorithm:  The algorithm field contains an OID that identifies the
-      cryptographic algorithm in use.  The OIDs for Composite ML-DSA are
-      described below.
+      cryptographic algorithm in use.  The OIDs for Composite ML-DSA
+      algorithms are described below.
 
    parameters:  The parameters field contains parameter information for
       the algorithm identified by the OID in the algorithm field.  Each
@@ -150,7 +151,7 @@ Table of Contents
       As such, parameters MUST be omitted when encoding a Composite ML-
       DSA AlgorithmIdentifier.
 
-   The object identifiers for Composite ML-DSA are defined in
+   The object identifiers for Composite ML-DSA algorithms are defined in
    [I-D.ietf-lamps-pq-composite-sigs], and are reproduced here for
    convenience.
 
@@ -228,13 +229,26 @@ Table of Contents
    RSA and ECDSA each Composite ML-DSA algorithm is defined to be used
    with a single digest algorithm which is identified in the Composite
    ML-DSA algorithm name.  For example, id-MLDSA87-ECDSA-P521-SHA512
-   uses SHA-512 as its digest.
+   uses SHA-512 as its pre-hash digest algorithm.
 
    When Composite ML-DSA is used in CMS, the digest algorithm used by
-   CMS is the same digest algorithm used by the Composite ML-DSA
-   algorithm.
+   CMS is the same pre-hash digest algorithm used by the Composite ML-
+   DSA algorithm.  A Composite ML-DSA algorithm might use additional
+   digest algorithms for the internal component algorithms, these digest
+   algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
-3.2.  Signature Generation and Verification
+3.2.  SignedData digestAlgorithms
+
+   The SignedData digestAlgorithms field includes the identifiers of the
+   message digest algorithms used by one or more signer.  There MAY be
+   any number of elements in the collection, including zero.  When
+   signing with a Composite ML-DSA algorithm, the list of identifiers
+   MAY include a digest algorithm from Table 1.  The digest algorithm(s)
+   included will depend on the Composite ML-DSA algorithm(s) used for
+   signing.  If such a digest algorithm is present, the algorithm
+   parameters field MUST be absent.
+
+3.3.  Signature Generation and Verification
 
    [RFC5652] describes the two methods that are used to calculate and
    verify signatures in the CMS.  One method is used when signed
@@ -268,7 +282,7 @@ Table of Contents
    application contexts.  When using Composite ML-DSA as specified in
    this document, the context string is set to the empty string.
 
-3.3.  SignerInfo Content
+3.4.  SignerInfo Content
 
    When using Composite ML-DSA, the fields of a SignerInfo are used as
    follows:
