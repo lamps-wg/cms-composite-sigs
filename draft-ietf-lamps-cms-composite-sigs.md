@@ -205,10 +205,10 @@ id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
 At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
 Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardised, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
 
-Composite ML-DSA operates only in a "pre-hash" mode, however unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.
 
-When Composite ML-DSA is used in CMS, the digest algorithm used by CMS is the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
+When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
 
 ## SignedData digestAlgorithms
@@ -250,7 +250,7 @@ digestAlgorithm:
 This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
 See {{digest-algs}} for exact algorithm mappings.
 
-: {{!RFC5754}} defineds the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the used of SHAKE256 {{FIPS202}} in CMS (id-shake256).
+: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the used of SHAKE256 {{FIPS202}} in CMS (id-shake256).
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.
 
