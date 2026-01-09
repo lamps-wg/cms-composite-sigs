@@ -349,9 +349,8 @@ The following is an example of a signed-data with a single id-MLDSA65-ECDSA-P256
 # Acknowledgements
 {:numbered="false"}
 
-TODO -- update this.
+The authors wish to thank Piotr Popis for his valuable feedback on this document.
 
-
-This document borrows text from similar documents, including those referenced below. Thanks go to the authors of those
-   documents.  "Copying always makes things easier and less error prone" - {{?RFC8411}}.
+Thanks to the co-authors of {{?RFC9882}}, Ben Salter and Adam Raine, this document borrows heavily
+from that one. "Copying always makes things easier and less error prone" - {{?RFC8411}}.
 
