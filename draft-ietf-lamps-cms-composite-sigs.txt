@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 18 June 2026                                       J. Klaussner
+Expires: 13 July 2026                                       J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                        15 December 2025
+                                                          9 January 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -55,11 +55,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 June 2026.
+   This Internet-Draft will expire on 13 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -503,9 +503,9 @@ Table of Contents
               Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
               Fluhrer, "Composite ML-DSA for use in X.509 Public Key
               Infrastructure", Work in Progress, Internet-Draft, draft-
-              ietf-lamps-pq-composite-sigs-13, 31 October 2025,
+              ietf-lamps-pq-composite-sigs-14, 7 January 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              pq-composite-sigs-13>.
+              pq-composite-sigs-14>.
 
    [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
               RFC 5652, DOI 10.17487/RFC5652, September 2009,
@@ -561,6 +561,11 @@ Table of Contents
               Signature Algorithm (EdDSA)", RFC 8032,
               DOI 10.17487/RFC8032, January 2017,
               <https://www.rfc-editor.org/rfc/rfc8032>.
+
+   [RFC9882]  Salter, B., Raine, A., and D. Van Geest, "Use of the ML-
+              DSA Signature Algorithm in the Cryptographic Message
+              Syntax (CMS)", RFC 9882, DOI 10.17487/RFC9882, October
+              2025, <https://www.rfc-editor.org/rfc/rfc9882>.
 
    [RFC8411]  Schaad, J. and R. Andrews, "IANA Registration for the
               Cryptographic Algorithm Object Identifier Range",
@@ -869,12 +874,12 @@ Appendix A.  Examples
 
 Acknowledgements
 
-   TODO -- update this.
+   The authors wish to thank Piotr Popis for his valuable feedback on
+   this document.
 
-   This document borrows text from similar documents, including those
-   referenced below.  Thanks go to the authors of those documents.
-   "Copying always makes things easier and less error prone" -
-   [RFC8411].
+   Thanks to the co-authors of [RFC9882], Ben Salter and Adam Raine,
+   this document borrows heavily from that one.  "Copying always makes
+   things easier and less error prone" - [RFC8411].
 
 Authors' Addresses
 
