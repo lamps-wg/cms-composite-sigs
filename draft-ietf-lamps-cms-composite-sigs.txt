@@ -221,7 +221,7 @@ Table of Contents
    externally to that algorithm, which would then be supplied to the
    algorithm implementation when calculating and verifying signatures.
    Since then, EdDSA [RFC8032] and ML-DSA [FIPS204] have also been
-   standardised, and these algorithms support both a "pure" and "pre-
+   standardized, and these algorithms support both a "pure" and "pre-
    hash" mode, although their use in CMS has only been defined for
    "pure" mode.
 
