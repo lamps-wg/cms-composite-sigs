@@ -203,7 +203,7 @@ id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
 
 {{RFC5652}} specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
 At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
-Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardised, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
+Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
 
 Composite ML-DSA operates only in a "pre-hash" mode, however unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.
