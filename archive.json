@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-08T01:19:48.015267+00:00",
+  "timestamp": "2026-01-11T01:26:17.049507+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -136,6 +136,48 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOQdmGXs68UJ75",
+      "title": "Update acknowledgements",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/3",
+      "state": "MERGED",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-09T11:44:28Z",
+      "updatedAt": "2026-01-09T13:22:07Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "9de7c130c9fc1419094109ceeb17c00384354fc7",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/acknowledgements",
+      "headRefOid": "14717c065e5bb6ea0e53d792e9afad28b20e0751",
+      "closedAt": "2026-01-09T13:22:06Z",
+      "mergedAt": "2026-01-09T13:22:06Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "c904fbe786caba05f0f4ca62bb7f22c92c57e850"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7ZMFfu",
+          "commit": {
+            "abbreviatedOid": "14717c0"
+          },
+          "author": "janklaussner",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-09T12:54:49Z",
+          "updatedAt": "2026-01-09T12:54:49Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
