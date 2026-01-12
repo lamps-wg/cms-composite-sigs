@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Inherited,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</title>
+<meta content="Mike Ounsworth" name="author">
+<meta content="John Gray" name="author">
+<meta content="Jan Klaussner" name="author">
+<meta content="Daniel Van Geest" name="author">
+<meta content="
+       Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS). 
+    " name="description">
+<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="cms" name="keyword">
+<meta content="composite ml-dsa" name="keyword">
+<meta content="draft-ietf-lamps-cms-composite-sigs-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.31.0
+    Python 3.12.12
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.0.2
+    platformdirs 4.5.1
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.32.5
+    wcwidth 0.2.14
+-->
+<link href="draft-ietf-lamps-cms-composite-sigs.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Composite ML-DSA CMS</td>
+<td class="right">January 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Ounsworth, et al.</td>
+<td class="center">Expires 16 July 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">LAMPS</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-lamps-cms-composite-sigs-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-01-12" class="published">12 January 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-07-16">16 July 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Ounsworth</div>
+<div class="org">Entrust</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Gray</div>
+<div class="org">Entrust</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Klaussner</div>
+<div class="org">Bundesdruckerei GmbH</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Van Geest</div>
+<div class="org">CryptoNext Security</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://lamps-wg.github.io/cms-composite-sigs/draft-ietf-lamps-cms-composite-sigs.html">https://lamps-wg.github.io/cms-composite-sigs/draft-ietf-lamps-cms-composite-sigs.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-sigs/">https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-sigs/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        LAMPS Working Group mailing list (<span><a href="mailto:spams@ietf.org">mailto:spams@ietf.org</a></span>),
+        which is archived at <span><a href="https://datatracker.ietf.org/wg/lamps/about/">https://datatracker.ietf.org/wg/lamps/about/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/spams/">https://www.ietf.org/mailman/listinfo/spams/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/lamps-wg/cms-composite-sigs">https://github.com/lamps-wg/cms-composite-sigs</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 16 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-conventions-and-terminology" class="internal xref">Conventions and Terminology</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-composite-ml-dsa-algorithm-" class="internal xref">Composite ML-DSA Algorithm Identifiers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-signed-data-conventions" class="internal xref">Signed-Data Conventions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-pre-hashing" class="internal xref">Pre-Hashing</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-signeddata-digestalgorithms" class="internal xref">SignedData digestAlgorithms</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-signature-generation-and-ve" class="internal xref">Signature Generation and Verification</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-signerinfo-content" class="internal xref">SignerInfo Content</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="sec-intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
+This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div id="sec-terminology">
+<section id="section-1.1">
+        <h3 id="name-conventions-and-terminology">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-conventions-and-terminology" class="section-name selfRef">Conventions and Terminology</a>
+        </h3>
+<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+"MAY", and "OPTIONAL" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.
+These words may also appear in this document in
+lower case as plain English words, absent their normative meanings.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">This document is consistent with the terminology defined in <span>[<a href="#RFC9794" class="cite xref">RFC9794</a>]</span>.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="algorithm-identifiers">
+<section id="section-2">
+      <h2 id="name-composite-ml-dsa-algorithm-">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-composite-ml-dsa-algorithm-" class="section-name selfRef">Composite ML-DSA Algorithm Identifiers</a>
+      </h2>
+<p id="section-2-1">Many ASN.1 data structure types use the AlgorithmIdentifier type to identify cryptographic algorithms.
+In the CMS, AlgorithmIdentifiers are used to identify Composite ML-DSA signatures in the signed-data content type.
+They may also appear in X.509 certificates used to verify those signatures.
+The same AlgorithmIdentifiers are used to identify Composite ML-DSA public keys and signature algorithms.
+<span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> describes the use of Composite ML-DSA in X.509 certificates.
+The AlgorithmIdentifier type is defined as follows:<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div class="lang-asn.1 sourcecode" id="section-2-2">
+<pre>
+AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+        SEQUENCE {
+            algorithm   ALGORITHM-TYPE.&amp;id({AlgorithmSet}),
+            parameters  ALGORITHM-TYPE.
+                   &amp;Params({AlgorithmSet}{@algorithm}) OPTIONAL
+        }
+</pre><a href="#section-2-2" class="pilcrow">¶</a>
+</div>
+<aside id="section-2-3">
+        <p id="section-2-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1 syntax.<a href="#section-2-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-2-4">The fields in the AlgorithmIdentifier type have the following meanings:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-5">
+        <dt id="section-2-5.1">algorithm:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.2">
+          <p id="section-2-5.2.1">The algorithm field contains an OID that identifies the cryptographic algorithm in use.
+The OIDs for Composite ML-DSA algorithms are described below.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-5.3">parameters:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.4">
+          <p id="section-2-5.4.1">The parameters field contains parameter information for the algorithm identified by the OID in the algorithm field.
+Each Composite ML-DSA parameter set is identified by its own algorithm OID, so there is no relevant information to include in this field.
+As such, parameters MUST be omitted when encoding a Composite ML-DSA AlgorithmIdentifier.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-2-6">The object identifiers for Composite ML-DSA algorithms are defined in <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and are reproduced here for convenience.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<div class="breakable lang-asn.1 sourcecode" id="section-2-7">
+<pre>
+id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 37 }
+id-MLDSA44-RSA2048-PKCS15-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 38 }
+id-MLDSA44-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 39 }
+id-MLDSA44-ECDSA-P256-SHA256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 40 }
+id-MLDSA65-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 41 }
+id-MLDSA65-RSA3072-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 42 }
+id-MLDSA65-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 43 }
+id-MLDSA65-RSA4096-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 44 }
+id-MLDSA65-ECDSA-P256-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 45 }
+id-MLDSA65-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 46 }
+id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 47 }
+id-MLDSA65-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 48 }
+id-MLDSA87-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 49 }
+id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 50 }
+id-MLDSA87-Ed448-SHAKE256 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 51 }
+id-MLDSA87-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 52 }
+id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 53 }
+id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
+   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+   pkix(7) alg(6) 54 }
+</pre><a href="#section-2-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="signed-data-conventions">
+<section id="section-3">
+      <h2 id="name-signed-data-conventions">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-signed-data-conventions" class="section-name selfRef">Signed-Data Conventions</a>
+      </h2>
+<div id="pre-hashing">
+<section id="section-3.1">
+        <h3 id="name-pre-hashing">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-pre-hashing" class="section-name selfRef">Pre-Hashing</a>
+        </h3>
+<p id="section-3.1-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
+At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
+Since then, EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> and ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> have also been standardised, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="signeddata-digestalgorithms">
+<section id="section-3.2">
+        <h3 id="name-signeddata-digestalgorithms">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-signeddata-digestalgorithms" class="section-name selfRef">SignedData digestAlgorithms</a>
+        </h3>
+<p id="section-3.2-1">The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
+There MAY be any number of elements in the collection, including zero.
+When signing with a Composite ML-DSA algorithm, the list of identifiers MAY include a digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.
+The digest algorithm(s) included will depend on the Composite ML-DSA algorithm(s) used for signing.
+If such a digest algorithm is present, the algorithm parameters field MUST be absent.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="signature-generation-and-verification">
+<section id="section-3.3">
+        <h3 id="name-signature-generation-and-ve">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-signature-generation-and-ve" class="section-name selfRef">Signature Generation and Verification</a>
+        </h3>
+<p id="section-3.3-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> describes the two methods that are used to calculate and verify signatures in the CMS.
+One method is used when signed attributes are present in the signedAttrs field of the relevant SignerInfo, and another is used when signed attributes are absent.
+Use of signed attributes is preferred, but the conventions for signed-data without signed attributes is also described below for completeness.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">When signed attributes are absent, Composite ML-DSA signatures are computed over the content of the signed-data.
+As described in <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the "content" of a signed-data is the value of the encapContentInfo eContent OCTET STRING.
+The tag and length octets are not included.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">When signed attributes are included, Composite ML-DSA signatures are computed over the complete DER encoding of the SignedAttrs value contained in the SignerInfo's signedAttrs field.
+As described in <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, this encoding includes the tag and length octets, but an EXPLICIT SET OF tag is used rather than the IMPLICIT [0] tag that appears in the final message.
+At a minimum, the signedAttrs field MUST include a content-type attribute and a message-digest attribute.
+The message-digest attribute contains a hash of the content of the signed-data, where the content is as described for the absent signed attributes case above.
+Recalculation of the hash value by the recipient is an important step in signature verification.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">Composite ML-DSA has a context string input that can be used to ensure that different signatures are generated for different application contexts.
+When using Composite ML-DSA as specified in this document, the context string is set to the empty string.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="signerinfo-content">
+<section id="section-3.4">
+        <h3 id="name-signerinfo-content">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-signerinfo-content" class="section-name selfRef">SignerInfo Content</a>
+        </h3>
+<p id="section-3.4-1">When using Composite ML-DSA, the fields of a SignerInfo are used as follows:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.4-2">
+          <dt id="section-3.4-2.1">digestAlgorithm:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.2">
+            <p id="section-3.4-2.2.1">Per <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.3" class="relref">Section 5.3</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the digestAlgorithm field identifies the message digest algorithm used by the signer and any associated parameters.
+This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
+See <a href="#digest-algs" class="auto internal xref">Table 1</a> for exact algorithm mappings.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.4-2.3"></dt>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.4">
+            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the used of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
+When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
+When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<span id="name-digest-algorithms-for-compo"></span><div id="digest-algs">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-digest-algorithms-for-compo" class="selfRef">Digest Algorithms for Composite ML-DSA</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Signature Algorithm</th>
+              <th class="text-left" rowspan="1" colspan="1">Digest Algorithms</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-RSA2048-PSS-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-RSA2048-PKCS15-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-Ed25519-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA44-ECDSA-P256-SHA256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA3072-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA3072-PKCS15-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA4096-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-RSA4096-PKCS15-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-P256-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-P384-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-ECDSA-brainpoolP256r1-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA65-Ed25519-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-P384-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-brainpoolP384r1-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-Ed448-SHAKE256</td>
+              <td class="text-left" rowspan="1" colspan="1">id-shake256</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-RSA3072-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-RSA4096-PSS-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">id-MLDSA87-ECDSA-P521-SHA512</td>
+              <td class="text-left" rowspan="1" colspan="1">id-sha512</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-3.4-4">
+          <dt id="section-3.4-4.1">signatureAlgorithm:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.4-4.2">
+            <p id="section-3.4-4.2.1">The signatureAlgorithm field MUST contain one of the Composite ML-DSA signature algorithm OIDs, and the parameters field MUST be absent. The algorithm OID MUST be one of the OIDs described in <a href="#algorithm-identifiers" class="auto internal xref">Section 2</a>.<a href="#section-3.4-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.4-4.3">signature:</dt>
+          <dd style="margin-left: 1.5em" id="section-3.4-4.4">
+            <p id="section-3.4-4.4.1">The signature field contains the signature value resulting from the use of the Composite ML-DSA signature algorithm identified by the signatureAlgorithm field.
+ The Composite ML-DSA signature-generation operation is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-14#section-4.2" class="relref">Section 4.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and the signature-verification operation is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-14#section-4.3" class="relref">Section 4.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>.
+ Note that <span><a href="https://rfc-editor.org/rfc/rfc5652#section-5.6" class="relref">Section 5.6</a> of [<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> places further requirements on the successful verification of a signature.<a href="#section-3.4-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-asn1-module">
+<section id="section-4">
+      <h2 id="name-asn1-module">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+      </h2>
+<div class="breakable lang-asn.1 sourcecode" id="section-4-1">
+<pre>
+&lt;CODE BEGINS&gt;
+Composite-MLDSA-CMS-2026
+  { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-composite-mldsa-cms-2026(TBDMOD) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+  SIGNATURE-ALGORITHM, SMIME-CAPS
+    FROM AlgorithmInformation-2009  -- [RFC5911]
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-algorithmInformation-02(58) }
+
+  sa-MLDSA44-RSA2048-PSS-SHA256, sa-MLDSA44-RSA2048-PKCS15-SHA256,
+  sa-MLDSA44-Ed25519-SHA512, sa-MLDSA44-ECDSA-P256-SHA256,
+  sa-MLDSA65-RSA3072-PSS-SHA512, sa-MLDSA65-RSA3072-PKCS15-SHA512,
+  sa-MLDSA65-RSA4096-PSS-SHA512, sa-MLDSA65-RSA4096-PKCS15-SHA512,
+  sa-MLDSA65-ECDSA-P256-SHA512, sa-MLDSA65-ECDSA-P384-SHA512,
+  sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512, sa-MLDSA65-Ed25519-SHA512,
+  sa-MLDSA87-ECDSA-P384-SHA512, sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512,
+  sa-MLDSA87-Ed448-SHAKE256, sa-MLDSA87-RSA3072-PSS-SHA512,
+  sa-MLDSA87-RSA4096-PSS-SHA512, sa-MLDSA87-ECDSA-P521-SHA512
+   FROM Composite-MLDSA-2025
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-composite-mldsa-2025(TBDCompositeMOD) }
+;
+
+--
+-- Expand the signature algorithm set used by CMS [RFC5911]
+--
+
+SignatureAlgorithmSet SIGNATURE-ALGORITHM ::= {
+  sa-MLDSA44-RSA2048-PSS-SHA256 |
+  sa-MLDSA44-RSA2048-PKCS15-SHA256 |
+  sa-MLDSA44-Ed25519-SHA512 |
+  sa-MLDSA44-ECDSA-P256-SHA256 |
+  sa-MLDSA65-RSA3072-PSS-SHA512 |
+  sa-MLDSA65-RSA3072-PKCS15-SHA512 |
+  sa-MLDSA65-RSA4096-PSS-SHA512 |
+  sa-MLDSA65-RSA4096-PKCS15-SHA512 |
+  sa-MLDSA65-ECDSA-P256-SHA512 |
+  sa-MLDSA65-ECDSA-P384-SHA512 |
+  sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512 |
+  sa-MLDSA65-Ed25519-SHA512 |
+  sa-MLDSA87-ECDSA-P384-SHA512 |
+  sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512 |
+  sa-MLDSA87-Ed448-SHAKE256 |
+  sa-MLDSA87-RSA3072-PSS-SHA512 |
+  sa-MLDSA87-RSA4096-PSS-SHA512 |
+  sa-MLDSA87-ECDSA-P521-SHA512,
+  ... }
+
+--
+-- Expand the S/MIME capabilities set used by CMS [RFC5911]
+--
+
+SMimeCaps SMIME-CAPS ::= {
+  sa-MLDSA44-RSA2048-PSS-SHA256.&amp;smimeCaps |
+  sa-MLDSA44-RSA2048-PKCS15-SHA256.&amp;smimeCaps |
+  sa-MLDSA44-Ed25519-SHA512.&amp;smimeCaps |
+  sa-MLDSA44-ECDSA-P256-SHA256.&amp;smimeCaps |
+  sa-MLDSA65-RSA3072-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-RSA3072-PKCS15-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-RSA4096-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-RSA4096-PKCS15-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-ECDSA-P256-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-ECDSA-P384-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512.&amp;smimeCaps |
+  sa-MLDSA65-Ed25519-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-ECDSA-P384-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-Ed448-SHAKE256.&amp;smimeCaps |
+  sa-MLDSA87-RSA3072-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-RSA4096-PSS-SHA512.&amp;smimeCaps |
+  sa-MLDSA87-ECDSA-P521-SHA512.&amp;smimeCaps,
+  ... }
+
+END
+&lt;CODE ENDS&gt;
+</pre><a href="#section-4-1" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="sec-iana">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDCompositeMOD</strong><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">Description: Composite-Signatures-CMS-2026 - id-mod-composite-mldsa-cms-2026<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">References: This Document<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">All security considerations from <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> apply.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">Security of the Composite ML-DSA private key is critical.
+Compromise of the private key will enable an adversary to forge arbitrary signatures.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Composite ML-DSA depends on high-quality random numbers that are suitable for use in cryptography.
+The use of inadequate pseudo-random number generators (PRNGs) to generate such values can significantly undermine the security properties offered by a cryptographic algorithm.
+For instance, an attacker may find it much easier to reproduce the PRNG environment that produced any private keys, searching the resulting small set of possibilities, rather than brute-force searching the whole key space.
+The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> for some additional information.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in <span>[<a href="#RFC6211" class="cite xref">RFC6211</a>]</span> SHOULD be included in signed attributes.<a href="#section-6-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-7">
+      <h2 id="name-references">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-7.1">
+        <h3 id="name-normative-references">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="FIPS180">[FIPS180]</dt>
+        <dd>
+<span class="refTitle">"Secure hash standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.180-4</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.180-4">https://doi.org/10.6028/nist.fips.180-4</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="FIPS202">[FIPS202]</dt>
+        <dd>
+<span class="refTitle">"SHA-3 standard :: permutation-based hash and extendable-output functions"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.202</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.202">https://doi.org/10.6028/nist.fips.202</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="FIPS204">[FIPS204]</dt>
+        <dd>
+<span class="refTitle">"Module-lattice-based digital signature standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.204</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.204">https://doi.org/10.6028/nist.fips.204</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-lamps-pq-composite-sigs">[I-D.ietf-lamps-pq-composite-sigs]</dt>
+        <dd>
+<span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite ML-DSA for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-sigs-14</span>, <time datetime="2026-01-07" class="refDate">7 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-14">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-14</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5652">[RFC5652]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">STD 70</span>, <span class="seriesInfo">RFC 5652</span>, <span class="seriesInfo">DOI 10.17487/RFC5652</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5652">https://www.rfc-editor.org/rfc/rfc5652</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5911">[RFC5911]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for Cryptographic Message Syntax (CMS) and S/MIME"</span>, <span class="seriesInfo">RFC 5911</span>, <span class="seriesInfo">DOI 10.17487/RFC5911</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5911">https://www.rfc-editor.org/rfc/rfc5911</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5754">[RFC5754]</dt>
+        <dd>
+<span class="refAuthor">Turner, S.</span>, <span class="refTitle">"Using SHA2 Algorithms with Cryptographic Message Syntax"</span>, <span class="seriesInfo">RFC 5754</span>, <span class="seriesInfo">DOI 10.17487/RFC5754</span>, <time datetime="2010-01" class="refDate">January 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5754">https://www.rfc-editor.org/rfc/rfc5754</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8702">[RFC8702]</dt>
+        <dd>
+<span class="refAuthor">Kampanakis, P.</span> and <span class="refAuthor">Q. Dang</span>, <span class="refTitle">"Use of the SHAKE One-Way Hash Functions in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 8702</span>, <span class="seriesInfo">DOI 10.17487/RFC8702</span>, <time datetime="2020-01" class="refDate">January 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8702">https://www.rfc-editor.org/rfc/rfc8702</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6211">[RFC6211]</dt>
+      <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS) Algorithm Identifier Protection Attribute"</span>, <span class="seriesInfo">RFC 6211</span>, <span class="seriesInfo">DOI 10.17487/RFC6211</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6211">https://www.rfc-editor.org/rfc/rfc6211</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-7.2">
+        <h3 id="name-informative-references">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9794">[RFC9794]</dt>
+        <dd>
+<span class="refAuthor">Driscoll, F.</span>, <span class="refAuthor">Parsons, M.</span>, and <span class="refAuthor">B. Hale</span>, <span class="refTitle">"Terminology for Post-Quantum Traditional Hybrid Schemes"</span>, <span class="seriesInfo">RFC 9794</span>, <span class="seriesInfo">DOI 10.17487/RFC9794</span>, <time datetime="2025-06" class="refDate">June 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9794">https://www.rfc-editor.org/rfc/rfc9794</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+        <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8032">[RFC8032]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8032">https://www.rfc-editor.org/rfc/rfc8032</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9882">[RFC9882]</dt>
+        <dd>
+<span class="refAuthor">Salter, B.</span>, <span class="refAuthor">Raine, A.</span>, and <span class="refAuthor">D. Van Geest</span>, <span class="refTitle">"Use of the ML-DSA Signature Algorithm in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 9882</span>, <span class="seriesInfo">DOI 10.17487/RFC9882</span>, <time datetime="2025-10" class="refDate">October 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9882">https://www.rfc-editor.org/rfc/rfc9882</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8411">[RFC8411]</dt>
+      <dd>
+<span class="refAuthor">Schaad, J.</span> and <span class="refAuthor">R. Andrews</span>, <span class="refTitle">"IANA Registration for the Cryptographic Algorithm Object Identifier Range"</span>, <span class="seriesInfo">RFC 8411</span>, <span class="seriesInfo">DOI 10.17487/RFC8411</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8411">https://www.rfc-editor.org/rfc/rfc8411</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="examples">
+<section id="appendix-A">
+      <h2 id="name-examples">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="appendix-A-1">This appendix contains an example signed-data encoding with the id-MLDSA65-ECDSA-P256-SHA512 signature algorithm.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">It can be verified using the example public keys and certificates specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-14#appendix-E" class="relref">Appendix E</a> of [<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>.
+Specifically, the following example:<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-3.1">
+          <p id="appendix-A-3.1.1">tcId: id-MLDSA65-ECDSA-P256-SHA512<a href="#appendix-A-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-3.2">
+          <p id="appendix-A-3.2.1">x5c: Base64 of the DER encoding of the certificate.  Wrap this in PEM headers and footers to get a PEM certificate.<a href="#appendix-A-3.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-4">To keep example size down, the signing certificate is not included in the CMS encoding.
+The example certificate from <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> used to sign the CMS content is self-signed.<a href="#appendix-A-4" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">The following is an example of a signed-data with a single id-MLDSA65-ECDSA-P256-SHA512 signer, with signed attributes included:<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-A-6">
+<pre>
+-----BEGIN CMS-----
+MIIOxQYJKoZIhvcNAQcCoIIOtjCCDrICAQExDTALBglghkgBZQMEAgMwVgYJKoZI
+hvcNAQcBoEkER2lkLU1MRFNBNjUtRUNEU0EtUDI1Ni1TSEE1MTIgc2lnbmVkLWRh
+dGEgZXhhbXBsZSB3aXRoIHNpZ25lZCBhdHRyaWJ1dGVzMYIORDCCDkACAQEwXjBG
+MQ0wCwYDVQQKDARJRVRGMQ4wDAYDVQQLDAVMQU1QUzElMCMGA1UEAwwcaWQtTUxE
+U0E2NS1FQ0RTQS1QMjU2LVNIQTUxMgIUcBMSDAzK4kOq8XRw2s4BJbxtLOAwCwYJ
+YIZIAWUDBAIDoIGJMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI1MTIwODE3NTIxMVowTwYJKoZIhvcNAQkEMUIEQIjYc0f2iK/i/r30
+83ouERXhQHSSXulhH8t6jiLSUlMK6EbW5xNFsnRLbVI9PYdOvhVLqKaooVBrbVvx
+iZPIX00wCgYIKwYBBQUHBi0Egg00qxrASErETzq+ryEnoYhBGA0c+QOeJt0KQ6KW
+/bz5E/xJYnLuUi2gUKc7DQsAfzhFKlrItzfbmu3+8GJ+sMhzWFYewFnZzeT/cEiV
+LHEhVPB1OwL3L/63SS0DxQH+n87ApOxZC5nV8nye5AjGvCCxMGKb3P7/7J81wIMs
+LJiuzsuXMVIsP5zuJ5+3gerlfUwyjyJKMb3PRWYlfi+xSxpkQ4HU2bFJLqG0Txum
+KuzbqcTcOiuylHwLVyZXEn6+QUEeV+k4/dikN7Z0NZJ+o4eA3YENUnVH3/d/axb8
+NZw1QyyeGKEf6FS6BTcpgonfzU6oHZaM+MiW0RozXcq7Kuc2TPZKByY/Qmr/K5F2
+YIL5g8DJrsNr8JeQrSf3CNqALkGeZ4sKjicg4V5EUdbgYkiOB1Dg/T5nIOdky47v
+VFBtm8k3T1RlFD55mQxUQfr93uka/ODyz7gSWepam13OET2KPOwgGfN5iffNsTW6
+q2vp4FjdGdLs9fYzJ10bdd6VjFC5obc1AIw7yQVoxEo0fjG5yxwaezrbo/cVHP1K
++T3Lsp+o8+VUmxa+WKdE94Wv3kmLrjflfQ1CTFKnNiNOF93M0rY1Gj2sYBcUVqWx
+mOfLnSxyQxMsSm/L+CCGiv9DcV//+jhosN1LYdgaYN0g7pAiYc6st/TseDffAW1e
+FRboqZn/t5FFNo91fTryGbwq5Xtj1nZPjqHjB5oEBBEqKCXFYHBRqF+1zBBPELVF
+r/ZL1rd3O+W+JaN7DiYP3lg084/BqTJ37tufuU3hYaOujDEII90EqSsDv57qZP/B
+mnjm4jEd0Y0EQSWPCyDbwXTyW8+7r8SX9KTYVhMYcYdto54pJo2CA5VW0hUvFc4N
+rKs7uHjihBRzpopQNzLWa1X77LNDZIcHLY03FsTI7Tn+Fsqfn52ZBVa2+kAB0ael
+h+hG9qYEJC9qQT/p+xWjLP4w3t+ieTZhEQNoU2od/0j5BQWscw92wK4YAN7niBy/
+kFyrzgTL5EPP9aGkzoFHNFo3ye1bvn01p6h2AZx1biZgUW8wtAM5b7G3j7vDdvnz
+pVPK06w1QOgBPt9JuMFM/dk2bmZPj6l5CHIRmCcag2nGW3N+iRGkhprQOq5wVBdP
+WRb2iV4wUYF1JZ9xtFjS1KoZReUmoI5OKiGYoR+CS5yVS2TxsNUL0OE7D+iHKm4A
+u5bVZqf+yN0cpcsUgitHcZvqc1s+h9poSdv6Crgk9OLeaKQHL7RQf7dgXdoqypM7
+C6z/L7x2fpc8EmnXzuW3kDrDMdIPhwoxuOAhE4y0uatO/Bud6TlvSmSSExVs8UFj
+HyKHL7UNTQ+5lF04mal9qcM3wcm6ysJZtmrCLDGs2MnAPsh5x9csQikiWKd9fTPz
+Wni1wmFKHimt2lqkh4hzVw3iJRjzYml+qAoS2NoaiL2XIXQFckWT6R6tzYPz+sS2
+T07VKaB5HxrrOeco+5XDjpXS1ad5vrm6ZlQVVBuTB+KUv/WGY3chEkxZy9uzr0D3
++rYB/DUDoHstZIF62h2ag7g6XexKSy0UHkOgP5DN/ulY+5xtWgRnmRYswpvhcZmh
+8Csgd4Ca3/mQwdaP4VYIgKxUiN+vSq2T/8iQLdd3Wwu0rMgrwdxLfLeeU1NdhjfH
+7jhuTCdNdoztocMpE7NM3Poi6tDh05f7GTS0uFaRv0+YLwqq/MXdxQzOZrVpJK9d
+q0ZRIdif8R3qnj/kTrbbIE6lRC1b36wPkowrN4HmhZyyzwhFRXMie1noxMjzFF3j
+MFSqZSW0LPNmFjwMbMo/X+x942cIvZdJj8JQmfVP42SdBDj7YvZlQ0V3/hC/qAih
+lUUDgMtZjCNHxZbiKQfMKfGA4W8Va/kblQNIzzHruqvo9Pyudt7enn4ljQ7JjIQj
+PUmnORlCf3VOQEDjSHHNpDbha1xm9KPs0uwVPK+D29Wx38zaY+wAxJLJrpuXqe+l
+iWFVFeLuT+IQv5IHiSoR7pEjNDOAxs0/tXbSPRqLyGHuOQPu6oVYODRsw4TVvTFb
+xuzMvbKUo59H+Nvay4X0MeluDda0y3l+9S7sLHrH3Ril1pmQC5Acfe2zGtHdiXPV
+j599iR7FHZ11xmlwUZo7LoYvK1HoZ3juHKllFiugighvDD9p3h4zU/ugIapRbdph
+L/lh6WCyTD9adQoJVxvR4pVaoc2lbfo2Dt3B2tOxcbyBDCFO9sLvCRo0P+H69rFJ
+7rz78cfLfH/5hpGDC1QvvtbQyCSvlYgEyUT6ssY5nNRknyNROTaeG6UM6DSxNee8
+AUm39wbIgkWAkoGUfZYuNge3XPkXdJbRbnad/qzWCY724ZZR6apxu1yQp7hFU90u
+hgoDCQrsfvbMJ9rX1XlReIkzt4hMSAnTw5aJ4kZmtAFyZT0VW/PQe93owKehln8+
+Y2+wgXM4x2jmyi7ZBUEo6jq1/GfPheyOgix79EozDXVx+C2aUA4yzihwIQi7DC0V
+qPNOZKb+cpI9Ysay6a77LlZ0bHhrtisBKM778d1lY0oRxN1JcSL6QpwxvvyOzRW0
+Wzp6zQuQnkI52YxP4S4x8NrxRGo6GFoMoc2x/+ZU+h2cmUIhIIbpwClok2ezFKEi
+sCN8X5Yz7xCrHZ+8efanip1H1+GksF3Qofj7pn5lxNoqJK43nyrXxp+cfy8Wz+ke
+9zj3wWXDzS7gX/4Udb2aZl7kM+a2JFTKvcNrr9G2jGpRxLS+h5xo2HoavmeZqUY5
+YtpOyrfGYoNdB5mLzz6DYP9GyopsKxQ0yeZKeUCAVEBXJIStDJhJ8LTNI6Zcm4o1
+nj7zOK2/rZD3unHyCTkDZx8/GnsuppTxax7CJ7PIsQphoHrQEhWPO/ec8M+k+QeQ
+HilVONmXSkrTdg7P743TEqbRsPFCAG91lCpeIX7sQ6NaziIrUlkDHEX/D5QOwbY4
+N+KDimZ8aZRnggICq/7i11RwDk7XjPGkXujuYLltHR3/Z3gjicKGpxgG1P3CihnY
+Fbuj8JoE9pUOmLczWHWZkVlokEEEgXCk8y2U3nQDHSj840fzEu1HR+0jeN7flD9G
+dFycpWV1AnCeSuTx/JMAGkPuPmX6cuIXeoAmX9jTGN/yACOeNQ/mnCSqy1gNanxw
+6Te0Ki1S/BAfNad4zzB2yQAe4l1C7F+kghRgYv7IEL0Rj+4y98Xt2C7SM1qFik3F
+OPJllSOEwWnzyFSNhSG6mNcSAjVHmt4+b6OWvlUx2Nf2ROOi3XJyAragHAKOuOAD
+x8SntBYw8A9Xf6FVNDftVUwVxuKGcVCSRlv+AcmoZZaNkKdmyHFHuGffH8YQn97g
+Fix1v+ikQDmylWYaEnc+IP4FTV5RN054yUXb59Lz4MWbPe7FMcAXQuJPkSCg9Xzo
+GE6177MEF6MbwjwSEgbykyNtThc8G09TaAMhQa1XCubk7WUKRBEGX0MoNoPXj0eT
+9Vie34CxH778GkwUQqvnT4k53BVbhxa26VEkbmCHdukW4K5DMSFZM0fN586WmaIj
+GQcSXkgHQPv4AJn3n7W8n0jV0kZ1nXfTgrg45ZzUQMPek467Rt653i+KD5hxp93G
+9bMqk/oY0c0+LvmrRWWncCjjmEnPu6GVWE9xNr2W/zT9F9bDcVzZ9jhyBBnuTIvY
+bsGtHeVL+8gIF681QEYQoLDHjOjfzA6HyaTfb39aWpcVFUJNrcA6TTox2Oq9tWyc
+1pFyTMRqwnmGn4CBIC7sKvzfuTPLbBbuBO68pSLbiKFQ0vfuh6vWUtWrudhyhT2B
+Ql1fgac2YuiBO8EjvNRfgKugpPc5p2JXgAPxgXeLyvr4+cryzuuXRC4ARXKE1px3
+0n0r9JOx5JdFc7VzmAoPLXHkIpTqyAZiJ5DrvhhBLOOibx3WDiXLaqY+Q+T+Ai5A
+BJktNi+HYagsI94mF0oGEW/77WDrJdL8pirO16F+T7YBdLl/OJcxFapJBKlhaBle
+q34/tBLYtefgVe2XqYJNKYWpCh94cVxAUWgiRUcD4Kb/E/srYOXKH8XiRO2sUXR2
++hTCSjNZZJZWW3AGYm2jRLL3xy8Xm16zFBTOK+wHshVT53KVtcLFKiIzz9tPXotQ
+H5c5z812COrwO+RkhQDsEwi5LpibDjDy4eKkLX2BwNYprQAskFTPpdQJXdUntXAJ
+3ASKMx7YZmR6cZUuETa+xdvHZB+WAgCDbruVF4Gpt1nAOlbUnd37jkxNpPjvhzDo
+pON63oQ7l7D8pf6L+Z+NeVkDIqZSVYPHO7PsOqNVIOrg4/RIQJVfb28t0QF22T4r
+rMUW3phPtbyjunJYKpqoCBtcgevnrtq8/xNBgiCqZo4ezOs9tHHInHqo2CB+sPk9
+BtAmMvcXeJjLQYiU1ePuJTc5zdwjR1eesNEjQU5Ue6DmESA8Slqw6v8AAAAAAAAA
+AAAAAAAAAAAAAAAABAoPFRwkMEUCIQCL0sfaIBH3lBWJlm2L2CAWadIirzqGrVpD
+tlT32BFzDQIgOCuq7BfZS00xPA5tIXaQC82dI7G5cGRkx2pmocpTsYM=
+-----END CMS-----
+</pre><a href="#appendix-A-6" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="appendix-A-7">
+<pre>
+SEQUENCE {
+  # signedData
+  OBJECT_IDENTIFIER { 1.2.840.113549.1.7.2 }
+  [0] {
+    SEQUENCE {
+      INTEGER { 1 }
+      SET {
+        SEQUENCE {
+          # sha512
+          OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+        }
+      }
+      SEQUENCE {
+        # data
+        OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+        [0] {
+          OCTET_STRING { "id-MLDSA65-ECDSA-P256-SHA512 signed-da
+ta example with signed attributes" }
+        }
+      }
+      SET {
+        SEQUENCE {
+          INTEGER { 1 }
+          SEQUENCE {
+            SEQUENCE {
+              SET {
+                SEQUENCE {
+                  # organizationName
+                  OBJECT_IDENTIFIER { 2.5.4.10 }
+                  UTF8String { "IETF" }
+                }
+              }
+              SET {
+                SEQUENCE {
+                  # organizationUnitName
+                  OBJECT_IDENTIFIER { 2.5.4.11 }
+                  UTF8String { "LAMPS" }
+                }
+              }
+              SET {
+                SEQUENCE {
+                  # commonName
+                  OBJECT_IDENTIFIER { 2.5.4.3 }
+                  UTF8String { "id-MLDSA65-ECDSA-P256-SHA512" }
+                }
+              }
+            }
+            INTEGER { `7013120c0ccae243aaf17470dace0125bc6d2ce0`
+ }
+          }
+          SEQUENCE {
+            # sha512
+            OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+          }
+          [0] {
+            SEQUENCE {
+              # contentType
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.3 }
+              SET {
+                # data
+                OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+              }
+            }
+            SEQUENCE {
+              # signingTime
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.5 }
+              SET {
+                UTCTime { "251208175211Z" }
+              }
+            }
+            SEQUENCE {
+              # messageDigest
+              OBJECT_IDENTIFIER { 1.2.840.113549.1.9.4 }
+              SET {
+                OCTET_STRING { `88d87347f688afe2febdf4f37a2e1115
+e14074925ee9611fcb7a8e22d252530ae846d6e71345b2744b6d523d3d874ebe
+154ba8a6a8a1506b6d5bf18993c85f4d` }
+              }
+            }
+          }
+          SEQUENCE {
+            OBJECT_IDENTIFIER { 1.3.6.1.5.5.7.6.45 }
+          }
+          OCTET_STRING { `ab1ac0484ac44f3abeaf2127a18841180d1cf9
+039e26dd0a43a296fdbcf913fc496272ee522da050a73b0d0b007f38452a5ac8
+b737db9aedfef0627eb0c87358561ec059d9cde4ff7048952c712154f0753b02
+f72ffeb7492d03c501fe9fcec0a4ec590b99d5f27c9ee408c6bc20b130629bdc
+feffec9f35c0832c2c98aececb9731522c3f9cee279fb781eae57d4c328f224a
+31bdcf4566257e2fb14b1a644381d4d9b1492ea1b44f1ba62aecdba9c4dc3a2b
+b2947c0b572657127ebe41411e57e938fdd8a437b67435927ea38780dd810d52
+7547dff77f6b16fc359c35432c9e18a11fe854ba0537298289dfcd4ea81d968c
+f8c896d11a335dcabb2ae7364cf64a07263f426aff2b91766082f983c0c9aec3
+6bf09790ad27f708da802e419e678b0a8e2720e15e4451d6e062488e0750e0fd
+3e6720e764cb8eef54506d9bc9374f5465143e79990c5441fafddee91afce0f2
+cfb81259ea5a9b5dce113d8a3cec2019f37989f7cdb135baab6be9e058dd19d2
+ecf5f633275d1b75de958c50b9a1b735008c3bc90568c44a347e31b9cb1c1a7b
+3adba3f7151cfd4af93dcbb29fa8f3e5549b16be58a744f785afde498bae37e5
+7d0d424c52a736234e17ddccd2b6351a3dac60171456a5b198e7cb9d2c724313
+2c4a6fcbf820868aff43715ffffa3868b0dd4b61d81a60dd20ee902261ceacb7
+f4ec7837df016d5e1516e8a999ffb79145368f757d3af219bc2ae57b63d6764f
+8ea1e3079a0404112a2825c5607051a85fb5cc104f10b545aff64bd6b7773be5
+be25a37b0e260fde5834f38fc1a93277eedb9fb94de161a3ae8c310823dd04a9
+2b03bf9eea64ffc19a78e6e2311dd18d0441258f0b20dbc174f25bcfbbafc497
+f4a4d856131871876da39e29268d82039556d2152f15ce0dacab3bb878e28414
+73a68a503732d66b55fbecb3436487072d8d3716c4c8ed39fe16ca9f9f9d9905
+56b6fa4001d1a7a587e846f6a604242f6a413fe9fb15a32cfe30dedfa2793661
+110368536a1dff48f90505ac730f76c0ae1800dee7881cbf905cabce04cbe443
+cff5a1a4ce8147345a37c9ed5bbe7d35a7a876019c756e2660516f30b403396f
+b1b78fbbc376f9f3a553cad3ac3540e8013edf49b8c14cfdd9366e664f8fa979
+08721198271a8369c65b737e8911a4869ad03aae7054174f5916f6895e305181
+75259f71b458d2d4aa1945e526a08e4e2a2198a11f824b9c954b64f1b0d50bd0
+e13b0fe8872a6e00bb96d566a7fec8dd1ca5cb14822b47719bea735b3e87da68
+49dbfa0ab824f4e2de68a4072fb4507fb7605dda2aca933b0bacff2fbc767e97
+3c1269d7cee5b7903ac331d20f870a31b8e021138cb4b9ab4efc1b9de9396f4a
+649213156cf141631f22872fb50d4d0fb9945d3899a97da9c337c1c9bacac259
+b66ac22c31acd8c9c03ec879c7d72c42292258a77d7d33f35a78b5c2614a1e29
+adda5aa4878873570de22518f362697ea80a12d8da1a88bd97217405724593e9
+1eadcd83f3fac4b64f4ed529a0791f1aeb39e728fb95c38e95d2d5a779beb9ba
+665415541b9307e294bff586637721124c59cbdbb3af40f7fab601fc3503a07b
+2d64817ada1d9a83b83a5dec4a4b2d141e43a03f90cdfee958fb9c6d5a046799
+162cc29be17199a1f02b2077809adff990c1d68fe1560880ac5488dfaf4aad93
+ffc8902dd7775b0bb4acc82bc1dc4b7cb79e53535d8637c7ee386e4c274d768c
+eda1c32913b34cdcfa22ead0e1d397fb1934b4b85691bf4f982f0aaafcc5ddc5
+0cce66b56924af5dab465121d89ff11dea9e3fe44eb6db204ea5442d5bdfac0f
+928c2b3781e6859cb2cf08454573227b59e8c4c8f3145de33054aa6525b42cf3
+66163c0c6cca3f5fec7de36708bd97498fc25099f54fe3649d0438fb62f66543
+4577fe10bfa808a195450380cb598c2347c596e22907cc29f180e16f156bf91b
+950348cf31ebbaabe8f4fcae76dede9e7e258d0ec98c84233d49a73919427f75
+4e4040e34871cda436e16b5c66f4a3ecd2ec153caf83dbd5b1dfccda63ec00c4
+92c9ae9b97a9efa589615515e2ee4fe210bf9207892a11ee9123343380c6cd3f
+b576d23d1a8bc861ee3903eeea855838346cc384d5bd315bc6ecccbdb294a39f
+47f8dbdacb85f431e96e0dd6b4cb797ef52eec2c7ac7dd18a5d699900b901c7d
+edb31ad1dd8973d58f9f7d891ec51d9d75c66970519a3b2e862f2b51e86778ee
+1ca965162ba08a086f0c3f69de1e3353fba021aa516dda612ff961e960b24c3f
+5a750a09571bd1e2955aa1cda56dfa360eddc1dad3b171bc810c214ef6c2ef09
+1a343fe1faf6b149eebcfbf1c7cb7c7ff98691830b542fbed6d0c824af958804
+c944fab2c6399cd4649f235139369e1ba50ce834b135e7bc0149b7f706c88245
+809281947d962e3607b75cf9177496d16e769dfeacd6098ef6e19651e9aa71bb
+5c90a7b84553dd2e860a03090aec7ef6cc27dad7d57951788933b7884c4809d3
+c39689e24666b40172653d155bf3d07bdde8c0a7a1967f3e636fb0817338c768
+e6ca2ed9054128ea3ab5fc67cf85ec8e822c7bf44a330d7571f82d9a500e32ce
+28702108bb0c2d15a8f34e64a6fe72923d62c6b2e9aefb2e56746c786bb62b01
+28cefbf1dd65634a11c4dd497122fa429c31befc8ecd15b45b3a7acd0b909e42
+39d98c4fe12e31f0daf1446a3a185a0ca1cdb1ffe654fa1d9c9942212086e9c0
+29689367b314a122b0237c5f9633ef10ab1d9fbc79f6a78a9d47d7e1a4b05dd0
+a1f8fba67e65c4da2a24ae379f2ad7c69f9c7f2f16cfe91ef738f7c165c3cd2e
+e05ffe1475bd9a665ee433e6b62454cabdc36bafd1b68c6a51c4b4be879c68d8
+7a1abe6799a9463962da4ecab7c662835d07998bcf3e8360ff46ca8a6c2b1434
+c9e64a7940805440572484ad0c9849f0b4cd23a65c9b8a359e3ef338adbfad90
+f7ba71f2093903671f3f1a7b2ea694f16b1ec227b3c8b10a61a07ad012158f3b
+f79cf0cfa4f907901e295538d9974a4ad3760ecfef8dd312a6d1b0f142006f75
+942a5e217eec43a35ace222b5259031c45ff0f940ec1b63837e2838a667c6994
+67820202abfee2d754700e4ed78cf1a45ee8ee60b96d1d1dff67782389c286a7
+1806d4fdc28a19d815bba3f09a04f6950e98b7335875999159689041048170a4
+f32d94de74031d28fce347f312ed4747ed2378dedf943f46745c9ca565750270
+9e4ae4f1fc93001a43ee3e65fa72e2177a80265fd8d318dff200239e350fe69c
+24aacb580d6a7c70e937b42a2d52fc101f35a778cf3076c9001ee25d42ec5fa4
+82146062fec810bd118fee32f7c5edd82ed2335a858a4dc538f265952384c169
+f3c8548d8521ba98d7120235479ade3e6fa396be5531d8d7f644e3a2dd727202
+b6a01c028eb8e003c7c4a7b41630f00f577fa1553437ed554c15c6e286715092
+465bfe01c9a865968d90a766c87147b867df1fc6109fdee0162c75bfe8a44039
+b295661a12773e20fe054d5e51374e78c945dbe7d2f3e0c59b3deec531c01742
+e24f9120a0f57ce8184eb5efb30417a31bc23c121206f293236d4e173c1b4f53
+68032141ad570ae6e4ed650a4411065f43283683d78f4793f5589edf80b11fbe
+fc1a4c1442abe74f8939dc155b8716b6e951246e608776e916e0ae4331215933
+47cde7ce9699a2231907125e480740fbf80099f79fb5bc9f48d5d246759d77d3
+82b838e59cd440c3de938ebb46deb9de2f8a0f9871a7ddc6f5b32a93fa18d1cd
+3e2ef9ab4565a77028e39849cfbba195584f7136bd96ff34fd17d6c3715cd9f6
+38720419ee4c8bd86ec1ad1de54bfbc80817af35404610a0b0c78ce8dfcc0e87
+c9a4df6f7f5a5a971515424dadc03a4d3a31d8eabdb56c9cd691724cc46ac279
+869f8081202eec2afcdfb933cb6c16ee04eebca522db88a150d2f7ee87abd652
+d5abb9d872853d81425d5f81a73662e8813bc123bcd45f80aba0a4f739a76257
+8003f181778bcafaf8f9caf2ceeb97442e00457284d69c77d27d2bf493b1e497
+4573b573980a0f2d71e42294eac806622790ebbe18412ce3a26f1dd60e25cb6a
+a63e43e4fe022e4004992d362f8761a82c23de26174a06116ffbed60eb25d2fc
+a62aced7a17e4fb60174b97f38973115aa4904a96168195eab7e3fb412d8b5e7
+e055ed97a9824d2985a90a1f78715c40516822454703e0a6ff13fb2b60e5ca1f
+c5e244edac517476fa14c24a33596496565b7006626da344b2f7c72f179b5eb3
+1414ce2bec07b21553e77295b5c2c52a2233cfdb4f5e8b501f9739cfcd7608ea
+f03be4648500ec1308b92e989b0e30f2e1e2a42d7d81c0d629ad002c9054cfa5
+d4095dd527b57009dc048a331ed866647a71952e1136bec5dbc7641f96020083
+6ebb951781a9b759c03a56d49dddfb8e4c4da4f8ef8730e8a4e37ade843b97b0
+fca5fe8bf99f8d79590322a6525583c73bb3ec3aa35520eae0e3f44840955f6f
+6f2dd10176d93e2bacc516de984fb5bca3ba72582a9aa8081b5c81ebe7aedabc
+ff13418220aa668e1ecceb3db471c89c7aa8d8207eb0f93d06d02632f7177898
+cb418894d5e3ee253739cddc2347579eb0d123414e547ba0e611203c4a5ab0ea
+ff00000000000000000000000000000000000000040a0f151c2430450221008b
+d2c7da2011f7941589966d8bd8201669d222af3a86ad5a43b654f7d811730d02
+20382baaec17d94b4d313c0e6d2176900bcd9d23b1b9706464c76a66a1ca53b1
+83` }
+        }
+      }
+    }
+  }
+}
+</pre><a href="#appendix-A-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="acknowledgements">
+<section id="appendix-B">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-B-1">The authors wish to thank Piotr Popis for his valuable feedback on this document.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">Thanks to the co-authors of <span>[<a href="#RFC9882" class="cite xref">RFC9882</a>]</span>, Ben Salter and Adam Raine, this document borrows heavily
+from that one. "Copying always makes things easier and less error prone" - <span>[<a href="#RFC8411" class="cite xref">RFC8411</a>]</span>.<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mike Ounsworth</span></div>
+<div dir="auto" class="left"><span class="org">Entrust Limited</span></div>
+<div dir="auto" class="left"><span class="street-address">2500 Solandt Road – Suite 100</span></div>
+<div dir="auto" class="left">
+<span class="locality">Ottawa, Ontario</span>  <span class="postal-code">K2K 3G5</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mike.ounsworth@entrust.com" class="email">mike.ounsworth@entrust.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">John Gray</span></div>
+<div dir="auto" class="left"><span class="org">Entrust Limited</span></div>
+<div dir="auto" class="left"><span class="street-address">2500 Solandt Road – Suite 100</span></div>
+<div dir="auto" class="left">
+<span class="locality">Ottawa, Ontario</span>  <span class="postal-code">K2K 3G5</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:john.gray@entrust.com" class="email">john.gray@entrust.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jan Klaussner</span></div>
+<div dir="auto" class="left"><span class="org">Bundesdruckerei GmbH</span></div>
+<div dir="auto" class="left"><span class="street-address">Kommandantenstr. 18</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">10969</span> <span class="locality">Berlin</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jan.klaussner@bdr.de" class="email">jan.klaussner@bdr.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Van Geest</span></div>
+<div dir="auto" class="left"><span class="org">CryptoNext Security</span></div>
+<div dir="auto" class="left"><span class="street-address">‍16, Boulevard Saint-Germain</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">75007</span> <span class="locality">Paris</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:daniel.vangeest@cryptonext-security.com" class="email">daniel.vangeest@cryptonext-security.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
