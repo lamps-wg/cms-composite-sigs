@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 13 July 2026                                       J. Klaussner
+Expires: 16 July 2026                                       J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                          9 January 2026
+                                                         12 January 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 July 2026.
+   This Internet-Draft will expire on 16 July 2026.
 
 Copyright Notice
 
@@ -225,15 +225,15 @@ Table of Contents
    hash" mode, although their use in CMS has only been defined for
    "pure" mode.
 
-   Composite ML-DSA operates only in a "pre-hash" mode, however unlike
+   Composite ML-DSA operates only in a "pre-hash" mode.  However, unlike
    RSA and ECDSA each Composite ML-DSA algorithm is defined to be used
    with a single digest algorithm which is identified in the Composite
    ML-DSA algorithm name.  For example, id-MLDSA87-ECDSA-P521-SHA512
    uses SHA-512 as its pre-hash digest algorithm.
 
    When Composite ML-DSA is used in CMS, the digest algorithm used by
-   CMS is the same pre-hash digest algorithm used by the Composite ML-
-   DSA algorithm.  A Composite ML-DSA algorithm might use additional
+   CMS SHALL be the same pre-hash digest algorithm used by the Composite
+   ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional
    digest algorithms for the internal component algorithms, these digest
    algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
@@ -293,7 +293,7 @@ Table of Contents
       algorithm used by the Composite ML-DSA algorithm.  See Table 1 for
       exact algorithm mappings.
 
-      [RFC5754] defineds the use of SHA-256 [FIPS180] (id-sha256) and
+      [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
       SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the used
       of SHAKE256 [FIPS202] in CMS (id-shake256).  When id-sha256 or id-
       sha512 is used, the parameters field MUST be omitted.  When id-

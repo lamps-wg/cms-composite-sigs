@@ -1052,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 13 July 2026</td>
+<td class="center">Expires 16 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-sigs-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-09" class="published">9 January 2026</time>
+<time datetime="2026-01-12" class="published">12 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-13">13 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-16">16 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1362,9 +1362,9 @@ id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
 <p id="section-3.1-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
 At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
 Since then, EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> and ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">Composite ML-DSA operates only in a "pre-hash" mode, however unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+<p id="section-3.1-2">Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS is the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signeddata-digestalgorithms">
@@ -1415,7 +1415,7 @@ See <a href="#digest-algs" class="auto internal xref">Table 1</a> for exact algo
           <dd class="break"></dd>
 <dt id="section-3.4-2.3"></dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defineds the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the used of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
+            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the used of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
