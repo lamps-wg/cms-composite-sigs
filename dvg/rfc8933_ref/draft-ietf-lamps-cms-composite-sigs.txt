@@ -1,0 +1,925 @@
+
+
+
+
+LAMPS                                                       M. Ounsworth
+Internet-Draft                                                   J. Gray
+Intended status: Standards Track                                 Entrust
+Expires: 16 July 2026                                       J. Klaussner
+                                                    Bundesdruckerei GmbH
+                                                            D. Van Geest
+                                                     CryptoNext Security
+                                                         12 January 2026
+
+
+     Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
+               draft-ietf-lamps-cms-composite-sigs-latest
+
+Abstract
+
+   Composite ML-DSA defines combinations of ML-DSA, as defined by NIST
+   in FIPS 204, with RSA, ECDSA, and EdDSA.  This document specifies the
+   conventions for using Composite ML-DSA algorithms within the
+   Cryptographic Message Syntax (CMS).
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at https://lamps-
+   wg.github.io/cms-composite-sigs/draft-ietf-lamps-cms-composite-
+   sigs.html.  Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-
+   sigs/.
+
+   Discussion of this document takes place on the LAMPS Working Group
+   mailing list (mailto:spams@ietf.org), which is archived at
+   https://datatracker.ietf.org/wg/lamps/about/.  Subscribe at
+   https://www.ietf.org/mailman/listinfo/spams/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/lamps-wg/cms-composite-sigs.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 16 July 2026.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Conventions and Terminology
+   2.  Composite ML-DSA Algorithm Identifiers
+   3.  Signed-Data Conventions
+     3.1.  Pre-Hashing
+     3.2.  SignedData digestAlgorithms
+     3.3.  Signature Generation and Verification
+     3.4.  SignerInfo Content
+   4.  ASN.1 Module
+   5.  IANA Considerations
+   6.  Security Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Appendix A.  Examples
+   Acknowledgements
+   Authors' Addresses
+
+1.  Introduction
+
+   [I-D.ietf-lamps-pq-composite-sigs] defines a collection of signature
+   algorithms, referred to as Composite ML-DSA, which combine ML-DSA
+   [FIPS204] with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS,
+   ECDSA, Ed25519, and Ed448.  This document acts as a companion to
+   [I-D.ietf-lamps-pq-composite-sigs] by providing conventions for using
+   Composite ML-DSA algorithms within the Cryptographic Message Syntax
+   (CMS) [RFC5652].
+
+1.1.  Conventions and Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.  These words may also appear in this
+   document in lower case as plain English words, absent their normative
+   meanings.
+
+   This document is consistent with the terminology defined in
+   [RFC9794].
+
+2.  Composite ML-DSA Algorithm Identifiers
+
+   Many ASN.1 data structure types use the AlgorithmIdentifier type to
+   identify cryptographic algorithms.  In the CMS, AlgorithmIdentifiers
+   are used to identify Composite ML-DSA signatures in the signed-data
+   content type.  They may also appear in X.509 certificates used to
+   verify those signatures.  The same AlgorithmIdentifiers are used to
+   identify Composite ML-DSA public keys and signature algorithms.
+   [I-D.ietf-lamps-pq-composite-sigs] describes the use of Composite ML-
+   DSA in X.509 certificates.  The AlgorithmIdentifier type is defined
+   as follows:
+
+   AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+           SEQUENCE {
+               algorithm   ALGORITHM-TYPE.&id({AlgorithmSet}),
+               parameters  ALGORITHM-TYPE.
+                      &Params({AlgorithmSet}{@algorithm}) OPTIONAL
+           }
+
+      |  NOTE: The above syntax is from [RFC5911] and is compatible with
+      |  the 2021 ASN.1 syntax [X680].  See [RFC5280] for the 1988 ASN.1
+      |  syntax.
+
+   The fields in the AlgorithmIdentifier type have the following
+   meanings:
+
+   algorithm:  The algorithm field contains an OID that identifies the
+      cryptographic algorithm in use.  The OIDs for Composite ML-DSA
+      algorithms are described below.
+
+   parameters:  The parameters field contains parameter information for
+      the algorithm identified by the OID in the algorithm field.  Each
+      Composite ML-DSA parameter set is identified by its own algorithm
+      OID, so there is no relevant information to include in this field.
+      As such, parameters MUST be omitted when encoding a Composite ML-
+      DSA AlgorithmIdentifier.
+
+   The object identifiers for Composite ML-DSA algorithms are defined in
+   [I-D.ietf-lamps-pq-composite-sigs], and are reproduced here for
+   convenience.
+
+   id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 37 }
+   id-MLDSA44-RSA2048-PKCS15-SHA256 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 38 }
+   id-MLDSA44-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 39 }
+   id-MLDSA44-ECDSA-P256-SHA256 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 40 }
+   id-MLDSA65-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 41 }
+   id-MLDSA65-RSA3072-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 42 }
+   id-MLDSA65-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 43 }
+   id-MLDSA65-RSA4096-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 44 }
+   id-MLDSA65-ECDSA-P256-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 45 }
+   id-MLDSA65-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 46 }
+   id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 47 }
+   id-MLDSA65-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 48 }
+   id-MLDSA87-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 49 }
+   id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 50 }
+   id-MLDSA87-Ed448-SHAKE256 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 51 }
+   id-MLDSA87-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 52 }
+   id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 53 }
+   id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
+      iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+      pkix(7) alg(6) 54 }
+
+3.  Signed-Data Conventions
+
+3.1.  Pre-Hashing
+
+   [RFC5652] specifies that digital signatures for CMS are produced
+   using a digest of the message to be signed and the signer's private
+   key.  At the time RFC 5652 was published, all signature algorithms
+   supported in the CMS required a message digest to be calculated
+   externally to that algorithm, which would then be supplied to the
+   algorithm implementation when calculating and verifying signatures.
+   Since then, EdDSA [RFC8032] and ML-DSA [FIPS204] have also been
+   standardized, and these algorithms support both a "pure" and "pre-
+   hash" mode, although their use in CMS has only been defined for
+   "pure" mode.
+
+   Composite ML-DSA operates only in a "pre-hash" mode.  However, unlike
+   RSA and ECDSA each Composite ML-DSA algorithm is defined to be used
+   with a single digest algorithm which is identified in the Composite
+   ML-DSA algorithm name.  For example, id-MLDSA87-ECDSA-P521-SHA512
+   uses SHA-512 as its pre-hash digest algorithm.
+
+   When Composite ML-DSA is used in CMS, the digest algorithm used by
+   CMS SHALL be the same pre-hash digest algorithm used by the Composite
+   ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional
+   digest algorithms for the internal component algorithms, these digest
+   algorithms are irrelevant to Composite ML-DSA's use in CMS.
+
+3.2.  SignedData digestAlgorithms
+
+   The SignedData digestAlgorithms field includes the identifiers of the
+   message digest algorithms used by one or more signer.  There MAY be
+   any number of elements in the collection, including zero.  When
+   signing with a Composite ML-DSA algorithm, the list of identifiers
+   MAY include a digest algorithm from Table 1.  The digest algorithm(s)
+   included will depend on the Composite ML-DSA algorithm(s) used for
+   signing.  If such a digest algorithm is present, the algorithm
+   parameters field MUST be absent.
+
+3.3.  Signature Generation and Verification
+
+   [RFC5652] describes the two methods that are used to calculate and
+   verify signatures in the CMS.  One method is used when signed
+   attributes are present in the signedAttrs field of the relevant
+   SignerInfo, and another is used when signed attributes are absent.
+   Use of signed attributes is preferred, but the conventions for
+   signed-data without signed attributes is also described below for
+   completeness.
+
+   When signed attributes are absent, Composite ML-DSA signatures are
+   computed over the content of the signed-data.  As described in
+   Section 5.4 of [RFC5652], the "content" of a signed-data is the value
+   of the encapContentInfo eContent OCTET STRING.  The tag and length
+   octets are not included.
+
+   When signed attributes are included, Composite ML-DSA signatures are
+   computed over the complete DER encoding of the SignedAttrs value
+   contained in the SignerInfo's signedAttrs field.  As described in
+   Section 5.4 of [RFC5652], this encoding includes the tag and length
+   octets, but an EXPLICIT SET OF tag is used rather than the IMPLICIT
+   [0] tag that appears in the final message.  At a minimum, the
+   signedAttrs field MUST include a content-type attribute and a
+   message-digest attribute.  The message-digest attribute contains a
+   hash of the content of the signed-data, where the content is as
+   described for the absent signed attributes case above.  Recalculation
+   of the hash value by the recipient is an important step in signature
+   verification.
+
+   Composite ML-DSA has a context string input that can be used to
+   ensure that different signatures are generated for different
+   application contexts.  When using Composite ML-DSA as specified in
+   this document, the context string is set to the empty string.
+
+3.4.  SignerInfo Content
+
+   When using Composite ML-DSA, the fields of a SignerInfo are used as
+   follows:
+
+   digestAlgorithm:  Per Section 5.3 of [RFC5652], the digestAlgorithm
+      field identifies the message digest algorithm used by the signer
+      and any associated parameters.  This MUST be the same digest
+      algorithm used by the Composite ML-DSA algorithm.  Per [RFC8933],
+      if the signedAttrs field is present in the SignerInfo, then the
+      same digest algorithm MUST be used to compute both the digest of
+      the SignedData encapContentInfo eContent, which is carried in the
+      message-digest attribute, and the digest of the DER-encoded
+      signedAttrs, which is passed to the signature algorithm.  See
+      Table 1 for exact algorithm mappings.
+
+      [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
+      SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the used
+      of SHAKE256 [FIPS202] in CMS (id-shake256).  When id-sha256 or id-
+      sha512 is used, the parameters field MUST be omitted.  When id-
+      shake256 is used the parameters field MUST be omitted and the
+      digest length MUST be 64 bytes.
+
+      +=========================================+===================+
+      | Signature Algorithm                     | Digest Algorithms |
+      +=========================================+===================+
+      | id-MLDSA44-RSA2048-PSS-SHA256           | id-sha256         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA44-RSA2048-PKCS15-SHA256        | id-sha256         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA44-Ed25519-SHA512               | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA44-ECDSA-P256-SHA256            | id-sha256         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-RSA3072-PSS-SHA512           | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-RSA3072-PKCS15-SHA512        | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-RSA4096-PSS-SHA512           | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-RSA4096-PKCS15-SHA512        | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-ECDSA-P256-SHA512            | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-ECDSA-P384-SHA512            | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA65-Ed25519-SHA512               | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-ECDSA-P384-SHA512            | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-Ed448-SHAKE256               | id-shake256       |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-RSA3072-PSS-SHA512           | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-RSA4096-PSS-SHA512           | id-sha512         |
+      +-----------------------------------------+-------------------+
+      | id-MLDSA87-ECDSA-P521-SHA512            | id-sha512         |
+      +-----------------------------------------+-------------------+
+
+              Table 1: Digest Algorithms for Composite ML-DSA
+
+   signatureAlgorithm:  The signatureAlgorithm field MUST contain one of
+      the Composite ML-DSA signature algorithm OIDs, and the parameters
+      field MUST be absent.  The algorithm OID MUST be one of the OIDs
+      described in Section 2.
+
+   signature:  The signature field contains the signature value
+      resulting from the use of the Composite ML-DSA signature algorithm
+      identified by the signatureAlgorithm field.  The Composite ML-DSA
+      signature-generation operation is specified in Section 4.2 of
+      [I-D.ietf-lamps-pq-composite-sigs], and the signature-verification
+      operation is specified in Section 4.3 of
+      [I-D.ietf-lamps-pq-composite-sigs].  Note that Section 5.6 of
+      [RFC5652] places further requirements on the successful
+      verification of a signature.
+
+4.  ASN.1 Module
+
+   <CODE BEGINS>
+   Composite-MLDSA-CMS-2026
+     { iso(1) identified-organization(3) dod(6) internet(1)
+           security(5) mechanisms(5) pkix(7) id-mod(0)
+           id-mod-composite-mldsa-cms-2026(TBDMOD) }
+
+   DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+   EXPORTS ALL;
+
+   IMPORTS
+     SIGNATURE-ALGORITHM, SMIME-CAPS
+       FROM AlgorithmInformation-2009  -- [RFC5911]
+         { iso(1) identified-organization(3) dod(6) internet(1)
+           security(5) mechanisms(5) pkix(7) id-mod(0)
+           id-mod-algorithmInformation-02(58) }
+
+     sa-MLDSA44-RSA2048-PSS-SHA256, sa-MLDSA44-RSA2048-PKCS15-SHA256,
+     sa-MLDSA44-Ed25519-SHA512, sa-MLDSA44-ECDSA-P256-SHA256,
+     sa-MLDSA65-RSA3072-PSS-SHA512, sa-MLDSA65-RSA3072-PKCS15-SHA512,
+     sa-MLDSA65-RSA4096-PSS-SHA512, sa-MLDSA65-RSA4096-PKCS15-SHA512,
+     sa-MLDSA65-ECDSA-P256-SHA512, sa-MLDSA65-ECDSA-P384-SHA512,
+     sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512, sa-MLDSA65-Ed25519-SHA512,
+     sa-MLDSA87-ECDSA-P384-SHA512, sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512,
+     sa-MLDSA87-Ed448-SHAKE256, sa-MLDSA87-RSA3072-PSS-SHA512,
+     sa-MLDSA87-RSA4096-PSS-SHA512, sa-MLDSA87-ECDSA-P521-SHA512
+      FROM Composite-MLDSA-2025
+         { iso(1) identified-organization(3) dod(6) internet(1)
+           security(5) mechanisms(5) pkix(7) id-mod(0)
+           id-mod-composite-mldsa-2025(TBDCompositeMOD) }
+   ;
+
+   --
+   -- Expand the signature algorithm set used by CMS [RFC5911]
+   --
+
+   SignatureAlgorithmSet SIGNATURE-ALGORITHM ::= {
+     sa-MLDSA44-RSA2048-PSS-SHA256 |
+     sa-MLDSA44-RSA2048-PKCS15-SHA256 |
+     sa-MLDSA44-Ed25519-SHA512 |
+     sa-MLDSA44-ECDSA-P256-SHA256 |
+     sa-MLDSA65-RSA3072-PSS-SHA512 |
+     sa-MLDSA65-RSA3072-PKCS15-SHA512 |
+     sa-MLDSA65-RSA4096-PSS-SHA512 |
+     sa-MLDSA65-RSA4096-PKCS15-SHA512 |
+     sa-MLDSA65-ECDSA-P256-SHA512 |
+     sa-MLDSA65-ECDSA-P384-SHA512 |
+     sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512 |
+     sa-MLDSA65-Ed25519-SHA512 |
+     sa-MLDSA87-ECDSA-P384-SHA512 |
+     sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512 |
+     sa-MLDSA87-Ed448-SHAKE256 |
+     sa-MLDSA87-RSA3072-PSS-SHA512 |
+     sa-MLDSA87-RSA4096-PSS-SHA512 |
+     sa-MLDSA87-ECDSA-P521-SHA512,
+     ... }
+
+   --
+   -- Expand the S/MIME capabilities set used by CMS [RFC5911]
+   --
+
+   SMimeCaps SMIME-CAPS ::= {
+     sa-MLDSA44-RSA2048-PSS-SHA256.&smimeCaps |
+     sa-MLDSA44-RSA2048-PKCS15-SHA256.&smimeCaps |
+     sa-MLDSA44-Ed25519-SHA512.&smimeCaps |
+     sa-MLDSA44-ECDSA-P256-SHA256.&smimeCaps |
+     sa-MLDSA65-RSA3072-PSS-SHA512.&smimeCaps |
+     sa-MLDSA65-RSA3072-PKCS15-SHA512.&smimeCaps |
+     sa-MLDSA65-RSA4096-PSS-SHA512.&smimeCaps |
+     sa-MLDSA65-RSA4096-PKCS15-SHA512.&smimeCaps |
+     sa-MLDSA65-ECDSA-P256-SHA512.&smimeCaps |
+     sa-MLDSA65-ECDSA-P384-SHA512.&smimeCaps |
+     sa-MLDSA65-ECDSA-brainpoolP256r1-SHA512.&smimeCaps |
+     sa-MLDSA65-Ed25519-SHA512.&smimeCaps |
+     sa-MLDSA87-ECDSA-P384-SHA512.&smimeCaps |
+     sa-MLDSA87-ECDSA-brainpoolP384r1-SHA512.&smimeCaps |
+     sa-MLDSA87-Ed448-SHAKE256.&smimeCaps |
+     sa-MLDSA87-RSA3072-PSS-SHA512.&smimeCaps |
+     sa-MLDSA87-RSA4096-PSS-SHA512.&smimeCaps |
+     sa-MLDSA87-ECDSA-P521-SHA512.&smimeCaps,
+     ... }
+
+   END
+   <CODE ENDS>
+
+5.  IANA Considerations
+
+   IANA is requested to allocate a value from the "SMI Security for PKIX
+   Module Identifier" registry for the included ASN.1 module.
+
+   *  Decimal: IANA Assigned - *Replace TBDCompositeMOD*
+
+   *  Description: Composite-Signatures-CMS-2026 - id-mod-composite-
+      mldsa-cms-2026
+
+   *  References: This Document
+
+6.  Security Considerations
+
+   All security considerations from [I-D.ietf-lamps-pq-composite-sigs]
+   apply.
+
+   Security of the Composite ML-DSA private key is critical.  Compromise
+   of the private key will enable an adversary to forge arbitrary
+   signatures.
+
+   Composite ML-DSA depends on high-quality random numbers that are
+   suitable for use in cryptography.  The use of inadequate pseudo-
+   random number generators (PRNGs) to generate such values can
+   significantly undermine the security properties offered by a
+   cryptographic algorithm.  For instance, an attacker may find it much
+   easier to reproduce the PRNG environment that produced any private
+   keys, searching the resulting small set of possibilities, rather than
+   brute-force searching the whole key space.  The generation of random
+   numbers of a sufficient level of quality for use in cryptography is
+   difficult; see Section 3.6.1 of [FIPS204] for some additional
+   information.
+
+   To avoid algorithm substitution attacks, the CMSAlgorithmProtection
+   attribute defined in [RFC6211] SHOULD be included in signed
+   attributes.
+
+7.  References
+
+7.1.  Normative References
+
+   [FIPS180]  "Secure hash standard", National Institute of Standards
+              and Technology (U.S.), DOI 10.6028/nist.fips.180-4, 2015,
+              <https://doi.org/10.6028/nist.fips.180-4>.
+
+   [FIPS202]  "SHA-3 standard :: permutation-based hash and extendable-
+              output functions", National Institute of Standards and
+              Technology (U.S.), DOI 10.6028/nist.fips.202, 2015,
+              <https://doi.org/10.6028/nist.fips.202>.
+
+   [FIPS204]  "Module-lattice-based digital signature standard",
+              National Institute of Standards and Technology (U.S.),
+              DOI 10.6028/nist.fips.204, August 2024,
+              <https://doi.org/10.6028/nist.fips.204>.
+
+   [I-D.ietf-lamps-pq-composite-sigs]
+              Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
+              Fluhrer, "Composite ML-DSA for use in X.509 Public Key
+              Infrastructure", Work in Progress, Internet-Draft, draft-
+              ietf-lamps-pq-composite-sigs-14, 7 January 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
+              pq-composite-sigs-14>.
+
+   [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
+              RFC 5652, DOI 10.17487/RFC5652, September 2009,
+              <https://www.rfc-editor.org/rfc/rfc5652>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
+              Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
+              DOI 10.17487/RFC5911, June 2010,
+              <https://www.rfc-editor.org/rfc/rfc5911>.
+
+   [RFC8933]  Housley, R., "Update to the Cryptographic Message Syntax
+              (CMS) for Algorithm Identifier Protection", RFC 8933,
+              DOI 10.17487/RFC8933, October 2020,
+              <https://www.rfc-editor.org/rfc/rfc8933>.
+
+   [RFC5754]  Turner, S., "Using SHA2 Algorithms with Cryptographic
+              Message Syntax", RFC 5754, DOI 10.17487/RFC5754, January
+              2010, <https://www.rfc-editor.org/rfc/rfc5754>.
+
+   [RFC8702]  Kampanakis, P. and Q. Dang, "Use of the SHAKE One-Way Hash
+              Functions in the Cryptographic Message Syntax (CMS)",
+              RFC 8702, DOI 10.17487/RFC8702, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8702>.
+
+   [RFC6211]  Schaad, J., "Cryptographic Message Syntax (CMS) Algorithm
+              Identifier Protection Attribute", RFC 6211,
+              DOI 10.17487/RFC6211, April 2011,
+              <https://www.rfc-editor.org/rfc/rfc6211>.
+
+7.2.  Informative References
+
+   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): Specification of basic notation", ITU-T
+              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.680>.
+
+   [RFC9794]  Driscoll, F., Parsons, M., and B. Hale, "Terminology for
+              Post-Quantum Traditional Hybrid Schemes", RFC 9794,
+              DOI 10.17487/RFC9794, June 2025,
+              <https://www.rfc-editor.org/rfc/rfc9794>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
+
+   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", RFC 8032,
+              DOI 10.17487/RFC8032, January 2017,
+              <https://www.rfc-editor.org/rfc/rfc8032>.
+
+   [RFC9882]  Salter, B., Raine, A., and D. Van Geest, "Use of the ML-
+              DSA Signature Algorithm in the Cryptographic Message
+              Syntax (CMS)", RFC 9882, DOI 10.17487/RFC9882, October
+              2025, <https://www.rfc-editor.org/rfc/rfc9882>.
+
+   [RFC8411]  Schaad, J. and R. Andrews, "IANA Registration for the
+              Cryptographic Algorithm Object Identifier Range",
+              RFC 8411, DOI 10.17487/RFC8411, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8411>.
+
+Appendix A.  Examples
+
+   This appendix contains an example signed-data encoding with the id-
+   MLDSA65-ECDSA-P256-SHA512 signature algorithm.
+
+   It can be verified using the example public keys and certificates
+   specified in Appendix E of [I-D.ietf-lamps-pq-composite-sigs].
+   Specifically, the following example:
+
+   *  tcId: id-MLDSA65-ECDSA-P256-SHA512
+
+   *  x5c: Base64 of the DER encoding of the certificate.  Wrap this in
+      PEM headers and footers to get a PEM certificate.
+
+   To keep example size down, the signing certificate is not included in
+   the CMS encoding.  The example certificate from
+   [I-D.ietf-lamps-pq-composite-sigs] used to sign the CMS content is
+   self-signed.
+
+   The following is an example of a signed-data with a single id-
+   MLDSA65-ECDSA-P256-SHA512 signer, with signed attributes included:
+
+   -----BEGIN CMS-----
+   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
+   -----END CMS-----
+
+   SEQUENCE {
+     # signedData
+     OBJECT_IDENTIFIER { 1.2.840.113549.1.7.2 }
+     [0] {
+       SEQUENCE {
+         INTEGER { 1 }
+         SET {
+           SEQUENCE {
+             # sha512
+             OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+           }
+         }
+         SEQUENCE {
+           # data
+           OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+           [0] {
+             OCTET_STRING { "id-MLDSA65-ECDSA-P256-SHA512 signed-da
+   ta example with signed attributes" }
+           }
+         }
+         SET {
+           SEQUENCE {
+             INTEGER { 1 }
+             SEQUENCE {
+               SEQUENCE {
+                 SET {
+                   SEQUENCE {
+                     # organizationName
+                     OBJECT_IDENTIFIER { 2.5.4.10 }
+                     UTF8String { "IETF" }
+                   }
+                 }
+                 SET {
+                   SEQUENCE {
+                     # organizationUnitName
+                     OBJECT_IDENTIFIER { 2.5.4.11 }
+                     UTF8String { "LAMPS" }
+                   }
+                 }
+                 SET {
+                   SEQUENCE {
+                     # commonName
+                     OBJECT_IDENTIFIER { 2.5.4.3 }
+                     UTF8String { "id-MLDSA65-ECDSA-P256-SHA512" }
+                   }
+                 }
+               }
+               INTEGER { `7013120c0ccae243aaf17470dace0125bc6d2ce0`
+    }
+             }
+             SEQUENCE {
+               # sha512
+               OBJECT_IDENTIFIER { 2.16.840.1.101.3.4.2.3 }
+             }
+             [0] {
+               SEQUENCE {
+                 # contentType
+                 OBJECT_IDENTIFIER { 1.2.840.113549.1.9.3 }
+                 SET {
+                   # data
+                   OBJECT_IDENTIFIER { 1.2.840.113549.1.7.1 }
+                 }
+               }
+               SEQUENCE {
+                 # signingTime
+                 OBJECT_IDENTIFIER { 1.2.840.113549.1.9.5 }
+                 SET {
+                   UTCTime { "251208175211Z" }
+                 }
+               }
+               SEQUENCE {
+                 # messageDigest
+                 OBJECT_IDENTIFIER { 1.2.840.113549.1.9.4 }
+                 SET {
+                   OCTET_STRING { `88d87347f688afe2febdf4f37a2e1115
+   e14074925ee9611fcb7a8e22d252530ae846d6e71345b2744b6d523d3d874ebe
+   154ba8a6a8a1506b6d5bf18993c85f4d` }
+                 }
+               }
+             }
+             SEQUENCE {
+               OBJECT_IDENTIFIER { 1.3.6.1.5.5.7.6.45 }
+             }
+             OCTET_STRING { `ab1ac0484ac44f3abeaf2127a18841180d1cf9
+   039e26dd0a43a296fdbcf913fc496272ee522da050a73b0d0b007f38452a5ac8
+   b737db9aedfef0627eb0c87358561ec059d9cde4ff7048952c712154f0753b02
+   f72ffeb7492d03c501fe9fcec0a4ec590b99d5f27c9ee408c6bc20b130629bdc
+   feffec9f35c0832c2c98aececb9731522c3f9cee279fb781eae57d4c328f224a
+   31bdcf4566257e2fb14b1a644381d4d9b1492ea1b44f1ba62aecdba9c4dc3a2b
+   b2947c0b572657127ebe41411e57e938fdd8a437b67435927ea38780dd810d52
+   7547dff77f6b16fc359c35432c9e18a11fe854ba0537298289dfcd4ea81d968c
+   f8c896d11a335dcabb2ae7364cf64a07263f426aff2b91766082f983c0c9aec3
+   6bf09790ad27f708da802e419e678b0a8e2720e15e4451d6e062488e0750e0fd
+   3e6720e764cb8eef54506d9bc9374f5465143e79990c5441fafddee91afce0f2
+   cfb81259ea5a9b5dce113d8a3cec2019f37989f7cdb135baab6be9e058dd19d2
+   ecf5f633275d1b75de958c50b9a1b735008c3bc90568c44a347e31b9cb1c1a7b
+   3adba3f7151cfd4af93dcbb29fa8f3e5549b16be58a744f785afde498bae37e5
+   7d0d424c52a736234e17ddccd2b6351a3dac60171456a5b198e7cb9d2c724313
+   2c4a6fcbf820868aff43715ffffa3868b0dd4b61d81a60dd20ee902261ceacb7
+   f4ec7837df016d5e1516e8a999ffb79145368f757d3af219bc2ae57b63d6764f
+   8ea1e3079a0404112a2825c5607051a85fb5cc104f10b545aff64bd6b7773be5
+   be25a37b0e260fde5834f38fc1a93277eedb9fb94de161a3ae8c310823dd04a9
+   2b03bf9eea64ffc19a78e6e2311dd18d0441258f0b20dbc174f25bcfbbafc497
+   f4a4d856131871876da39e29268d82039556d2152f15ce0dacab3bb878e28414
+   73a68a503732d66b55fbecb3436487072d8d3716c4c8ed39fe16ca9f9f9d9905
+   56b6fa4001d1a7a587e846f6a604242f6a413fe9fb15a32cfe30dedfa2793661
+   110368536a1dff48f90505ac730f76c0ae1800dee7881cbf905cabce04cbe443
+   cff5a1a4ce8147345a37c9ed5bbe7d35a7a876019c756e2660516f30b403396f
+   b1b78fbbc376f9f3a553cad3ac3540e8013edf49b8c14cfdd9366e664f8fa979
+   08721198271a8369c65b737e8911a4869ad03aae7054174f5916f6895e305181
+   75259f71b458d2d4aa1945e526a08e4e2a2198a11f824b9c954b64f1b0d50bd0
+   e13b0fe8872a6e00bb96d566a7fec8dd1ca5cb14822b47719bea735b3e87da68
+   49dbfa0ab824f4e2de68a4072fb4507fb7605dda2aca933b0bacff2fbc767e97
+   3c1269d7cee5b7903ac331d20f870a31b8e021138cb4b9ab4efc1b9de9396f4a
+   649213156cf141631f22872fb50d4d0fb9945d3899a97da9c337c1c9bacac259
+   b66ac22c31acd8c9c03ec879c7d72c42292258a77d7d33f35a78b5c2614a1e29
+   adda5aa4878873570de22518f362697ea80a12d8da1a88bd97217405724593e9
+   1eadcd83f3fac4b64f4ed529a0791f1aeb39e728fb95c38e95d2d5a779beb9ba
+   665415541b9307e294bff586637721124c59cbdbb3af40f7fab601fc3503a07b
+   2d64817ada1d9a83b83a5dec4a4b2d141e43a03f90cdfee958fb9c6d5a046799
+   162cc29be17199a1f02b2077809adff990c1d68fe1560880ac5488dfaf4aad93
+   ffc8902dd7775b0bb4acc82bc1dc4b7cb79e53535d8637c7ee386e4c274d768c
+   eda1c32913b34cdcfa22ead0e1d397fb1934b4b85691bf4f982f0aaafcc5ddc5
+   0cce66b56924af5dab465121d89ff11dea9e3fe44eb6db204ea5442d5bdfac0f
+   928c2b3781e6859cb2cf08454573227b59e8c4c8f3145de33054aa6525b42cf3
+   66163c0c6cca3f5fec7de36708bd97498fc25099f54fe3649d0438fb62f66543
+   4577fe10bfa808a195450380cb598c2347c596e22907cc29f180e16f156bf91b
+   950348cf31ebbaabe8f4fcae76dede9e7e258d0ec98c84233d49a73919427f75
+   4e4040e34871cda436e16b5c66f4a3ecd2ec153caf83dbd5b1dfccda63ec00c4
+   92c9ae9b97a9efa589615515e2ee4fe210bf9207892a11ee9123343380c6cd3f
+   b576d23d1a8bc861ee3903eeea855838346cc384d5bd315bc6ecccbdb294a39f
+   47f8dbdacb85f431e96e0dd6b4cb797ef52eec2c7ac7dd18a5d699900b901c7d
+   edb31ad1dd8973d58f9f7d891ec51d9d75c66970519a3b2e862f2b51e86778ee
+   1ca965162ba08a086f0c3f69de1e3353fba021aa516dda612ff961e960b24c3f
+   5a750a09571bd1e2955aa1cda56dfa360eddc1dad3b171bc810c214ef6c2ef09
+   1a343fe1faf6b149eebcfbf1c7cb7c7ff98691830b542fbed6d0c824af958804
+   c944fab2c6399cd4649f235139369e1ba50ce834b135e7bc0149b7f706c88245
+   809281947d962e3607b75cf9177496d16e769dfeacd6098ef6e19651e9aa71bb
+   5c90a7b84553dd2e860a03090aec7ef6cc27dad7d57951788933b7884c4809d3
+   c39689e24666b40172653d155bf3d07bdde8c0a7a1967f3e636fb0817338c768
+   e6ca2ed9054128ea3ab5fc67cf85ec8e822c7bf44a330d7571f82d9a500e32ce
+   28702108bb0c2d15a8f34e64a6fe72923d62c6b2e9aefb2e56746c786bb62b01
+   28cefbf1dd65634a11c4dd497122fa429c31befc8ecd15b45b3a7acd0b909e42
+   39d98c4fe12e31f0daf1446a3a185a0ca1cdb1ffe654fa1d9c9942212086e9c0
+   29689367b314a122b0237c5f9633ef10ab1d9fbc79f6a78a9d47d7e1a4b05dd0
+   a1f8fba67e65c4da2a24ae379f2ad7c69f9c7f2f16cfe91ef738f7c165c3cd2e
+   e05ffe1475bd9a665ee433e6b62454cabdc36bafd1b68c6a51c4b4be879c68d8
+   7a1abe6799a9463962da4ecab7c662835d07998bcf3e8360ff46ca8a6c2b1434
+   c9e64a7940805440572484ad0c9849f0b4cd23a65c9b8a359e3ef338adbfad90
+   f7ba71f2093903671f3f1a7b2ea694f16b1ec227b3c8b10a61a07ad012158f3b
+   f79cf0cfa4f907901e295538d9974a4ad3760ecfef8dd312a6d1b0f142006f75
+   942a5e217eec43a35ace222b5259031c45ff0f940ec1b63837e2838a667c6994
+   67820202abfee2d754700e4ed78cf1a45ee8ee60b96d1d1dff67782389c286a7
+   1806d4fdc28a19d815bba3f09a04f6950e98b7335875999159689041048170a4
+   f32d94de74031d28fce347f312ed4747ed2378dedf943f46745c9ca565750270
+   9e4ae4f1fc93001a43ee3e65fa72e2177a80265fd8d318dff200239e350fe69c
+   24aacb580d6a7c70e937b42a2d52fc101f35a778cf3076c9001ee25d42ec5fa4
+   82146062fec810bd118fee32f7c5edd82ed2335a858a4dc538f265952384c169
+   f3c8548d8521ba98d7120235479ade3e6fa396be5531d8d7f644e3a2dd727202
+   b6a01c028eb8e003c7c4a7b41630f00f577fa1553437ed554c15c6e286715092
+   465bfe01c9a865968d90a766c87147b867df1fc6109fdee0162c75bfe8a44039
+   b295661a12773e20fe054d5e51374e78c945dbe7d2f3e0c59b3deec531c01742
+   e24f9120a0f57ce8184eb5efb30417a31bc23c121206f293236d4e173c1b4f53
+   68032141ad570ae6e4ed650a4411065f43283683d78f4793f5589edf80b11fbe
+   fc1a4c1442abe74f8939dc155b8716b6e951246e608776e916e0ae4331215933
+   47cde7ce9699a2231907125e480740fbf80099f79fb5bc9f48d5d246759d77d3
+   82b838e59cd440c3de938ebb46deb9de2f8a0f9871a7ddc6f5b32a93fa18d1cd
+   3e2ef9ab4565a77028e39849cfbba195584f7136bd96ff34fd17d6c3715cd9f6
+   38720419ee4c8bd86ec1ad1de54bfbc80817af35404610a0b0c78ce8dfcc0e87
+   c9a4df6f7f5a5a971515424dadc03a4d3a31d8eabdb56c9cd691724cc46ac279
+   869f8081202eec2afcdfb933cb6c16ee04eebca522db88a150d2f7ee87abd652
+   d5abb9d872853d81425d5f81a73662e8813bc123bcd45f80aba0a4f739a76257
+   8003f181778bcafaf8f9caf2ceeb97442e00457284d69c77d27d2bf493b1e497
+   4573b573980a0f2d71e42294eac806622790ebbe18412ce3a26f1dd60e25cb6a
+   a63e43e4fe022e4004992d362f8761a82c23de26174a06116ffbed60eb25d2fc
+   a62aced7a17e4fb60174b97f38973115aa4904a96168195eab7e3fb412d8b5e7
+   e055ed97a9824d2985a90a1f78715c40516822454703e0a6ff13fb2b60e5ca1f
+   c5e244edac517476fa14c24a33596496565b7006626da344b2f7c72f179b5eb3
+   1414ce2bec07b21553e77295b5c2c52a2233cfdb4f5e8b501f9739cfcd7608ea
+   f03be4648500ec1308b92e989b0e30f2e1e2a42d7d81c0d629ad002c9054cfa5
+   d4095dd527b57009dc048a331ed866647a71952e1136bec5dbc7641f96020083
+   6ebb951781a9b759c03a56d49dddfb8e4c4da4f8ef8730e8a4e37ade843b97b0
+   fca5fe8bf99f8d79590322a6525583c73bb3ec3aa35520eae0e3f44840955f6f
+   6f2dd10176d93e2bacc516de984fb5bca3ba72582a9aa8081b5c81ebe7aedabc
+   ff13418220aa668e1ecceb3db471c89c7aa8d8207eb0f93d06d02632f7177898
+   cb418894d5e3ee253739cddc2347579eb0d123414e547ba0e611203c4a5ab0ea
+   ff00000000000000000000000000000000000000040a0f151c2430450221008b
+   d2c7da2011f7941589966d8bd8201669d222af3a86ad5a43b654f7d811730d02
+   20382baaec17d94b4d313c0e6d2176900bcd9d23b1b9706464c76a66a1ca53b1
+   83` }
+           }
+         }
+       }
+     }
+   }
+
+Acknowledgements
+
+   The authors wish to thank Piotr Popis for his valuable feedback on
+   this document.
+
+   Thanks to the co-authors of [RFC9882], Ben Salter and Adam Raine,
+   this document borrows heavily from that one.  "Copying always makes
+   things easier and less error prone" - [RFC8411].
+
+Authors' Addresses
+
+   Mike Ounsworth
+   Entrust Limited
+   2500 Solandt Road – Suite 100
+   Ottawa, Ontario  K2K 3G5
+   Canada
+   Email: mike.ounsworth@entrust.com
+
+
+   John Gray
+   Entrust Limited
+   2500 Solandt Road – Suite 100
+   Ottawa, Ontario  K2K 3G5
+   Canada
+   Email: john.gray@entrust.com
+
+
+   Jan Klaussner
+   Bundesdruckerei GmbH
+   Kommandantenstr. 18
+   10969 Berlin
+   Germany
+   Email: jan.klaussner@bdr.de
+
+
+   Daniel Van Geest
+   CryptoNext Security
+   ‍16, Boulevard Saint-Germain
+   75007 Paris
+   France
+   Email: daniel.vangeest@cryptonext-security.com
