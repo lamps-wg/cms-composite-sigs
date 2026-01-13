@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 16 July 2026                                       J. Klaussner
+Expires: 17 July 2026                                       J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                         12 January 2026
+                                                         13 January 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 July 2026.
+   This Internet-Draft will expire on 17 July 2026.
 
 Copyright Notice
 
@@ -290,8 +290,13 @@ Table of Contents
    digestAlgorithm:  Per Section 5.3 of [RFC5652], the digestAlgorithm
       field identifies the message digest algorithm used by the signer
       and any associated parameters.  This MUST be the same digest
-      algorithm used by the Composite ML-DSA algorithm.  See Table 1 for
-      exact algorithm mappings.
+      algorithm used by the Composite ML-DSA algorithm.  Per [RFC8933],
+      if the signedAttrs field is present in the SignerInfo, then the
+      same digest algorithm MUST be used to compute both the digest of
+      the SignedData encapContentInfo eContent, which is carried in the
+      message-digest attribute, and the digest of the DER-encoded
+      signedAttrs, which is passed to the signature algorithm.  See
+      Table 1 for exact algorithm mappings.
 
       [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
       SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the used
@@ -524,6 +529,11 @@ Table of Contents
               Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
               DOI 10.17487/RFC5911, June 2010,
               <https://www.rfc-editor.org/rfc/rfc5911>.
+
+   [RFC8933]  Housley, R., "Update to the Cryptographic Message Syntax
+              (CMS) for Algorithm Identifier Protection", RFC 8933,
+              DOI 10.17487/RFC8933, October 2020,
+              <https://www.rfc-editor.org/rfc/rfc8933>.
 
    [RFC5754]  Turner, S., "Using SHA2 Algorithms with Cryptographic
               Message Syntax", RFC 5754, DOI 10.17487/RFC5754, January
