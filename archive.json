@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-11T01:26:17.049507+00:00",
+  "timestamp": "2026-01-13T01:16:11.977724+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -175,6 +175,101 @@
           "body": "",
           "createdAt": "2026-01-09T12:54:49Z",
           "updatedAt": "2026-01-09T12:54:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOQdmGXs68pOg3",
+      "title": "Add SHALL for digests and minor typo fixes.",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/4",
+      "state": "MERGED",
+      "author": "janklaussner",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Use 'SHALL' to require CMS to use the same pre-hash algorithm as the composite algorithm.",
+      "createdAt": "2026-01-12T08:27:01Z",
+      "updatedAt": "2026-01-12T12:53:59Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "cdf85b2f9b091b19e6fbaef6bb11df526fc18857",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "jkl-001",
+      "headRefOid": "8ff4d8e56c048bb6d4635249a1ebb73e3d2ed703",
+      "closedAt": "2026-01-12T12:53:59Z",
+      "mergedAt": "2026-01-12T12:53:59Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "f0a59657868e01c9cdc1a2da4640652684db273a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7ZmDl1",
+          "commit": {
+            "abbreviatedOid": "8ff4d8e"
+          },
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T12:53:41Z",
+          "updatedAt": "2026-01-12T12:53:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOQdmGXs68uqWb",
+      "title": "Add reference to RFC 8933 based on feedback from Piotr Popis",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/5",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-12T15:38:00Z",
+      "updatedAt": "2026-01-12T17:18:13Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "f0a59657868e01c9cdc1a2da4640652684db273a",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/rfc8933_ref",
+      "headRefOid": "8f144075f569d31d442b585ac6e11f43cb4dbbc0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7ZphXc",
+          "commit": {
+            "abbreviatedOid": "8f14407"
+          },
+          "author": "janklaussner",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T16:02:23Z",
+          "updatedAt": "2026-01-12T16:02:23Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQdmGXs7ZqtMh",
+          "commit": {
+            "abbreviatedOid": "8f14407"
+          },
+          "author": "johngray-dev",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T17:18:13Z",
+          "updatedAt": "2026-01-12T17:18:13Z",
           "comments": []
         }
       ]
