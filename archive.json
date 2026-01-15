@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-13T01:16:11.977724+00:00",
+  "timestamp": "2026-01-15T01:17:53.654350+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -106,6 +106,30 @@
           "body": "Author's meeting: decision not to add a table that lists the internal hash functions used within the Composite algorithm -- since those are already specified by the composite document, there is no reason to repeat them in a CMS document.",
           "createdAt": "2026-01-07T15:20:53Z",
           "updatedAt": "2026-01-07T15:20:53Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOQdmGXs7jT8os",
+      "title": "Debs comments from January 9th 2026",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/6",
+      "state": "CLOSED",
+      "author": "johngray-dev",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I went through all the comments I've given you all for this draft.  Thanks for the changes you have made.  I can live with most of what I think is left.  Here are what I consider to be nits on v14.  These can wait for changes based on either the one week wglc, or IETF Last Call. \n\nNits: \n- Sec 1 (and Sec 1.3):  expand ML-DSA, EUF-CMA (and SUF-CMA, PH), the debate in my mind is whether you need to expand RSA through EdDSA.\n- Sec 1.1:  'Post-Quantum Traditional (PQ/T) hybrid scheme' is not all caps...\n- Sec 3.2 and 3.3:  Both have the same para re:  ctx.  This is fine, but will be a PITA if you get comments on one and not the other.  Consider ref the 3.2 para from 3.3.\n- Normative Ref:  RFC 4210 has been obsoleted by RFC 9810 (the editor will fix this if you don't) \n\n\nI'm happy to put this into IETF Last Call when the wglc runs its course.  I do agree with Mike that most of the changes I asked for were editorial, in that changes made were to more explicitly convey the authors ideas.  I do think a wglc is a good idea, if I was confused by the draft, then others might be as well. \n\nThanks again for all the work to address my comments. ",
+      "createdAt": "2026-01-14T15:18:43Z",
+      "updatedAt": "2026-01-14T15:19:12Z",
+      "closedAt": "2026-01-14T15:19:12Z",
+      "comments": [
+        {
+          "author": "johngray-dev",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Wrong comment...  Closing",
+          "createdAt": "2026-01-14T15:19:12Z",
+          "updatedAt": "2026-01-14T15:19:12Z"
         }
       ]
     }
@@ -226,24 +250,26 @@
       "id": "PR_kwDOQdmGXs68uqWb",
       "title": "Add reference to RFC 8933 based on feedback from Piotr Popis",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/5",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-01-12T15:38:00Z",
-      "updatedAt": "2026-01-12T17:18:13Z",
+      "updatedAt": "2026-01-13T08:36:35Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "f0a59657868e01c9cdc1a2da4640652684db273a",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/rfc8933_ref",
       "headRefOid": "8f144075f569d31d442b585ac6e11f43cb4dbbc0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-13T08:36:35Z",
+      "mergedAt": "2026-01-13T08:36:35Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "ccd396382bd8b6af186fac68e24aaf8166c65c43"
+      },
       "comments": [],
       "reviews": [
         {
