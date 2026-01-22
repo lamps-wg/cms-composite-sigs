@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-15T01:17:53.654350+00:00",
+  "timestamp": "2026-01-22T01:21:57.692328+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -299,6 +299,34 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOQdmGXs6-ipTB",
+      "title": "Update the example to use the latest keys from draft-ietf-lamps-pq-co\u2026",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/7",
+      "state": "MERGED",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026mposite-sigs",
+      "createdAt": "2026-01-21T20:42:26Z",
+      "updatedAt": "2026-01-21T20:58:19Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "ccd396382bd8b6af186fac68e24aaf8166c65c43",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/update_example_to_latest_keys",
+      "headRefOid": "2d61f3e78d97f833174980d63d3f22c72965c4b9",
+      "closedAt": "2026-01-21T20:58:18Z",
+      "mergedAt": "2026-01-21T20:58:18Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "51db415a1888a6c20a6b5a11cb21e34bcd0f3907"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
