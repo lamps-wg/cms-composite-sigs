@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 25 July 2026                                       J. Klaussner
+Expires: 1 August 2026                                      J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                         21 January 2026
+                                                         28 January 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2026.
+   This Internet-Draft will expire on 1 August 2026.
 
 Copyright Notice
 
@@ -234,8 +234,10 @@ Table of Contents
    When Composite ML-DSA is used in CMS, the digest algorithm used by
    CMS SHALL be the same pre-hash digest algorithm used by the Composite
    ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional
-   digest algorithms for the internal component algorithms, these digest
-   algorithms are irrelevant to Composite ML-DSA's use in CMS.
+   digest algorithms for the internal component algorithms, e.g., in the
+   case of id-MLDSA87-ECDSA-P384-SHA512 the traditional component uses
+   SHA-384.  These internal digest algorithms are irrelevant to
+   Composite ML-DSA's use in CMS.
 
 3.2.  SignedData digestAlgorithms
 
@@ -884,8 +886,8 @@ Appendix A.  Examples
 
 Acknowledgements
 
-   The authors wish to thank Piotr Popis for his valuable feedback on
-   this document.
+   The authors wish to thank Piotr Popis (Enigma) for his valuable
+   feedback on this document.
 
    Thanks to the co-authors of [RFC9882], Ben Salter and Adam Raine,
    this document borrows heavily from that one.  "Copying always makes
