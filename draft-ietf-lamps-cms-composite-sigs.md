@@ -208,7 +208,7 @@ Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardize
 Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.
 
-When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, these digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
+When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, e.g., in the case of id-MLDSA87-ECDSA-P384-SHA512 the traditional component uses SHA-384. These internal digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
 
 ## SignedData digestAlgorithms
@@ -350,7 +350,7 @@ The following is an example of a signed-data with a single id-MLDSA65-ECDSA-P256
 # Acknowledgements
 {:numbered="false"}
 
-The authors wish to thank Piotr Popis for his valuable feedback on this document.
+The authors wish to thank Piotr Popis (Enigma) for his valuable feedback on this document.
 
 Thanks to the co-authors of {{?RFC9882}}, Ben Salter and Adam Raine, this document borrows heavily
 from that one. "Copying always makes things easier and less error prone" - {{?RFC8411}}.
