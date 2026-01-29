@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-22T01:21:57.692328+00:00",
+  "timestamp": "2026-01-29T01:42:17.361533+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -327,6 +327,48 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOQdmGXs6_0Lp6",
+      "title": "Further feedback from Piotr Popis",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/8",
+      "state": "MERGED",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-28T10:15:49Z",
+      "updatedAt": "2026-01-28T15:15:52Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "51db415a1888a6c20a6b5a11cb21e34bcd0f3907",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/piotrp_feedback",
+      "headRefOid": "0cf0dec16ca1e6509321f23fbfc33f26c5f0ab95",
+      "closedAt": "2026-01-28T15:15:52Z",
+      "mergedAt": "2026-01-28T15:15:52Z",
+      "mergedBy": "johngray-dev",
+      "mergeCommit": {
+        "oid": "30d12cbd0401c67578e04409050415e68f59508a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7dfHzU",
+          "commit": {
+            "abbreviatedOid": "0cf0dec"
+          },
+          "author": "janklaussner",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-28T10:30:00Z",
+          "updatedAt": "2026-01-28T10:30:00Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
