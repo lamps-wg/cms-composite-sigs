@@ -82,7 +82,7 @@ informative:
 
 --- abstract
 
-Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS).
 
 
@@ -104,41 +104,9 @@ This document is consistent with the terminology defined in {{?RFC9794}}.
 
 # Composite ML-DSA Algorithm Identifiers {#algorithm-identifiers}
 
-Many ASN.1 data structure types use the AlgorithmIdentifier type to identify cryptographic algorithms.
-In the CMS, AlgorithmIdentifiers are used to identify Composite ML-DSA signatures in the signed-data content type.
-They may also appear in X.509 certificates used to verify those signatures.
-The same AlgorithmIdentifiers are used to identify Composite ML-DSA public keys and signature algorithms.
-{{I-D.ietf-lamps-pq-composite-sigs}} describes the use of Composite ML-DSA in X.509 certificates.
-The AlgorithmIdentifier type is defined as follows:
-
-~~~ asn.1
-AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
-        SEQUENCE {
-            algorithm   ALGORITHM-TYPE.&id({AlgorithmSet}),
-            parameters  ALGORITHM-TYPE.
-                   &Params({AlgorithmSet}{@algorithm}) OPTIONAL
-        }
-~~~
-
-<aside markdown="block">
-  NOTE: The above syntax is from {{!RFC5911}} and is compatible with the
-  2021 ASN.1 syntax {{X680}}. See {{?RFC5280}} for the 1988 ASN.1 syntax.
-</aside>
-
-The fields in the AlgorithmIdentifier type have the following meanings:
-
-algorithm:
-
-: The algorithm field contains an OID that identifies the cryptographic algorithm in use.
-The OIDs for Composite ML-DSA algorithms are described below.
-
-parameters:
-
-: The parameters field contains parameter information for the algorithm identified by the OID in the algorithm field.
-Each Composite ML-DSA parameter set is identified by its own algorithm OID, so there is no relevant information to include in this field.
-As such, parameters MUST be omitted when encoding a Composite ML-DSA AlgorithmIdentifier.
-
+The same AlgorithmIdentifier is used to identify a Composite ML-DSA public key and signature algorithm.
 The object identifiers for Composite ML-DSA algorithms are defined in {{I-D.ietf-lamps-pq-composite-sigs}}, and are reproduced here for convenience.
+The parameters field of the AlgorithmIdentifier for the Composite ML-DSA public key and signature algorithm MUST be absent.
 
 ~~~ asn.1
 id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
@@ -214,10 +182,7 @@ When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be 
 ## SignedData digestAlgorithms
 
 The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
-There MAY be any number of elements in the collection, including zero.
-When signing with a Composite ML-DSA algorithm, the list of identifiers MAY include a digest algorithm from {{digest-algs}}.
-The digest algorithm(s) included will depend on the Composite ML-DSA algorithm(s) used for signing.
-If such a digest algorithm is present, the algorithm parameters field MUST be absent.
+When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from {{digest-algs}}.
 
 
 ## Signature Generation and Verification
@@ -251,7 +216,7 @@ This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
 Per {{!RFC8933}}, if the signedAttrs field is present in the SignerInfo, then the same digest algorithm MUST be used to compute both the digest of the SignedData encapContentInfo eContent, which is carried in the message-digest attribute, and the digest of the DER-encoded signedAttrs, which is passed to the signature algorithm.
 See {{digest-algs}} for exact algorithm mappings.
 
-: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the used of SHAKE256 {{FIPS202}} in CMS (id-shake256).
+: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the use of SHAKE256 {{FIPS202}} in CMS (id-shake256).
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.
 
