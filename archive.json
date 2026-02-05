@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-29T01:42:17.361533+00:00",
+  "timestamp": "2026-02-05T01:44:04.914842+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -130,6 +130,30 @@
           "body": "Wrong comment...  Closing",
           "createdAt": "2026-01-14T15:19:12Z",
           "updatedAt": "2026-01-14T15:19:12Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOQdmGXs7oX-Cs",
+      "title": "Feedback from SECDIR review",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/10",
+      "state": "CLOSED",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Nits\n\n----\n\nShould expand ML-DSA (Module-Lattice-Based Digital Signature Standard) on first use in Abstract and Introduction. This is probably true of other crypto acronyms. Consider including them in Section 1.1.\n\nSection 5.2 extention -> extension\n\nShould expand EUF-CMA and SUF-CMA and give reference to 9.2.1 and 9.2.2 respectively on first use of each.\n\nSection 9.2: securtiy -> security\n\nconsidiration -> consideration\n\nIn Sections 9.2.1 and 9.2.2, I think the difference between EUF-CMA and SUF-CMA is not very clearly explained.\n\nSection 9.2.2: The unusual sequence \"=/=\" is never defined.\n\nSection 9.3: uses Foobar but does not include a reference to RFC 3092\n\nwhich might be helpful to some readers\n\nSection 9.5: \"at least is principle,\" -> \"at least in principle,\"\n\nSection 10.3: The sentence before the first \"id-...\" line needs to be recast like all the following sentences in this Section. Otherwise, it is not clear what it is talking about.\n\nThe nits checker says there are 5 lines that are too long.\n\nReferences: RFC5758 appears in the references but not in the body of the draft. BonehShoup appears in the references but not in the body of the draft.\n\nReferences: Obsolete reference RFC4210 is used rather than its replacements RFC9810.\n\nIt seems odd to see an IPR disclosure called out in a draft as is done in Appendix F. Usually the Datatracker indication of IPR is considered adequate.\n\nI did not review Sections 7 and 8, Appendices A through E, or Appendix G.",
+      "createdAt": "2026-02-04T21:56:48Z",
+      "updatedAt": "2026-02-04T21:57:47Z",
+      "closedAt": "2026-02-04T21:57:47Z",
+      "comments": [
+        {
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Oops. Wrong composite-sigs repo",
+          "createdAt": "2026-02-04T21:57:47Z",
+          "updatedAt": "2026-02-04T21:57:47Z"
         }
       ]
     }
@@ -366,6 +390,46 @@
           "body": "",
           "createdAt": "2026-01-28T10:30:00Z",
           "updatedAt": "2026-01-28T10:30:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOQdmGXs7Bd6GU",
+      "title": "Address Carl's WGLC comments",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/9",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Carl's comments: https://mailarchive.ietf.org/arch/msg/spasm/tAtL0dkvtNwleQPfuV-25B2OiJw/",
+      "createdAt": "2026-02-04T13:27:28Z",
+      "updatedAt": "2026-02-04T22:00:54Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "30d12cbd0401c67578e04409050415e68f59508a",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/carl_wglc_comments",
+      "headRefOid": "e2bdcfcccc5a4c3064783156583a865990d1b2f9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7fuf9B",
+          "commit": {
+            "abbreviatedOid": "e2bdcfc"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-02-04T22:00:54Z",
+          "updatedAt": "2026-02-04T22:00:54Z",
           "comments": []
         }
       ]
