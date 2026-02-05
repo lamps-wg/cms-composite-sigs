@@ -68,7 +68,29 @@ normative:
 
 
 informative:
-
+  X680:
+    target: https://www.itu.int/rec/T-REC-X.680
+    title: >
+      Information technology - Abstract Syntax Notation One (ASN.1):
+      Specification of basic notation
+    date: 2021-02
+    author:
+    -  org: ITU-T
+    seriesinfo:
+      ITU-T Recommendation: X.680
+      ISO/IEC: 8824-1:2021
+  X690:
+    target: https://www.itu.int/rec/T-REC-X.690
+    title: >
+      Information technology - Abstract Syntax Notation One (ASN.1):
+      ASN.1 encoding rules: Specification of Basic Encoding Rules (BER),
+      Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)
+    date: 2021-02
+    author:
+    -  org: ITU-T
+    seriesinfo:
+      ITU-T Recommendation: X.690
+      ISO/IEC: 8825-1:2021
 
 --- abstract
 
@@ -84,6 +106,10 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
 {{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS204}} with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
 This document acts as a companion to {{I-D.ietf-lamps-pq-composite-sigs}} by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) {{!RFC5652}}.
 
+
+## ASN.1
+
+CMS values are generated using ASN.1 {{X680}}, using the Basic Encoding Rules (BER) and the Distinguished Encoding Rules (DER) {{X690}}.
 
 ## Conventions and Terminology {#sec-terminology}
 
