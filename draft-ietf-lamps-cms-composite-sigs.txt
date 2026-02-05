@@ -73,7 +73,8 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Conventions and Terminology
+     1.1.  ASN.1
+     1.2.  Conventions and Terminology
    2.  Composite ML-DSA Algorithm Identifiers
    3.  Signed-Data Conventions
      3.1.  Pre-Hashing
@@ -100,7 +101,12 @@ Table of Contents
    Composite ML-DSA algorithms within the Cryptographic Message Syntax
    (CMS) [RFC5652].
 
-1.1.  Conventions and Terminology
+1.1.  ASN.1
+
+   CMS values are generated using ASN.1 [X680], using the Basic Encoding
+   Rules (BER) and the Distinguished Encoding Rules (DER) [X690].
+
+1.2.  Conventions and Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -511,6 +517,18 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc6211>.
 
 7.2.  Informative References
+
+   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): Specification of basic notation", ITU-T
+              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.680>.
+
+   [X690]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): ASN.1 encoding rules: Specification of Basic
+              Encoding Rules (BER), Canonical Encoding Rules (CER) and
+              Distinguished Encoding Rules (DER)", ITU-T
+              Recommendation X.690, ISO/IEC 8825-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.690>.
 
    [RFC9794]  Driscoll, F., Parsons, M., and B. Hale, "Terminology for
               Post-Quantum Traditional Hybrid Schemes", RFC 9794,
