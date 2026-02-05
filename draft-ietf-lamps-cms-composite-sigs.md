@@ -68,16 +68,6 @@ normative:
 
 
 informative:
-  X680:
-    target: https://www.itu.int/rec/T-REC-X.680
-    title: >
-      Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation
-    author:
-      org: ITU-T
-    date: February 2021
-    seriesinfo:
-      ITU-T Recommendation: X.680
-      ISO/IEC: 8824-1:2021
 
 
 --- abstract
