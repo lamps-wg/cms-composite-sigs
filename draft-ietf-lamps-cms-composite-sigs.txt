@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 1 August 2026                                      J. Klaussner
+Expires: 9 August 2026                                      J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                         28 January 2026
+                                                         5 February 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -17,10 +17,9 @@ Expires: 1 August 2026                                      J. Klaussner
 
 Abstract
 
-   Composite ML-DSA defines combinations of ML-DSA, as defined by NIST
-   in FIPS 204, with RSA, ECDSA, and EdDSA.  This document specifies the
-   conventions for using Composite ML-DSA algorithms within the
-   Cryptographic Message Syntax (CMS).
+   Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and
+   EdDSA.  This document specifies the conventions for using Composite
+   ML-DSA algorithms within the Cryptographic Message Syntax (CMS).
 
 About This Document
 
@@ -55,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2026.
+   This Internet-Draft will expire on 9 August 2026.
 
 Copyright Notice
 
@@ -116,44 +115,12 @@ Table of Contents
 
 2.  Composite ML-DSA Algorithm Identifiers
 
-   Many ASN.1 data structure types use the AlgorithmIdentifier type to
-   identify cryptographic algorithms.  In the CMS, AlgorithmIdentifiers
-   are used to identify Composite ML-DSA signatures in the signed-data
-   content type.  They may also appear in X.509 certificates used to
-   verify those signatures.  The same AlgorithmIdentifiers are used to
-   identify Composite ML-DSA public keys and signature algorithms.
-   [I-D.ietf-lamps-pq-composite-sigs] describes the use of Composite ML-
-   DSA in X.509 certificates.  The AlgorithmIdentifier type is defined
-   as follows:
-
-   AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
-           SEQUENCE {
-               algorithm   ALGORITHM-TYPE.&id({AlgorithmSet}),
-               parameters  ALGORITHM-TYPE.
-                      &Params({AlgorithmSet}{@algorithm}) OPTIONAL
-           }
-
-      |  NOTE: The above syntax is from [RFC5911] and is compatible with
-      |  the 2021 ASN.1 syntax [X680].  See [RFC5280] for the 1988 ASN.1
-      |  syntax.
-
-   The fields in the AlgorithmIdentifier type have the following
-   meanings:
-
-   algorithm:  The algorithm field contains an OID that identifies the
-      cryptographic algorithm in use.  The OIDs for Composite ML-DSA
-      algorithms are described below.
-
-   parameters:  The parameters field contains parameter information for
-      the algorithm identified by the OID in the algorithm field.  Each
-      Composite ML-DSA parameter set is identified by its own algorithm
-      OID, so there is no relevant information to include in this field.
-      As such, parameters MUST be omitted when encoding a Composite ML-
-      DSA AlgorithmIdentifier.
-
-   The object identifiers for Composite ML-DSA algorithms are defined in
+   The same AlgorithmIdentifier is used to identify a Composite ML-DSA
+   public key and signature algorithm.  The object identifiers for
+   Composite ML-DSA algorithms are defined in
    [I-D.ietf-lamps-pq-composite-sigs], and are reproduced here for
-   convenience.
+   convenience.  The parameters field of the AlgorithmIdentifier for the
+   Composite ML-DSA public key and signature algorithm MUST be absent.
 
    id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
       iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
@@ -242,13 +209,9 @@ Table of Contents
 3.2.  SignedData digestAlgorithms
 
    The SignedData digestAlgorithms field includes the identifiers of the
-   message digest algorithms used by one or more signer.  There MAY be
-   any number of elements in the collection, including zero.  When
-   signing with a Composite ML-DSA algorithm, the list of identifiers
-   MAY include a digest algorithm from Table 1.  The digest algorithm(s)
-   included will depend on the Composite ML-DSA algorithm(s) used for
-   signing.  If such a digest algorithm is present, the algorithm
-   parameters field MUST be absent.
+   message digest algorithms used by one or more signer.  When signing
+   with a Composite ML-DSA algorithm, this list of identifiers SHOULD
+   include the corresponding digest algorithm from Table 1.
 
 3.3.  Signature Generation and Verification
 
@@ -301,7 +264,7 @@ Table of Contents
       Table 1 for exact algorithm mappings.
 
       [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
-      SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the used
+      SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the use
       of SHAKE256 [FIPS202] in CMS (id-shake256).  When id-sha256 or id-
       sha512 is used, the parameters field MUST be omitted.  When id-
       shake256 is used the parameters field MUST be omitted and the
@@ -527,11 +490,6 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-   [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
-              Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
-              DOI 10.17487/RFC5911, June 2010,
-              <https://www.rfc-editor.org/rfc/rfc5911>.
-
    [RFC8933]  Housley, R., "Update to the Cryptographic Message Syntax
               (CMS) for Algorithm Identifier Protection", RFC 8933,
               DOI 10.17487/RFC8933, October 2020,
@@ -562,12 +520,6 @@ Table of Contents
               Post-Quantum Traditional Hybrid Schemes", RFC 9794,
               DOI 10.17487/RFC9794, June 2025,
               <https://www.rfc-editor.org/rfc/rfc9794>.
-
-   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
-              Housley, R., and W. Polk, "Internet X.509 Public Key
-              Infrastructure Certificate and Certificate Revocation List
-              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
-              <https://www.rfc-editor.org/rfc/rfc5280>.
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,

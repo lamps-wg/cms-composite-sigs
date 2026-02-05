@@ -10,7 +10,7 @@
 <meta content="Jan Klaussner" name="author">
 <meta content="Daniel Van Geest" name="author">
 <meta content="
-       Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+       Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS). 
     " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Composite ML-DSA CMS</td>
-<td class="right">January 2026</td>
+<td class="right">February 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 1 August 2026</td>
+<td class="center">Expires 9 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-sigs-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-28" class="published">28 January 2026</time>
+<time datetime="2026-02-05" class="published">5 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-01">1 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-09">9 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1096,7 +1096,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Composite ML-DSA defines combinations of ML-DSA, as defined by NIST in FIPS 204, with RSA, ECDSA, and EdDSA.
+<p id="section-abstract-1">Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1134,7 +1134,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1253,44 +1253,10 @@ lower case as plain English words, absent their normative meanings.<a href="#sec
       <h2 id="name-composite-ml-dsa-algorithm-">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-composite-ml-dsa-algorithm-" class="section-name selfRef">Composite ML-DSA Algorithm Identifiers</a>
       </h2>
-<p id="section-2-1">Many ASN.1 data structure types use the AlgorithmIdentifier type to identify cryptographic algorithms.
-In the CMS, AlgorithmIdentifiers are used to identify Composite ML-DSA signatures in the signed-data content type.
-They may also appear in X.509 certificates used to verify those signatures.
-The same AlgorithmIdentifiers are used to identify Composite ML-DSA public keys and signature algorithms.
-<span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> describes the use of Composite ML-DSA in X.509 certificates.
-The AlgorithmIdentifier type is defined as follows:<a href="#section-2-1" class="pilcrow">¶</a></p>
-<div class="lang-asn.1 sourcecode" id="section-2-2">
-<pre>
-AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
-        SEQUENCE {
-            algorithm   ALGORITHM-TYPE.&amp;id({AlgorithmSet}),
-            parameters  ALGORITHM-TYPE.
-                   &amp;Params({AlgorithmSet}{@algorithm}) OPTIONAL
-        }
-</pre><a href="#section-2-2" class="pilcrow">¶</a>
-</div>
-<aside id="section-2-3">
-        <p id="section-2-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span> and is compatible with the
-  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1 syntax.<a href="#section-2-3.1" class="pilcrow">¶</a></p>
-</aside>
-<p id="section-2-4">The fields in the AlgorithmIdentifier type have the following meanings:<a href="#section-2-4" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-5">
-        <dt id="section-2-5.1">algorithm:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.2">
-          <p id="section-2-5.2.1">The algorithm field contains an OID that identifies the cryptographic algorithm in use.
-The OIDs for Composite ML-DSA algorithms are described below.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-5.3">parameters:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.4">
-          <p id="section-2-5.4.1">The parameters field contains parameter information for the algorithm identified by the OID in the algorithm field.
-Each Composite ML-DSA parameter set is identified by its own algorithm OID, so there is no relevant information to include in this field.
-As such, parameters MUST be omitted when encoding a Composite ML-DSA AlgorithmIdentifier.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
-</dd>
-      <dd class="break"></dd>
-</dl>
-<p id="section-2-6">The object identifiers for Composite ML-DSA algorithms are defined in <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and are reproduced here for convenience.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<div class="breakable lang-asn.1 sourcecode" id="section-2-7">
+<p id="section-2-1">The same AlgorithmIdentifier is used to identify a Composite ML-DSA public key and signature algorithm.
+The object identifiers for Composite ML-DSA algorithms are defined in <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span>, and are reproduced here for convenience.
+The parameters field of the AlgorithmIdentifier for the Composite ML-DSA public key and signature algorithm MUST be absent.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-asn.1 sourcecode" id="section-2-2">
 <pre>
 id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
@@ -1346,7 +1312,7 @@ id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
 id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
    pkix(7) alg(6) 54 }
-</pre><a href="#section-2-7" class="pilcrow">¶</a>
+</pre><a href="#section-2-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1374,10 +1340,7 @@ For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest al
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-signeddata-digestalgorithms" class="section-name selfRef">SignedData digestAlgorithms</a>
         </h3>
 <p id="section-3.2-1">The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
-There MAY be any number of elements in the collection, including zero.
-When signing with a Composite ML-DSA algorithm, the list of identifiers MAY include a digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.
-The digest algorithm(s) included will depend on the Composite ML-DSA algorithm(s) used for signing.
-If such a digest algorithm is present, the algorithm parameters field MUST be absent.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signature-generation-and-verification">
@@ -1417,7 +1380,7 @@ See <a href="#digest-algs" class="auto internal xref">Table 1</a> for exact algo
           <dd class="break"></dd>
 <dt id="section-3.4-2.3"></dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the used of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
+            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the use of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> in CMS (id-shake256).
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1697,10 +1660,6 @@ The generation of random numbers of a sufficient level of quality for use in cry
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC5911">[RFC5911]</dt>
-        <dd>
-<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for Cryptographic Message Syntax (CMS) and S/MIME"</span>, <span class="seriesInfo">RFC 5911</span>, <span class="seriesInfo">DOI 10.17487/RFC5911</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5911">https://www.rfc-editor.org/rfc/rfc5911</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8933">[RFC8933]</dt>
         <dd>
 <span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Update to the Cryptographic Message Syntax (CMS) for Algorithm Identifier Protection"</span>, <span class="seriesInfo">RFC 8933</span>, <span class="seriesInfo">DOI 10.17487/RFC8933</span>, <time datetime="2020-10" class="refDate">October 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8933">https://www.rfc-editor.org/rfc/rfc8933</a>&gt;</span>. </dd>
@@ -1733,10 +1692,6 @@ The generation of random numbers of a sufficient level of quality for use in cry
 <dt id="RFC9794">[RFC9794]</dt>
         <dd>
 <span class="refAuthor">Driscoll, F.</span>, <span class="refAuthor">Parsons, M.</span>, and <span class="refAuthor">B. Hale</span>, <span class="refTitle">"Terminology for Post-Quantum Traditional Hybrid Schemes"</span>, <span class="seriesInfo">RFC 9794</span>, <span class="seriesInfo">DOI 10.17487/RFC9794</span>, <time datetime="2025-06" class="refDate">June 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9794">https://www.rfc-editor.org/rfc/rfc9794</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5280">[RFC5280]</dt>
-        <dd>
-<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8032">[RFC8032]</dt>
         <dd>
