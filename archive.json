@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-05T01:44:04.914842+00:00",
+  "timestamp": "2026-02-08T02:07:04.829364+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -399,24 +399,26 @@
       "id": "PR_kwDOQdmGXs7Bd6GU",
       "title": "Address Carl's WGLC comments",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/9",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Carl's comments: https://mailarchive.ietf.org/arch/msg/spasm/tAtL0dkvtNwleQPfuV-25B2OiJw/",
       "createdAt": "2026-02-04T13:27:28Z",
-      "updatedAt": "2026-02-04T22:00:54Z",
+      "updatedAt": "2026-02-05T13:50:00Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "30d12cbd0401c67578e04409050415e68f59508a",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/carl_wglc_comments",
       "headRefOid": "e2bdcfcccc5a4c3064783156583a865990d1b2f9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-05T13:49:57Z",
+      "mergedAt": "2026-02-05T13:49:57Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "70893508f71773b32bf719536cc97bb3b1dd676b"
+      },
       "comments": [],
       "reviews": [
         {
