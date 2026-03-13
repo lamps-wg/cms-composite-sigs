@@ -267,14 +267,6 @@ signatureAlgorithm:
  The Composite ML-DSA signature-generation operation is specified in {{Section 4.2 of I-D.ietf-lamps-pq-composite-sigs}}, and the signature-verification operation is specified in {{Section 4.3 of I-D.ietf-lamps-pq-composite-sigs}}.
  Note that {{Section 5.6 of RFC5652}} places further requirements on the successful verification of a signature.
 
-# ASN.1 Module {#sec-asn1-module}
-
-~~~ asn.1
-<CODE BEGINS>
-{::include Composite-MLDSA-CMS-2026.asn}
-<CODE ENDS>
-~~~
-
 
 # IANA Considerations {#sec-iana}
 IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.
@@ -303,6 +295,17 @@ To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute de
 
 
 --- back
+
+# ASN.1 Module {#sec-asn1-module}
+
+This appendix includes the ASN.1 module {{X680}} for the use of ML-KEM in the CMS.
+This module imports objects from {{!RFC5911}}.
+
+~~~ asn.1
+<CODE BEGINS>
+{::include Composite-MLDSA-CMS-2026.asn}
+<CODE ENDS>
+~~~
 
 
 # Examples
