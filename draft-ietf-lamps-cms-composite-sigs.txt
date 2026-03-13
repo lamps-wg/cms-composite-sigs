@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 9 August 2026                                      J. Klaussner
+Expires: 14 September 2026                                  J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                         5 February 2026
+                                                           13 March 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2026.
+   This Internet-Draft will expire on 14 September 2026.
 
 Copyright Notice
 
@@ -81,13 +81,13 @@ Table of Contents
      3.2.  SignedData digestAlgorithms
      3.3.  Signature Generation and Verification
      3.4.  SignerInfo Content
-   4.  ASN.1 Module
-   5.  IANA Considerations
-   6.  Security Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
-   Appendix A.  Examples
+   4.  IANA Considerations
+   5.  Security Considerations
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
+   Appendix A.  ASN.1 Module
+   Appendix B.  Examples
    Acknowledgements
    Authors' Addresses
 
@@ -333,7 +333,144 @@ Table of Contents
       [RFC5652] places further requirements on the successful
       verification of a signature.
 
-4.  ASN.1 Module
+4.  IANA Considerations
+
+   IANA is requested to allocate a value from the "SMI Security for PKIX
+   Module Identifier" registry for the included ASN.1 module.
+
+   *  Decimal: IANA Assigned - *Replace TBDCompositeMOD*
+
+   *  Description: Composite-Signatures-CMS-2026 - id-mod-composite-
+      mldsa-cms-2026
+
+   *  References: This Document
+
+5.  Security Considerations
+
+   All security considerations from [I-D.ietf-lamps-pq-composite-sigs]
+   apply.
+
+   Security of the Composite ML-DSA private key is critical.  Compromise
+   of the private key will enable an adversary to forge arbitrary
+   signatures.
+
+   Composite ML-DSA depends on high-quality random numbers that are
+   suitable for use in cryptography.  The use of inadequate pseudo-
+   random number generators (PRNGs) to generate such values can
+   significantly undermine the security properties offered by a
+   cryptographic algorithm.  For instance, an attacker may find it much
+   easier to reproduce the PRNG environment that produced any private
+   keys, searching the resulting small set of possibilities, rather than
+   brute-force searching the whole key space.  The generation of random
+   numbers of a sufficient level of quality for use in cryptography is
+   difficult; see Section 3.6.1 of [FIPS204] for some additional
+   information.
+
+   To avoid algorithm substitution attacks, the CMSAlgorithmProtection
+   attribute defined in [RFC6211] SHOULD be included in signed
+   attributes.
+
+6.  References
+
+6.1.  Normative References
+
+   [FIPS180]  "Secure hash standard", National Institute of Standards
+              and Technology (U.S.), DOI 10.6028/nist.fips.180-4, 2015,
+              <https://doi.org/10.6028/nist.fips.180-4>.
+
+   [FIPS202]  "SHA-3 standard :: permutation-based hash and extendable-
+              output functions", National Institute of Standards and
+              Technology (U.S.), DOI 10.6028/nist.fips.202, 2015,
+              <https://doi.org/10.6028/nist.fips.202>.
+
+   [FIPS204]  "Module-lattice-based digital signature standard",
+              National Institute of Standards and Technology (U.S.),
+              DOI 10.6028/nist.fips.204, August 2024,
+              <https://doi.org/10.6028/nist.fips.204>.
+
+   [I-D.ietf-lamps-pq-composite-sigs]
+              Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
+              Fluhrer, "Composite ML-DSA for use in X.509 Public Key
+              Infrastructure", Work in Progress, Internet-Draft, draft-
+              ietf-lamps-pq-composite-sigs-15, 24 February 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
+              pq-composite-sigs-15>.
+
+   [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
+              RFC 5652, DOI 10.17487/RFC5652, September 2009,
+              <https://www.rfc-editor.org/rfc/rfc5652>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8933]  Housley, R., "Update to the Cryptographic Message Syntax
+              (CMS) for Algorithm Identifier Protection", RFC 8933,
+              DOI 10.17487/RFC8933, October 2020,
+              <https://www.rfc-editor.org/rfc/rfc8933>.
+
+   [RFC5754]  Turner, S., "Using SHA2 Algorithms with Cryptographic
+              Message Syntax", RFC 5754, DOI 10.17487/RFC5754, January
+              2010, <https://www.rfc-editor.org/rfc/rfc5754>.
+
+   [RFC8702]  Kampanakis, P. and Q. Dang, "Use of the SHAKE One-Way Hash
+              Functions in the Cryptographic Message Syntax (CMS)",
+              RFC 8702, DOI 10.17487/RFC8702, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8702>.
+
+   [RFC6211]  Schaad, J., "Cryptographic Message Syntax (CMS) Algorithm
+              Identifier Protection Attribute", RFC 6211,
+              DOI 10.17487/RFC6211, April 2011,
+              <https://www.rfc-editor.org/rfc/rfc6211>.
+
+   [RFC5911]  Hoffman, P. and J. Schaad, "New ASN.1 Modules for
+              Cryptographic Message Syntax (CMS) and S/MIME", RFC 5911,
+              DOI 10.17487/RFC5911, June 2010,
+              <https://www.rfc-editor.org/rfc/rfc5911>.
+
+6.2.  Informative References
+
+   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): Specification of basic notation", ITU-T
+              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.680>.
+
+   [X690]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): ASN.1 encoding rules: Specification of Basic
+              Encoding Rules (BER), Canonical Encoding Rules (CER) and
+              Distinguished Encoding Rules (DER)", ITU-T
+              Recommendation X.690, ISO/IEC 8825-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.690>.
+
+   [RFC9794]  Driscoll, F., Parsons, M., and B. Hale, "Terminology for
+              Post-Quantum Traditional Hybrid Schemes", RFC 9794,
+              DOI 10.17487/RFC9794, June 2025,
+              <https://www.rfc-editor.org/rfc/rfc9794>.
+
+   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", RFC 8032,
+              DOI 10.17487/RFC8032, January 2017,
+              <https://www.rfc-editor.org/rfc/rfc8032>.
+
+   [RFC9882]  Salter, B., Raine, A., and D. Van Geest, "Use of the ML-
+              DSA Signature Algorithm in the Cryptographic Message
+              Syntax (CMS)", RFC 9882, DOI 10.17487/RFC9882, October
+              2025, <https://www.rfc-editor.org/rfc/rfc9882>.
+
+   [RFC8411]  Schaad, J. and R. Andrews, "IANA Registration for the
+              Cryptographic Algorithm Object Identifier Range",
+              RFC 8411, DOI 10.17487/RFC8411, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8411>.
+
+Appendix A.  ASN.1 Module
+
+   This appendix includes the ASN.1 module [X680] for the use of ML-KEM
+   in the CMS.  This module imports objects from [RFC5911].
 
    <CODE BEGINS>
    Composite-MLDSA-CMS-2026
@@ -421,136 +558,7 @@ Table of Contents
    END
    <CODE ENDS>
 
-5.  IANA Considerations
-
-   IANA is requested to allocate a value from the "SMI Security for PKIX
-   Module Identifier" registry for the included ASN.1 module.
-
-   *  Decimal: IANA Assigned - *Replace TBDCompositeMOD*
-
-   *  Description: Composite-Signatures-CMS-2026 - id-mod-composite-
-      mldsa-cms-2026
-
-   *  References: This Document
-
-6.  Security Considerations
-
-   All security considerations from [I-D.ietf-lamps-pq-composite-sigs]
-   apply.
-
-   Security of the Composite ML-DSA private key is critical.  Compromise
-   of the private key will enable an adversary to forge arbitrary
-   signatures.
-
-   Composite ML-DSA depends on high-quality random numbers that are
-   suitable for use in cryptography.  The use of inadequate pseudo-
-   random number generators (PRNGs) to generate such values can
-   significantly undermine the security properties offered by a
-   cryptographic algorithm.  For instance, an attacker may find it much
-   easier to reproduce the PRNG environment that produced any private
-   keys, searching the resulting small set of possibilities, rather than
-   brute-force searching the whole key space.  The generation of random
-   numbers of a sufficient level of quality for use in cryptography is
-   difficult; see Section 3.6.1 of [FIPS204] for some additional
-   information.
-
-   To avoid algorithm substitution attacks, the CMSAlgorithmProtection
-   attribute defined in [RFC6211] SHOULD be included in signed
-   attributes.
-
-7.  References
-
-7.1.  Normative References
-
-   [FIPS180]  "Secure hash standard", National Institute of Standards
-              and Technology (U.S.), DOI 10.6028/nist.fips.180-4, 2015,
-              <https://doi.org/10.6028/nist.fips.180-4>.
-
-   [FIPS202]  "SHA-3 standard :: permutation-based hash and extendable-
-              output functions", National Institute of Standards and
-              Technology (U.S.), DOI 10.6028/nist.fips.202, 2015,
-              <https://doi.org/10.6028/nist.fips.202>.
-
-   [FIPS204]  "Module-lattice-based digital signature standard",
-              National Institute of Standards and Technology (U.S.),
-              DOI 10.6028/nist.fips.204, August 2024,
-              <https://doi.org/10.6028/nist.fips.204>.
-
-   [I-D.ietf-lamps-pq-composite-sigs]
-              Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
-              Fluhrer, "Composite ML-DSA for use in X.509 Public Key
-              Infrastructure", Work in Progress, Internet-Draft, draft-
-              ietf-lamps-pq-composite-sigs-14, 7 January 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              pq-composite-sigs-14>.
-
-   [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
-              RFC 5652, DOI 10.17487/RFC5652, September 2009,
-              <https://www.rfc-editor.org/rfc/rfc5652>.
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/rfc/rfc2119>.
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
-
-   [RFC8933]  Housley, R., "Update to the Cryptographic Message Syntax
-              (CMS) for Algorithm Identifier Protection", RFC 8933,
-              DOI 10.17487/RFC8933, October 2020,
-              <https://www.rfc-editor.org/rfc/rfc8933>.
-
-   [RFC5754]  Turner, S., "Using SHA2 Algorithms with Cryptographic
-              Message Syntax", RFC 5754, DOI 10.17487/RFC5754, January
-              2010, <https://www.rfc-editor.org/rfc/rfc5754>.
-
-   [RFC8702]  Kampanakis, P. and Q. Dang, "Use of the SHAKE One-Way Hash
-              Functions in the Cryptographic Message Syntax (CMS)",
-              RFC 8702, DOI 10.17487/RFC8702, January 2020,
-              <https://www.rfc-editor.org/rfc/rfc8702>.
-
-   [RFC6211]  Schaad, J., "Cryptographic Message Syntax (CMS) Algorithm
-              Identifier Protection Attribute", RFC 6211,
-              DOI 10.17487/RFC6211, April 2011,
-              <https://www.rfc-editor.org/rfc/rfc6211>.
-
-7.2.  Informative References
-
-   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
-              One (ASN.1): Specification of basic notation", ITU-T
-              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
-              <https://www.itu.int/rec/T-REC-X.680>.
-
-   [X690]     ITU-T, "Information technology - Abstract Syntax Notation
-              One (ASN.1): ASN.1 encoding rules: Specification of Basic
-              Encoding Rules (BER), Canonical Encoding Rules (CER) and
-              Distinguished Encoding Rules (DER)", ITU-T
-              Recommendation X.690, ISO/IEC 8825-1:2021, February 2021,
-              <https://www.itu.int/rec/T-REC-X.690>.
-
-   [RFC9794]  Driscoll, F., Parsons, M., and B. Hale, "Terminology for
-              Post-Quantum Traditional Hybrid Schemes", RFC 9794,
-              DOI 10.17487/RFC9794, June 2025,
-              <https://www.rfc-editor.org/rfc/rfc9794>.
-
-   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
-              Signature Algorithm (EdDSA)", RFC 8032,
-              DOI 10.17487/RFC8032, January 2017,
-              <https://www.rfc-editor.org/rfc/rfc8032>.
-
-   [RFC9882]  Salter, B., Raine, A., and D. Van Geest, "Use of the ML-
-              DSA Signature Algorithm in the Cryptographic Message
-              Syntax (CMS)", RFC 9882, DOI 10.17487/RFC9882, October
-              2025, <https://www.rfc-editor.org/rfc/rfc9882>.
-
-   [RFC8411]  Schaad, J. and R. Andrews, "IANA Registration for the
-              Cryptographic Algorithm Object Identifier Range",
-              RFC 8411, DOI 10.17487/RFC8411, August 2018,
-              <https://www.rfc-editor.org/rfc/rfc8411>.
-
-Appendix A.  Examples
+Appendix B.  Examples
 
    This appendix contains an example signed-data encoding with the id-
    MLDSA65-ECDSA-P256-SHA512 signature algorithm.
