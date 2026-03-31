@@ -269,10 +269,10 @@ signatureAlgorithm:
 
 
 # IANA Considerations {#sec-iana}
-IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.
+IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the included ASN.1 module.
 
--  Decimal: IANA Assigned - **Replace TBDCompositeMOD**
--  Description: Composite-Signatures-CMS-2026 - id-mod-composite-mldsa-cms-2026
+-  Decimal: IANA Assigned - **Replace TBDMOD**
+-  Description: Composite-MLDSA-CMS-2026 - id-mod-composite-mldsa-cms-2026
 -  References: This Document
 
 
