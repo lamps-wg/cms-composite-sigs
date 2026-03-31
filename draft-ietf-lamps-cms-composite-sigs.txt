@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 14 September 2026                                  J. Klaussner
+Expires: 2 October 2026                                     J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                           13 March 2026
+                                                           31 March 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2026.
+   This Internet-Draft will expire on 2 October 2026.
 
 Copyright Notice
 
@@ -335,13 +335,14 @@ Table of Contents
 
 4.  IANA Considerations
 
-   IANA is requested to allocate a value from the "SMI Security for PKIX
-   Module Identifier" registry for the included ASN.1 module.
+   IANA is requested to allocate a value from the "SMI Security for S/
+   MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the
+   included ASN.1 module.
 
-   *  Decimal: IANA Assigned - *Replace TBDCompositeMOD*
+   *  Decimal: IANA Assigned - *Replace TBDMOD*
 
-   *  Description: Composite-Signatures-CMS-2026 - id-mod-composite-
-      mldsa-cms-2026
+   *  Description: Composite-MLDSA-CMS-2026 - id-mod-composite-mldsa-
+      cms-2026
 
    *  References: This Document
 
@@ -474,8 +475,8 @@ Appendix A.  ASN.1 Module
 
    <CODE BEGINS>
    Composite-MLDSA-CMS-2026
-     { iso(1) identified-organization(3) dod(6) internet(1)
-           security(5) mechanisms(5) pkix(7) id-mod(0)
+     { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs9(9)
+           id-smime(16) id-mod(0)
            id-mod-composite-mldsa-cms-2026(TBDMOD) }
 
    DEFINITIONS IMPLICIT TAGS ::= BEGIN
