@@ -126,59 +126,59 @@ The parameters field of the AlgorithmIdentifier for the Composite ML-DSA public 
 
 ~~~ asn.1
 id-MLDSA44-RSA2048-PSS-SHA256 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 37 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 37 }
 id-MLDSA44-RSA2048-PKCS15-SHA256 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 38 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 38 }
 id-MLDSA44-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 39 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 39 }
 id-MLDSA44-ECDSA-P256-SHA256 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 40 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 40 }
 id-MLDSA65-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 41 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 41 }
 id-MLDSA65-RSA3072-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 42 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 42 }
 id-MLDSA65-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 43 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 43 }
 id-MLDSA65-RSA4096-PKCS15-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 44 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 44 }
 id-MLDSA65-ECDSA-P256-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 45 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 45 }
 id-MLDSA65-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 46 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 46 }
 id-MLDSA65-ECDSA-brainpoolP256r1-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 47 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 47 }
 id-MLDSA65-Ed25519-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 48 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 48 }
 id-MLDSA87-ECDSA-P384-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 49 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 49 }
 id-MLDSA87-ECDSA-brainpoolP384r1-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 50 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 50 }
 id-MLDSA87-Ed448-SHAKE256 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 51 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 51 }
 id-MLDSA87-RSA3072-PSS-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 52 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 52 }
 id-MLDSA87-RSA4096-PSS-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 53 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 53 }
 id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
-   iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-   pkix(7) alg(6) 54 }
+   iso(1) identified-organization(3) dod(6) internet(1) security(5)
+   mechanisms(5) pkix(7) alg(6) 54 }
 ~~~
 
 # Signed-Data Conventions
