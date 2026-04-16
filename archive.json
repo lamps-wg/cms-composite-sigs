@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-08T02:07:04.829364+00:00",
+  "timestamp": "2026-04-16T02:09:56.980064+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -156,6 +156,22 @@
           "updatedAt": "2026-02-04T21:57:47Z"
         }
       ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOQdmGXs79-YCf",
+      "title": "SECDIR review",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/11",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/spasm/ENDFotAi9JPOnm_4wW6wXbnQgkU/\n\n> Section 3.4 requires (\"MUST\") digestAlgorithm from SignerInfo to match digest\nalgorithm used by the Composite ML-DSA. I believe it is worth spelling out that\nviolation of this MUST result in rejection of the CMS object. Perhaps it is\nworth adding this to security considerations.\n\n> Further potential improvements to security considerations could include DoS\nconsiderations. ML-DSA (and its composites) have bigger signatures and its sign\noperation is generally more CPU-intensive compared to most classical\nalgorithms. Implementers must take that into consideration.",
+      "createdAt": "2026-04-14T09:09:18Z",
+      "updatedAt": "2026-04-14T09:09:18Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
