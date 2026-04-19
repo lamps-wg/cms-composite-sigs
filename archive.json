@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-16T02:09:56.980064+00:00",
+  "timestamp": "2026-04-19T02:10:25.996838+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -169,9 +169,17 @@
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/ENDFotAi9JPOnm_4wW6wXbnQgkU/\n\n> Section 3.4 requires (\"MUST\") digestAlgorithm from SignerInfo to match digest\nalgorithm used by the Composite ML-DSA. I believe it is worth spelling out that\nviolation of this MUST result in rejection of the CMS object. Perhaps it is\nworth adding this to security considerations.\n\n> Further potential improvements to security considerations could include DoS\nconsiderations. ML-DSA (and its composites) have bigger signatures and its sign\noperation is generally more CPU-intensive compared to most classical\nalgorithms. Implementers must take that into consideration.",
       "createdAt": "2026-04-14T09:09:18Z",
-      "updatedAt": "2026-04-14T09:09:18Z",
+      "updatedAt": "2026-04-17T10:05:50Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sean Turner has a similar comment to the first one from his Artart review:\n\n> s3.4 requires that the message digest algorithm MUST be the same digest\nalgorithm used by the Composite ML-DSA algorithm. Does this requirement extend\nRFC 5652 s5.6 (Signature Verification Process\"? If the answer is \"yes\", then I\nthink we should say that s5.6 is extended and that the signature is not valid\nif the two signatures are not made using the same algorithm.\n",
+          "createdAt": "2026-04-17T10:05:50Z",
+          "updatedAt": "2026-04-17T10:05:50Z"
+        }
+      ]
     }
   ],
   "pulls": [
