@@ -232,7 +232,7 @@ This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
 Per {{!RFC8933}}, if the signedAttrs field is present in the SignerInfo, then the same digest algorithm MUST be used to compute both the digest of the SignedData encapContentInfo eContent, which is carried in the message-digest attribute, and the digest of the DER-encoded signedAttrs, which is passed to the signature algorithm.
 See {{digest-algs}} for exact algorithm mappings.
 
-: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the use of SHAKE256 {{FIPS202}} in CMS (id-shake256).
+: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the use of SHAKE256 {{FIPS202}} (id-shake256) in CMS.
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.
 
