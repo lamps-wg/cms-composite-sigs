@@ -1351,7 +1351,9 @@ For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest al
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-signeddata-digestalgorithms" class="section-name selfRef">SignedData digestAlgorithms</a>
         </h3>
 <p id="section-3.2-1">The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
-When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.
+The field is intended to list the message digest algorithms employed by all of the signers, to facilitate one-pass signature verification.
+If the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a> is not listed, a one-pass verifier might not successfully verify the Composite ML-DSA signature.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signature-generation-and-verification">

@@ -216,7 +216,12 @@ Table of Contents
    The SignedData digestAlgorithms field includes the identifiers of the
    message digest algorithms used by one or more signer.  When signing
    with a Composite ML-DSA algorithm, this list of identifiers SHOULD
-   include the corresponding digest algorithm from Table 1.
+   include the corresponding digest algorithm from Table 1.  The field
+   is intended to list the message digest algorithms employed by all of
+   the signers, to facilitate one-pass signature verification.  If the
+   corresponding digest algorithm from Table 1 is not listed, a one-pass
+   verifier might not successfully verify the Composite ML-DSA
+   signature.
 
 3.3.  Signature Generation and Verification
 
