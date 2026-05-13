@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 15 October 2026                                    J. Klaussner
+Expires: 14 November 2026                                   J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                           13 April 2026
+                                                             13 May 2026
 
 
      Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2026.
+   This Internet-Draft will expire on 14 November 2026.
 
 Copyright Notice
 
@@ -271,7 +271,7 @@ Table of Contents
 
       [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
       SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the use
-      of SHAKE256 [FIPS202] in CMS (id-shake256).  When id-sha256 or id-
+      of SHAKE256 [FIPS202] (id-shake256) in CMS.  When id-sha256 or id-
       sha512 is used, the parameters field MUST be omitted.  When id-
       shake256 is used the parameters field MUST be omitted and the
       digest length MUST be 64 bytes.
@@ -394,9 +394,9 @@ Table of Contents
               Fluhrer, "Composite Module-Lattice-Based Digital Signature
               Algorithm (ML-DSA) for use in X.509 Public Key
               Infrastructure", Work in Progress, Internet-Draft, draft-
-              ietf-lamps-pq-composite-sigs-18, 9 April 2026,
+              ietf-lamps-pq-composite-sigs-19, 21 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              pq-composite-sigs-18>.
+              pq-composite-sigs-19>.
 
    [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
               RFC 5652, DOI 10.17487/RFC5652, September 2009,
