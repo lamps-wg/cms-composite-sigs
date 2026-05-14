@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-19T02:10:25.996838+00:00",
+  "timestamp": "2026-05-14T02:41:54.799669+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -178,6 +178,46 @@
           "body": "Sean Turner has a similar comment to the first one from his Artart review:\n\n> s3.4 requires that the message digest algorithm MUST be the same digest\nalgorithm used by the Composite ML-DSA algorithm. Does this requirement extend\nRFC 5652 s5.6 (Signature Verification Process\"? If the answer is \"yes\", then I\nthink we should say that s5.6 is extended and that the signature is not valid\nif the two signatures are not made using the same algorithm.\n",
           "createdAt": "2026-04-17T10:05:50Z",
           "updatedAt": "2026-04-17T10:05:50Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOQdmGXs8AAAABCAFKUw",
+      "title": "Mahesh's review Apr 28",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/12",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/spasm/W4B1MFLSxjOhivSv7gQf0TrUqG8/\n\nThese comments need an on-list response, and some changes to the draft.\n\nNote that `org(3)` -> `identified-organization(3)` has been fixed in the upstream draft-ietf-lamps-pq-composite-sigs",
+      "createdAt": "2026-05-12T12:54:25Z",
+      "updatedAt": "2026-05-12T12:54:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOQdmGXs8AAAABCByvRw",
+      "title": "DOWNREF for RFC9794?",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/13",
+      "state": "OPEN",
+      "author": "ounsworth",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We have COMMENTS against this and the upstream composites drafts to reference RFC9794 as Normative.\n\nThe upstream composite doc chose not to, but Deb has said:\n\n> My suggestion is to just add it as normative, and I'll work the downref approval (which isn't hard). I will probably just add it to the downref registry to avoid more angst.",
+      "createdAt": "2026-05-12T16:59:06Z",
+      "updatedAt": "2026-05-13T17:16:39Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We actually use little-to-no RFC9794 text, the relevant line was just lifted from pq-composite-sigs. As part of Med's review I will remove the offending line and tweak some text.",
+          "createdAt": "2026-05-13T17:16:39Z",
+          "updatedAt": "2026-05-13T17:16:39Z"
         }
       ]
     }
@@ -459,6 +499,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOQdmGXs7bOZF1",
+      "title": "Address Mohamed Boucadair's review",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/14",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Make X680 and X690 normative\r\n- Don't need to reference RFC 9794\r\n- Expand acronyms\r\n- RSA/ECDSA/EdDSA references\r\n- RFC5652 citation\r\n- Tweak text explicitly stating that Composite ML-DSA only provides pre-hash mode.\r\n- Do not include operational considerations section, large message size is an issue for ML-DSA but not Composite ML-DSA.",
+      "createdAt": "2026-05-13T17:43:29Z",
+      "updatedAt": "2026-05-13T17:51:29Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "c1b02af7327a8e948d362a24baf6376897cdfd60",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/med_review",
+      "headRefOid": "6da6311a1e3859b85201e1a09922572b8accd3de",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
