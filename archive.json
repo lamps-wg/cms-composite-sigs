@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T02:41:54.799669+00:00",
+  "timestamp": "2026-05-17T02:39:35.632361+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -512,13 +512,53 @@
       "labels": [],
       "body": "- Make X680 and X690 normative\r\n- Don't need to reference RFC 9794\r\n- Expand acronyms\r\n- RSA/ECDSA/EdDSA references\r\n- RFC5652 citation\r\n- Tweak text explicitly stating that Composite ML-DSA only provides pre-hash mode.\r\n- Do not include operational considerations section, large message size is an issue for ML-DSA but not Composite ML-DSA.",
       "createdAt": "2026-05-13T17:43:29Z",
-      "updatedAt": "2026-05-13T17:51:29Z",
+      "updatedAt": "2026-05-14T15:18:39Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "c1b02af7327a8e948d362a24baf6376897cdfd60",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/med_review",
       "headRefOid": "6da6311a1e3859b85201e1a09922572b8accd3de",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs7_xSt5",
+          "commit": {
+            "abbreviatedOid": "6da6311"
+          },
+          "author": "johngray-dev",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for making the changes Dan.  They look good to me!",
+          "createdAt": "2026-05-14T15:18:39Z",
+          "updatedAt": "2026-05-14T15:18:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOQdmGXs7b9Ueg",
+      "title": "Address Yaroslav's DoS considerations. digestAlgorithm considerations\u2026",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/15",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026 will come later.",
+      "createdAt": "2026-05-15T14:46:13Z",
+      "updatedAt": "2026-05-15T14:46:13Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "c1b02af7327a8e948d362a24baf6376897cdfd60",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/Yaroslav_dos_considerations",
+      "headRefOid": "d8eca0af0e8c0720fa1b903b8ff9f23b79758045",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
