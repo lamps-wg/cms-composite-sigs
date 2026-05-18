@@ -104,7 +104,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
 
 # Introduction {#sec-intro}
 
-{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS.204}} with RSASSA-PKCS1-v1.5 {{!RFC8017}}, RSASSA-PSS {{!RFC8017}}, ECDSA Section 6 of {{!FIPS.186-5}}, Ed25519 {{!RFC8410}}, and Ed448 {{!RFC8410}}.
+{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS.204}} with RSASSA-PKCS1-v1.5 {{!RFC8017}}, RSASSA-PSS {{!RFC8017}}, ECDSA (Section 6 of {{!FIPS.186-5}}), Ed25519 {{!RFC8410}}, and Ed448 {{!RFC8410}}.
 This document acts as a companion to {{I-D.ietf-lamps-pq-composite-sigs}} by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) {{!RFC5652}}.
 
 
@@ -265,7 +265,7 @@ signatureAlgorithm:
  signature:
 
  : The signature field contains the signature value resulting from the use of the Composite ML-DSA signature algorithm identified by the signatureAlgorithm field.
- The Composite ML-DSA signature-generation operation is specified in (Section 4.2 of {{I-D.ietf-lamps-pq-composite-sigs}}), and the signature-verification operation is specified in {{Section 4.3 of I-D.ietf-lamps-pq-composite-sigs}}.
+ The Composite ML-DSA signature-generation operation is specified in {{Section 4.2 of I-D.ietf-lamps-pq-composite-sigs}}, and the signature-verification operation is specified in {{Section 4.3 of I-D.ietf-lamps-pq-composite-sigs}}.
  Note that {{Section 5.6 of RFC5652}} places further requirements on the successful verification of a signature.
 
 
