@@ -1,5 +1,5 @@
 ---
-title: Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
+title: Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in Cryptographic Message Syntax (CMS)
 abbrev: Composite ML-DSA CMS
 docname: draft-ietf-lamps-cms-composite-sigs-latest
 
@@ -62,12 +62,10 @@ author:
 
 
 normative:
-  FIPS180: DOI.10.6028/NIST.FIPS.180-4
-  FIPS202: DOI.10.6028/NIST.FIPS.202
-  FIPS204: DOI.10.6028/NIST.FIPS.204
-
-
-informative:
+  FIPS.180: DOI.10.6028/NIST.FIPS.180-4
+  FIPS.202: DOI.10.6028/NIST.FIPS.202
+  FIPS.204: DOI.10.6028/NIST.FIPS.204
+  FIPS.186-5: DOI.10.6028/NIST.FIPS.186-5
   X680:
     target: https://www.itu.int/rec/T-REC-X.680
     title: >
@@ -92,9 +90,12 @@ informative:
       ITU-T Recommendation: X.690
       ISO/IEC: 8825-1:2021
 
+
+informative:
+
 --- abstract
 
-Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
+Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS).
 
 
@@ -103,7 +104,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
 
 # Introduction {#sec-intro}
 
-{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS204}} with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
+{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS.204}} with RSASSA-PKCS1-v1.5 {{!RFC8017}}, RSASSA-PSS {{!RFC8017}}, ECDSA (Section 6 of {{!FIPS.186-5}}), Ed25519 {{!RFC8410}}, and Ed448 {{!RFC8410}}.
 This document acts as a companion to {{I-D.ietf-lamps-pq-composite-sigs}} by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) {{!RFC5652}}.
 
 
@@ -114,8 +115,6 @@ CMS values are generated using ASN.1 {{X680}}, using the Basic Encoding Rules (B
 ## Conventions and Terminology {#sec-terminology}
 
 {::boilerplate bcp14+}
-
-This document is consistent with the terminology defined in {{?RFC9794}}.
 
 
 # Composite ML-DSA Algorithm Identifiers {#algorithm-identifiers}
@@ -186,19 +185,21 @@ id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
 ## Pre-Hashing
 
 {{RFC5652}} specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
-At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
-Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS204}} have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
+At the time {{RFC5652}} was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
+Since then, EdDSA {{?RFC8032}} and ML-DSA {{FIPS.204}} have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.
 
-Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+Composite ML-DSA only provides a "pre-hash" mode. Unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.
 
-When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, e.g., in the case of id-MLDSA87-ECDSA-P384-SHA512 the traditional component uses SHA-384. These internal digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
+When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms internally, e.g., in the case of id-MLDSA87-ECDSA-P384-SHA512 the ECDSA component uses SHA-384. These internal digest algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
 
 ## SignedData digestAlgorithms
 
 The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
 When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from {{digest-algs}}.
+The field is intended to list the message digest algorithms employed by all of the signers, to facilitate one-pass signature verification.
+If the corresponding digest algorithm from {{digest-algs}} is not listed, a one-pass verifier might not successfully verify the Composite ML-DSA signature.
 
 
 ## Signature Generation and Verification
@@ -232,7 +233,7 @@ This MUST be the same digest algorithm used by the Composite ML-DSA algorithm.
 Per {{!RFC8933}}, if the signedAttrs field is present in the SignerInfo, then the same digest algorithm MUST be used to compute both the digest of the SignedData encapContentInfo eContent, which is carried in the message-digest attribute, and the digest of the DER-encoded signedAttrs, which is passed to the signature algorithm.
 See {{digest-algs}} for exact algorithm mappings.
 
-: {{!RFC5754}} defines the use of SHA-256 {{FIPS180}} (id-sha256) and SHA-512 {{FIPS180}} (id-sha512) in CMS. {{!RFC8702}} defines the use of SHAKE256 {{FIPS202}} (id-shake256) in CMS.
+: {{!RFC5754}} defines the use of SHA-256 {{FIPS.180}} (id-sha256) and SHA-512 {{FIPS.180}} (id-sha512) in CMS. {{!RFC8702}} defines the use of SHAKE256 {{FIPS.202}} (id-shake256) in CMS.
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.
 
@@ -289,7 +290,7 @@ Compromise of the private key will enable an adversary to forge arbitrary signat
 Composite ML-DSA depends on high-quality random numbers that are suitable for use in cryptography.
 The use of inadequate pseudo-random number generators (PRNGs) to generate such values can significantly undermine the security properties offered by a cryptographic algorithm.
 For instance, an attacker may find it much easier to reproduce the PRNG environment that produced any private keys, searching the resulting small set of possibilities, rather than brute-force searching the whole key space.
-The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of {{FIPS204}} for some additional information.
+The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of {{FIPS.204}} for some additional information.
 
 To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in {{!RFC6211}} SHOULD be included in signed attributes.
 
