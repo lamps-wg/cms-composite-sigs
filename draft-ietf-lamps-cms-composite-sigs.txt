@@ -5,21 +5,23 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 14 November 2026                                   J. Klaussner
+Expires: 19 November 2026                                   J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                             13 May 2026
+                                                             18 May 2026
 
 
-     Composite ML-DSA for use in Cryptographic Message Syntax (CMS)
+Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for
+               use in Cryptographic Message Syntax (CMS)
                draft-ietf-lamps-cms-composite-sigs-latest
 
 Abstract
 
-   Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and
-   EdDSA.  This document specifies the conventions for using Composite
-   ML-DSA algorithms within the Cryptographic Message Syntax (CMS).
+   Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
+   defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.  This
+   document specifies the conventions for using Composite ML-DSA
+   algorithms within the Cryptographic Message Syntax (CMS).
 
 About This Document
 
@@ -54,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 November 2026.
+   This Internet-Draft will expire on 19 November 2026.
 
 Copyright Notice
 
@@ -95,8 +97,9 @@ Table of Contents
 
    [I-D.ietf-lamps-pq-composite-sigs] defines a collection of signature
    algorithms, referred to as Composite ML-DSA, which combine ML-DSA
-   [FIPS204] with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS,
-   ECDSA, Ed25519, and Ed448.  This document acts as a companion to
+   [FIPS.204] with RSASSA-PKCS1-v1.5 [RFC8017], RSASSA-PSS [RFC8017],
+   ECDSA (Section 6 of [FIPS.186-5]), Ed25519 [RFC8410], and Ed448
+   [RFC8410].  This document acts as a companion to
    [I-D.ietf-lamps-pq-composite-sigs] by providing conventions for using
    Composite ML-DSA algorithms within the Cryptographic Message Syntax
    (CMS) [RFC5652].
@@ -115,9 +118,6 @@ Table of Contents
    capitals, as shown here.  These words may also appear in this
    document in lower case as plain English words, absent their normative
    meanings.
-
-   This document is consistent with the terminology defined in
-   [RFC9794].
 
 2.  Composite ML-DSA Algorithm Identifiers
 
@@ -189,35 +189,39 @@ Table of Contents
 
    [RFC5652] specifies that digital signatures for CMS are produced
    using a digest of the message to be signed and the signer's private
-   key.  At the time RFC 5652 was published, all signature algorithms
+   key.  At the time [RFC5652] was published, all signature algorithms
    supported in the CMS required a message digest to be calculated
    externally to that algorithm, which would then be supplied to the
    algorithm implementation when calculating and verifying signatures.
-   Since then, EdDSA [RFC8032] and ML-DSA [FIPS204] have also been
+   Since then, EdDSA [RFC8032] and ML-DSA [FIPS.204] have also been
    standardized, and these algorithms support both a "pure" and "pre-
    hash" mode, although their use in CMS has only been defined for
    "pure" mode.
 
-   Composite ML-DSA operates only in a "pre-hash" mode.  However, unlike
-   RSA and ECDSA each Composite ML-DSA algorithm is defined to be used
-   with a single digest algorithm which is identified in the Composite
-   ML-DSA algorithm name.  For example, id-MLDSA87-ECDSA-P521-SHA512
-   uses SHA-512 as its pre-hash digest algorithm.
+   Composite ML-DSA only provides a "pre-hash" mode.  Unlike RSA and
+   ECDSA each Composite ML-DSA algorithm is defined to be used with a
+   single digest algorithm which is identified in the Composite ML-DSA
+   algorithm name.  For example, id-MLDSA87-ECDSA-P521-SHA512 uses
+   SHA-512 as its pre-hash digest algorithm.
 
    When Composite ML-DSA is used in CMS, the digest algorithm used by
    CMS SHALL be the same pre-hash digest algorithm used by the Composite
    ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional
-   digest algorithms for the internal component algorithms, e.g., in the
-   case of id-MLDSA87-ECDSA-P384-SHA512 the traditional component uses
-   SHA-384.  These internal digest algorithms are irrelevant to
-   Composite ML-DSA's use in CMS.
+   digest algorithms internally, e.g., in the case of id-MLDSA87-ECDSA-
+   P384-SHA512 the ECDSA component uses SHA-384.  These internal digest
+   algorithms are irrelevant to Composite ML-DSA's use in CMS.
 
 3.2.  SignedData digestAlgorithms
 
    The SignedData digestAlgorithms field includes the identifiers of the
    message digest algorithms used by one or more signer.  When signing
    with a Composite ML-DSA algorithm, this list of identifiers SHOULD
-   include the corresponding digest algorithm from Table 1.
+   include the corresponding digest algorithm from Table 1.  The field
+   is intended to list the message digest algorithms employed by all of
+   the signers, to facilitate one-pass signature verification.  If the
+   corresponding digest algorithm from Table 1 is not listed, a one-pass
+   verifier might not successfully verify the Composite ML-DSA
+   signature.
 
 3.3.  Signature Generation and Verification
 
@@ -269,10 +273,10 @@ Table of Contents
       signedAttrs, which is passed to the signature algorithm.  See
       Table 1 for exact algorithm mappings.
 
-      [RFC5754] defines the use of SHA-256 [FIPS180] (id-sha256) and
-      SHA-512 [FIPS180] (id-sha512) in CMS.  [RFC8702] defines the use
-      of SHAKE256 [FIPS202] (id-shake256) in CMS.  When id-sha256 or id-
-      sha512 is used, the parameters field MUST be omitted.  When id-
+      [RFC5754] defines the use of SHA-256 [FIPS.180] (id-sha256) and
+      SHA-512 [FIPS.180] (id-sha512) in CMS.  [RFC8702] defines the use
+      of SHAKE256 [FIPS.202] (id-shake256) in CMS.  When id-sha256 or
+      id-sha512 is used, the parameters field MUST be omitted.  When id-
       shake256 is used the parameters field MUST be omitted and the
       digest length MUST be 64 bytes.
 
@@ -364,7 +368,7 @@ Table of Contents
    keys, searching the resulting small set of possibilities, rather than
    brute-force searching the whole key space.  The generation of random
    numbers of a sufficient level of quality for use in cryptography is
-   difficult; see Section 3.6.1 of [FIPS204] for some additional
+   difficult; see Section 3.6.1 of [FIPS.204] for some additional
    information.
 
    To avoid algorithm substitution attacks, the CMSAlgorithmProtection
@@ -375,19 +379,37 @@ Table of Contents
 
 6.1.  Normative References
 
-   [FIPS180]  "Secure hash standard", National Institute of Standards
+   [FIPS.180] "Secure hash standard", National Institute of Standards
               and Technology (U.S.), DOI 10.6028/nist.fips.180-4, 2015,
               <https://doi.org/10.6028/nist.fips.180-4>.
 
-   [FIPS202]  "SHA-3 standard :: permutation-based hash and extendable-
+   [FIPS.202] "SHA-3 standard :: permutation-based hash and extendable-
               output functions", National Institute of Standards and
               Technology (U.S.), DOI 10.6028/nist.fips.202, 2015,
               <https://doi.org/10.6028/nist.fips.202>.
 
-   [FIPS204]  "Module-lattice-based digital signature standard",
+   [FIPS.204] "Module-lattice-based digital signature standard",
               National Institute of Standards and Technology (U.S.),
               DOI 10.6028/nist.fips.204, August 2024,
               <https://doi.org/10.6028/nist.fips.204>.
+
+   [FIPS.186-5]
+              "Digital Signature Standard (DSS)", National Institute of
+              Standards and Technology (U.S.),
+              DOI 10.6028/nist.fips.186-5, February 2023,
+              <https://doi.org/10.6028/nist.fips.186-5>.
+
+   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): Specification of basic notation", ITU-T
+              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.680>.
+
+   [X690]     ITU-T, "Information technology - Abstract Syntax Notation
+              One (ASN.1): ASN.1 encoding rules: Specification of Basic
+              Encoding Rules (BER), Canonical Encoding Rules (CER) and
+              Distinguished Encoding Rules (DER)", ITU-T
+              Recommendation X.690, ISO/IEC 8825-1:2021, February 2021,
+              <https://www.itu.int/rec/T-REC-X.690>.
 
    [I-D.ietf-lamps-pq-composite-sigs]
               Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
@@ -397,6 +419,17 @@ Table of Contents
               ietf-lamps-pq-composite-sigs-19, 21 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
               pq-composite-sigs-19>.
+
+   [RFC8017]  Moriarty, K., Ed., Kaliski, B., Jonsson, J., and A. Rusch,
+              "PKCS #1: RSA Cryptography Specifications Version 2.2",
+              RFC 8017, DOI 10.17487/RFC8017, November 2016,
+              <https://www.rfc-editor.org/rfc/rfc8017>.
+
+   [RFC8410]  Josefsson, S. and J. Schaad, "Algorithm Identifiers for
+              Ed25519, Ed448, X25519, and X448 for Use in the Internet
+              X.509 Public Key Infrastructure", RFC 8410,
+              DOI 10.17487/RFC8410, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8410>.
 
    [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
               RFC 5652, DOI 10.17487/RFC5652, September 2009,
@@ -436,23 +469,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc5911>.
 
 6.2.  Informative References
-
-   [X680]     ITU-T, "Information technology - Abstract Syntax Notation
-              One (ASN.1): Specification of basic notation", ITU-T
-              Recommendation X.680, ISO/IEC 8824-1:2021, February 2021,
-              <https://www.itu.int/rec/T-REC-X.680>.
-
-   [X690]     ITU-T, "Information technology - Abstract Syntax Notation
-              One (ASN.1): ASN.1 encoding rules: Specification of Basic
-              Encoding Rules (BER), Canonical Encoding Rules (CER) and
-              Distinguished Encoding Rules (DER)", ITU-T
-              Recommendation X.690, ISO/IEC 8825-1:2021, February 2021,
-              <https://www.itu.int/rec/T-REC-X.690>.
-
-   [RFC9794]  Driscoll, F., Parsons, M., and B. Hale, "Terminology for
-              Post-Quantum Traditional Hybrid Schemes", RFC 9794,
-              DOI 10.17487/RFC9794, June 2025,
-              <https://www.rfc-editor.org/rfc/rfc9794>.
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,

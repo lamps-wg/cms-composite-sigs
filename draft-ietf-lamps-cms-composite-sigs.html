@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta content="Common,Inherited,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</title>
+<title>Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in Cryptographic Message Syntax (CMS)</title>
 <meta content="Mike Ounsworth" name="author">
 <meta content="John Gray" name="author">
 <meta content="Jan Klaussner" name="author">
 <meta content="Daniel Van Geest" name="author">
 <meta content="
-       Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
+       Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS). 
     " name="description">
 <meta content="xml2rfc 3.33.0" name="generator">
@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ounsworth, et al.</td>
-<td class="center">Expires 14 November 2026</td>
+<td class="center">Expires 19 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-sigs-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-13" class="published">13 May 2026</time>
+<time datetime="2026-05-18" class="published">18 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-14">14 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-19">19 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1094,10 +1094,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">Composite ML-DSA for use in Cryptographic Message Syntax (CMS)</h1>
+<h1 id="title">Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in Cryptographic Message Syntax (CMS)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Composite ML-DSA defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
+<p id="section-abstract-1">Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) defines combinations of ML-DSA with RSA, ECDSA, and EdDSA.
 This document specifies the conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1135,7 +1135,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1233,7 +1233,7 @@ This document specifies the conventions for using Composite ML-DSA algorithms wi
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> with traditional algorithms RSASSA-PKCS1-v1.5, RSASSA-PSS, ECDSA, Ed25519, and Ed448.
+<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA <span>[<a href="#FIPS.204" class="cite xref">FIPS.204</a>]</span> with RSASSA-PKCS1-v1.5 <span>[<a href="#RFC8017" class="cite xref">RFC8017</a>]</span>, RSASSA-PSS <span>[<a href="#RFC8017" class="cite xref">RFC8017</a>]</span>, ECDSA (Section 6 of <span>[<a href="#FIPS.186-5" class="cite xref">FIPS.186-5</a>]</span>), Ed25519 <span>[<a href="#RFC8410" class="cite xref">RFC8410</a>]</span>, and Ed448 <span>[<a href="#RFC8410" class="cite xref">RFC8410</a>]</span>.
 This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-sigs" class="cite xref">I-D.ietf-lamps-pq-composite-sigs</a>]</span> by providing conventions for using Composite ML-DSA algorithms within the Cryptographic Message Syntax (CMS) <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <div id="asn1">
 <section id="section-1.1">
@@ -1255,7 +1255,6 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.
 These words may also appear in this document in
 lower case as plain English words, absent their normative meanings.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.2-2">This document is consistent with the terminology defined in <span>[<a href="#RFC9794" class="cite xref">RFC9794</a>]</span>.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1339,11 +1338,11 @@ id-MLDSA87-ECDSA-P521-SHA512 OBJECT IDENTIFIER ::= {
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-pre-hashing" class="section-name selfRef">Pre-Hashing</a>
         </h3>
 <p id="section-3.1-1"><span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> specifies that digital signatures for CMS are produced using a digest of the message to be signed and the signer's private key.
-At the time RFC 5652 was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
-Since then, EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> and ML-DSA <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">Composite ML-DSA operates only in a "pre-hash" mode. However, unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
+At the time <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> was published, all signature algorithms supported in the CMS required a message digest to be calculated externally to that algorithm, which would then be supplied to the algorithm implementation when calculating and verifying signatures.
+Since then, EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> and ML-DSA <span>[<a href="#FIPS.204" class="cite xref">FIPS.204</a>]</span> have also been standardized, and these algorithms support both a "pure" and "pre-hash" mode, although their use in CMS has only been defined for "pure" mode.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Composite ML-DSA only provides a "pre-hash" mode. Unlike RSA and ECDSA each Composite ML-DSA algorithm is defined to be used with a single digest algorithm which is identified in the Composite ML-DSA algorithm name.
 For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest algorithm.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms for the internal component algorithms, e.g., in the case of id-MLDSA87-ECDSA-P384-SHA512 the traditional component uses SHA-384. These internal digest algorithms are irrelevant to Composite ML-DSA's use in CMS.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">When Composite ML-DSA is used in CMS, the digest algorithm used by CMS SHALL be the same pre-hash digest algorithm used by the Composite ML-DSA algorithm.  A Composite ML-DSA algorithm might use additional digest algorithms internally, e.g., in the case of id-MLDSA87-ECDSA-P384-SHA512 the ECDSA component uses SHA-384. These internal digest algorithms are irrelevant to Composite ML-DSA's use in CMS.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signeddata-digestalgorithms">
@@ -1352,7 +1351,9 @@ For example, id-MLDSA87-ECDSA-P521-SHA512 uses SHA-512 as its pre-hash digest al
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-signeddata-digestalgorithms" class="section-name selfRef">SignedData digestAlgorithms</a>
         </h3>
 <p id="section-3.2-1">The SignedData digestAlgorithms field includes the identifiers of the message digest algorithms used by one or more signer.
-When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+When signing with a Composite ML-DSA algorithm, this list of identifiers SHOULD include the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a>.
+The field is intended to list the message digest algorithms employed by all of the signers, to facilitate one-pass signature verification.
+If the corresponding digest algorithm from <a href="#digest-algs" class="auto internal xref">Table 1</a> is not listed, a one-pass verifier might not successfully verify the Composite ML-DSA signature.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signature-generation-and-verification">
@@ -1392,7 +1393,7 @@ See <a href="#digest-algs" class="auto internal xref">Table 1</a> for exact algo
           <dd class="break"></dd>
 <dt id="section-3.4-2.3"></dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the use of SHAKE256 <span>[<a href="#FIPS202" class="cite xref">FIPS202</a>]</span> (id-shake256) in CMS.
+            <p id="section-3.4-2.4.1"><span>[<a href="#RFC5754" class="cite xref">RFC5754</a>]</span> defines the use of SHA-256 <span>[<a href="#FIPS.180" class="cite xref">FIPS.180</a>]</span> (id-sha256) and SHA-512 <span>[<a href="#FIPS.180" class="cite xref">FIPS.180</a>]</span> (id-sha512) in CMS. <span>[<a href="#RFC8702" class="cite xref">RFC8702</a>]</span> defines the use of SHAKE256 <span>[<a href="#FIPS.202" class="cite xref">FIPS.202</a>]</span> (id-shake256) in CMS.
 When id-sha256 or id-sha512 is used, the parameters field MUST be omitted.
 When id-shake256 is used the parameters field MUST be omitted and the digest length MUST be 64 bytes.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1534,7 +1535,7 @@ Compromise of the private key will enable an adversary to forge arbitrary signat
 <p id="section-5-3">Composite ML-DSA depends on high-quality random numbers that are suitable for use in cryptography.
 The use of inadequate pseudo-random number generators (PRNGs) to generate such values can significantly undermine the security properties offered by a cryptographic algorithm.
 For instance, an attacker may find it much easier to reproduce the PRNG environment that produced any private keys, searching the resulting small set of possibilities, rather than brute-force searching the whole key space.
-The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of <span>[<a href="#FIPS204" class="cite xref">FIPS204</a>]</span> for some additional information.<a href="#section-5-3" class="pilcrow">¶</a></p>
+The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of <span>[<a href="#FIPS.204" class="cite xref">FIPS.204</a>]</span> for some additional information.<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in <span>[<a href="#RFC6211" class="cite xref">RFC6211</a>]</span> SHOULD be included in signed attributes.<a href="#section-5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1549,21 +1550,41 @@ The generation of random numbers of a sufficient level of quality for use in cry
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="FIPS180">[FIPS180]</dt>
+<dt id="FIPS.180">[FIPS.180]</dt>
         <dd>
 <span class="refTitle">"Secure hash standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.180-4</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.180-4">https://doi.org/10.6028/nist.fips.180-4</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="FIPS202">[FIPS202]</dt>
+<dt id="FIPS.202">[FIPS.202]</dt>
         <dd>
 <span class="refTitle">"SHA-3 standard :: permutation-based hash and extendable-output functions"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.202</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.202">https://doi.org/10.6028/nist.fips.202</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="FIPS204">[FIPS204]</dt>
+<dt id="FIPS.204">[FIPS.204]</dt>
         <dd>
 <span class="refTitle">"Module-lattice-based digital signature standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.204</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.204">https://doi.org/10.6028/nist.fips.204</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="FIPS.186-5">[FIPS.186-5]</dt>
+        <dd>
+<span class="refTitle">"Digital Signature Standard (DSS)"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.186-5</span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.186-5">https://doi.org/10.6028/nist.fips.186-5</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X690">[X690]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ITU-T Recommendation X.690</span>, <span class="seriesInfo">ISO/IEC 8825-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.690">https://www.itu.int/rec/T-REC-X.690</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lamps-pq-composite-sigs">[I-D.ietf-lamps-pq-composite-sigs]</dt>
         <dd>
 <span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-sigs-19</span>, <time datetime="2026-04-21" class="refDate">21 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-19">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-sigs-19</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8017">[RFC8017]</dt>
+        <dd>
+<span class="refAuthor">Moriarty, K., Ed.</span>, <span class="refAuthor">Kaliski, B.</span>, <span class="refAuthor">Jonsson, J.</span>, and <span class="refAuthor">A. Rusch</span>, <span class="refTitle">"PKCS #1: RSA Cryptography Specifications Version 2.2"</span>, <span class="seriesInfo">RFC 8017</span>, <span class="seriesInfo">DOI 10.17487/RFC8017</span>, <time datetime="2016-11" class="refDate">November 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8017">https://www.rfc-editor.org/rfc/rfc8017</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8410">[RFC8410]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"Algorithm Identifiers for Ed25519, Ed448, X25519, and X448 for Use in the Internet X.509 Public Key Infrastructure"</span>, <span class="seriesInfo">RFC 8410</span>, <span class="seriesInfo">DOI 10.17487/RFC8410</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8410">https://www.rfc-editor.org/rfc/rfc8410</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5652">[RFC5652]</dt>
         <dd>
@@ -1606,18 +1627,6 @@ The generation of random numbers of a sufficient level of quality for use in cry
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="X680">[X680]</dt>
-        <dd>
-<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="X690">[X690]</dt>
-        <dd>
-<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ITU-T Recommendation X.690</span>, <span class="seriesInfo">ISO/IEC 8825-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.690">https://www.itu.int/rec/T-REC-X.690</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9794">[RFC9794]</dt>
-        <dd>
-<span class="refAuthor">Driscoll, F.</span>, <span class="refAuthor">Parsons, M.</span>, and <span class="refAuthor">B. Hale</span>, <span class="refTitle">"Terminology for Post-Quantum Traditional Hybrid Schemes"</span>, <span class="seriesInfo">RFC 9794</span>, <span class="seriesInfo">DOI 10.17487/RFC9794</span>, <time datetime="2025-06" class="refDate">June 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9794">https://www.rfc-editor.org/rfc/rfc9794</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8032">[RFC8032]</dt>
         <dd>
 <span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8032">https://www.rfc-editor.org/rfc/rfc8032</a>&gt;</span>. </dd>
