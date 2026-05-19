@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-17T02:39:35.632361+00:00",
+  "timestamp": "2026-05-19T02:46:55.317142+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -261,7 +261,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-09T11:44:28Z",
-      "updatedAt": "2026-01-09T13:22:07Z",
+      "updatedAt": "2026-05-18T09:55:35Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "9de7c130c9fc1419094109ceeb17c00384354fc7",
@@ -282,7 +282,7 @@
             "abbreviatedOid": "14717c0"
           },
           "author": "janklaussner",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2026-01-09T12:54:49Z",
@@ -345,7 +345,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-12T15:38:00Z",
-      "updatedAt": "2026-01-13T08:36:35Z",
+      "updatedAt": "2026-05-18T09:58:22Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "f0a59657868e01c9cdc1a2da4640652684db273a",
@@ -400,7 +400,7 @@
       "labels": [],
       "body": "\u2026mposite-sigs",
       "createdAt": "2026-01-21T20:42:26Z",
-      "updatedAt": "2026-01-21T20:58:19Z",
+      "updatedAt": "2026-05-18T09:58:48Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "ccd396382bd8b6af186fac68e24aaf8166c65c43",
@@ -428,7 +428,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-28T10:15:49Z",
-      "updatedAt": "2026-01-28T15:15:52Z",
+      "updatedAt": "2026-05-18T09:56:06Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "51db415a1888a6c20a6b5a11cb21e34bcd0f3907",
@@ -505,24 +505,26 @@
       "id": "PR_kwDOQdmGXs7bOZF1",
       "title": "Address Mohamed Boucadair's review",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/14",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Make X680 and X690 normative\r\n- Don't need to reference RFC 9794\r\n- Expand acronyms\r\n- RSA/ECDSA/EdDSA references\r\n- RFC5652 citation\r\n- Tweak text explicitly stating that Composite ML-DSA only provides pre-hash mode.\r\n- Do not include operational considerations section, large message size is an issue for ML-DSA but not Composite ML-DSA.",
       "createdAt": "2026-05-13T17:43:29Z",
-      "updatedAt": "2026-05-14T15:18:39Z",
+      "updatedAt": "2026-05-18T09:53:21Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "c1b02af7327a8e948d362a24baf6376897cdfd60",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/med_review",
-      "headRefOid": "6da6311a1e3859b85201e1a09922572b8accd3de",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "c961e767ad77f76402328d1ca7d4e4f45bd13f7c",
+      "closedAt": "2026-05-18T09:52:41Z",
+      "mergedAt": "2026-05-18T09:52:41Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff"
+      },
       "comments": [],
       "reviews": [
         {
@@ -537,6 +539,32 @@
           "createdAt": "2026-05-14T15:18:39Z",
           "updatedAt": "2026-05-14T15:18:39Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOQdmGXs8AAAABANIaNQ",
+          "commit": {
+            "abbreviatedOid": "6da6311"
+          },
+          "author": "boucadair",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Looks good to me. There are some few nits to fix.\n\nThanks.",
+          "createdAt": "2026-05-18T09:03:43Z",
+          "updatedAt": "2026-05-18T09:08:11Z",
+          "comments": [
+            {
+              "originalPosition": 96,
+              "body": "```suggestion\n The Composite ML-DSA signature-generation operation is specified in {{Section 4.2 of I-D.ietf-lamps-pq-composite-sigs}}, and the signature-verification operation is specified in {{Section 4.3 of I-D.ietf-lamps-pq-composite-sigs}}.\n```",
+              "createdAt": "2026-05-18T09:03:43Z",
+              "updatedAt": "2026-05-18T09:08:11Z"
+            },
+            {
+              "originalPosition": 43,
+              "body": "```suggestion\n{{!I-D.ietf-lamps-pq-composite-sigs}} defines a collection of signature algorithms, referred to as Composite ML-DSA, which combine ML-DSA {{FIPS.204}} with RSASSA-PKCS1-v1.5 {{!RFC8017}}, RSASSA-PSS {{!RFC8017}}, ECDSA (Section 6 of {{!FIPS.186-5}}), Ed25519 {{!RFC8410}}, and Ed448 {{!RFC8410}}.\n```",
+              "createdAt": "2026-05-18T09:04:24Z",
+              "updatedAt": "2026-05-18T09:08:11Z"
+            }
+          ]
         }
       ]
     },
@@ -552,13 +580,54 @@
       "labels": [],
       "body": "\u2026 will come later.",
       "createdAt": "2026-05-15T14:46:13Z",
-      "updatedAt": "2026-05-15T14:46:13Z",
+      "updatedAt": "2026-05-18T11:27:50Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
-      "baseRefOid": "c1b02af7327a8e948d362a24baf6376897cdfd60",
+      "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/Yaroslav_dos_considerations",
-      "headRefOid": "d8eca0af0e8c0720fa1b903b8ff9f23b79758045",
+      "headRefOid": "19002b38154a8282e25d7f30dce6e557920659ba",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "yaroslavros",
+          "authorAssociation": "NONE",
+          "body": "The DoS risks are not only related to the signature size but also related to the computational complexity of ML-DSA. Signing with ML-DSA tends to be much (~20x) more CPU intensive compared to classical schemes such as ECDSA P-256 or EdDSA 25519.",
+          "createdAt": "2026-05-18T10:46:51Z",
+          "updatedAt": "2026-05-18T10:46:51Z"
+        },
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The DoS risks are not only related to the signature size but also related to the computational complexity of ML-DSA. Signing with ML-DSA tends to be much (~20x) more CPU intensive compared to classical schemes such as ECDSA P-256 or EdDSA 25519.\r\n\r\n@yaroslavros doesn't the second new paragraph address this?",
+          "createdAt": "2026-05-18T11:27:50Z",
+          "updatedAt": "2026-05-18T11:27:50Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOQdmGXs7cmdZF",
+      "title": "Add text to address prehash mismatch",
+      "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/16",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-05-18T10:05:55Z",
+      "updatedAt": "2026-05-18T10:05:55Z",
+      "baseRepository": "lamps-wg/cms-composite-sigs",
+      "baseRefName": "main",
+      "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
+      "headRepository": "lamps-wg/cms-composite-sigs",
+      "headRefName": "dvg/prehash_mismatch",
+      "headRefOid": "536cc4a824e6a619fea87bb0525222f8dbe4e50c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
