@@ -5,11 +5,11 @@
 LAMPS                                                       M. Ounsworth
 Internet-Draft                                                   J. Gray
 Intended status: Standards Track                                 Entrust
-Expires: 19 November 2026                                   J. Klaussner
+Expires: 21 November 2026                                   J. Klaussner
                                                     Bundesdruckerei GmbH
                                                             D. Van Geest
                                                      CryptoNext Security
-                                                             18 May 2026
+                                                             20 May 2026
 
 
 Composite Module-Lattice-Based Digital Signature Algorithm (ML-DSA) for
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 November 2026.
+   This Internet-Draft will expire on 21 November 2026.
 
 Copyright Notice
 
@@ -374,6 +374,19 @@ Table of Contents
    To avoid algorithm substitution attacks, the CMSAlgorithmProtection
    attribute defined in [RFC6211] SHOULD be included in signed
    attributes.
+
+   ECDSA, EdDSA, and RSA signatures are relatively small compared to ML-
+   DSA signatures, and thus compared to Composite ML-DSA signatures as
+   well.  On the other hand, Composite ML-DSA signatures are not that
+   much larger than ML-DSA signatures.  When moving from ECDSA, EdDSA,
+   or RSA to Composite ML-DSA (or ML-DSA), the resulting increased
+   message sizes could stress size-constrained processing pipelines.
+
+   ECDSA (with curve secp256r1) and Ed25519 have very fast signing
+   operations compared to ML-DSA (and thus Composite ML-DSA).
+   Implementations which rely on this fast signing should be aware of
+   potential denial of service issues arising from the slower signing
+   times.
 
 6.  References
 
