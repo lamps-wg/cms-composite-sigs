@@ -294,6 +294,12 @@ The generation of random numbers of a sufficient level of quality for use in cry
 
 To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in {{!RFC6211}} SHOULD be included in signed attributes.
 
+ECDSA, EdDSA, and RSA signatures are relatively small compared to ML-DSA signatures, and thus compared to Composite ML-DSA signatures as well.
+On the other hand, Composite ML-DSA signatures are not that much larger than ML-DSA signatures.
+When moving from ECDSA, EdDSA, or RSA to Composite ML-DSA (or ML-DSA), the resulting increased message sizes could stress size-constrained processing pipelines.
+
+ECDSA (with curve secp256r1) and Ed25519 have very fast signing operations compared to ML-DSA (and thus Composite ML-DSA).
+Implementations which rely on this fast signing should be aware of potential denial of service issues arising from the slower signing times.
 
 --- back
 
