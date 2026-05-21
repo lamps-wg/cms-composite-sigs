@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-19T02:46:55.317142+00:00",
+  "timestamp": "2026-05-21T02:50:37.350521+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -193,24 +193,32 @@
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/W4B1MFLSxjOhivSv7gQf0TrUqG8/\n\nThese comments need an on-list response, and some changes to the draft.\n\nNote that `org(3)` -> `identified-organization(3)` has been fixed in the upstream draft-ietf-lamps-pq-composite-sigs",
       "createdAt": "2026-05-12T12:54:25Z",
-      "updatedAt": "2026-05-12T12:54:25Z",
+      "updatedAt": "2026-05-20T09:13:49Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Responses in https://mailarchive.ietf.org/arch/msg/spasm/FbFbDnoc5RtzhIV0QofR3euT2yg/",
+          "createdAt": "2026-05-20T09:13:49Z",
+          "updatedAt": "2026-05-20T09:13:49Z"
+        }
+      ]
     },
     {
       "number": 13,
       "id": "I_kwDOQdmGXs8AAAABCByvRw",
       "title": "DOWNREF for RFC9794?",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "We have COMMENTS against this and the upstream composites drafts to reference RFC9794 as Normative.\n\nThe upstream composite doc chose not to, but Deb has said:\n\n> My suggestion is to just add it as normative, and I'll work the downref approval (which isn't hard). I will probably just add it to the downref registry to avoid more angst.",
       "createdAt": "2026-05-12T16:59:06Z",
-      "updatedAt": "2026-05-13T17:16:39Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-20T08:55:04Z",
+      "closedAt": "2026-05-20T08:55:04Z",
       "comments": [
         {
           "author": "danvangeest",
@@ -218,6 +226,13 @@
           "body": "We actually use little-to-no RFC9794 text, the relevant line was just lifted from pq-composite-sigs. As part of Med's review I will remove the offending line and tweak some text.",
           "createdAt": "2026-05-13T17:16:39Z",
           "updatedAt": "2026-05-13T17:16:39Z"
+        },
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #14 ",
+          "createdAt": "2026-05-20T08:55:04Z",
+          "updatedAt": "2026-05-20T08:55:04Z"
         }
       ]
     }
@@ -573,24 +588,26 @@
       "id": "PR_kwDOQdmGXs7b9Ueg",
       "title": "Address Yaroslav's DoS considerations. digestAlgorithm considerations\u2026",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/15",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026 will come later.",
       "createdAt": "2026-05-15T14:46:13Z",
-      "updatedAt": "2026-05-18T11:27:50Z",
+      "updatedAt": "2026-05-20T14:15:14Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/Yaroslav_dos_considerations",
       "headRefOid": "19002b38154a8282e25d7f30dce6e557920659ba",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-20T14:15:13Z",
+      "mergedAt": "2026-05-20T14:15:13Z",
+      "mergedBy": "johngray-dev",
+      "mergeCommit": {
+        "oid": "4ed5d626a5a2e5023d76dd46438a8e8fe246003c"
+      },
       "comments": [
         {
           "author": "yaroslavros",
@@ -607,7 +624,21 @@
           "updatedAt": "2026-05-18T11:27:50Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs8AAAABAgaqYw",
+          "commit": {
+            "abbreviatedOid": "19002b3"
+          },
+          "author": "janklaussner",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-20T13:34:31Z",
+          "updatedAt": "2026-05-20T13:34:31Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 16,
@@ -621,7 +652,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-05-18T10:05:55Z",
-      "updatedAt": "2026-05-18T10:05:55Z",
+      "updatedAt": "2026-05-20T13:59:06Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
@@ -632,8 +663,43 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closes #11 ",
+          "createdAt": "2026-05-20T08:56:03Z",
+          "updatedAt": "2026-05-20T08:56:03Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQdmGXs8AAAABAgZ5cg",
+          "commit": {
+            "abbreviatedOid": "536cc4a"
+          },
+          "author": "janklaussner",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-20T13:32:56Z",
+          "updatedAt": "2026-05-20T13:32:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQdmGXs8AAAABAgn7Fw",
+          "commit": {
+            "abbreviatedOid": "536cc4a"
+          },
+          "author": "johngray-dev",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for the clarification!",
+          "createdAt": "2026-05-20T13:59:06Z",
+          "updatedAt": "2026-05-20T13:59:06Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
