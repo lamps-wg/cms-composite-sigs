@@ -222,7 +222,7 @@ Composite ML-DSA has a context string input that can be used to ensure that diff
 When using Composite ML-DSA as specified in this document, the context string is set to the empty string.
 
 
-## SignerInfo Content
+## SignerInfo Content {#sec-signerinfo}
 
 When using Composite ML-DSA, the fields of a SignerInfo are used as follows:
 
@@ -293,6 +293,11 @@ For instance, an attacker may find it much easier to reproduce the PRNG environm
 The generation of random numbers of a sufficient level of quality for use in cryptography is difficult; see Section 3.6.1 of {{FIPS.204}} for some additional information.
 
 To avoid algorithm substitution attacks, the CMSAlgorithmProtection attribute defined in {{!RFC6211}} SHOULD be included in signed attributes.
+
+{{sec-signerinfo}} specifies that the SignerInfo digestAlgorithm field MUST contain the Composite ML-DSA algorithm's pre-hash algorithm.
+If the digestAlgorithm and pre-hash algorithm don't match, the verifier SHOULD reject the message as invalid CMS, but for backwards-compatibility or interoperability reasons MAY verify the signature using the pre-hash algorithm.
+If these algorithms don't match, this implies that the signer may have passed an incorrect digest value to the Composite ML-DSA signing algorithm and the resulting signature would not be valid for the data being signed.
+This is a general issue with CMS, where a SignerInfo's digestAlgorithm field might not correspond to the digest required by the SignerInfo's signatureAlgorithm field.
 
 ECDSA, EdDSA, and RSA signatures are relatively small compared to ML-DSA signatures, and thus compared to Composite ML-DSA signatures as well.
 On the other hand, Composite ML-DSA signatures are not that much larger than ML-DSA signatures.
