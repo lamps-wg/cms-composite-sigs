@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-21T02:50:37.350521+00:00",
+  "timestamp": "2026-05-24T02:47:13.983737+00:00",
   "repo": "lamps-wg/cms-composite-sigs",
   "labels": [
     {
@@ -162,15 +162,15 @@
       "id": "I_kwDOQdmGXs79-YCf",
       "title": "SECDIR review",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/11",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/ENDFotAi9JPOnm_4wW6wXbnQgkU/\n\n> Section 3.4 requires (\"MUST\") digestAlgorithm from SignerInfo to match digest\nalgorithm used by the Composite ML-DSA. I believe it is worth spelling out that\nviolation of this MUST result in rejection of the CMS object. Perhaps it is\nworth adding this to security considerations.\n\n> Further potential improvements to security considerations could include DoS\nconsiderations. ML-DSA (and its composites) have bigger signatures and its sign\noperation is generally more CPU-intensive compared to most classical\nalgorithms. Implementers must take that into consideration.",
       "createdAt": "2026-04-14T09:09:18Z",
-      "updatedAt": "2026-04-17T10:05:50Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-22T11:56:34Z",
+      "closedAt": "2026-05-22T11:56:34Z",
       "comments": [
         {
           "author": "danvangeest",
@@ -178,6 +178,13 @@
           "body": "Sean Turner has a similar comment to the first one from his Artart review:\n\n> s3.4 requires that the message digest algorithm MUST be the same digest\nalgorithm used by the Composite ML-DSA algorithm. Does this requirement extend\nRFC 5652 s5.6 (Signature Verification Process\"? If the answer is \"yes\", then I\nthink we should say that s5.6 is extended and that the signature is not valid\nif the two signatures are not made using the same algorithm.\n",
           "createdAt": "2026-04-17T10:05:50Z",
           "updatedAt": "2026-04-17T10:05:50Z"
+        },
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #16 ",
+          "createdAt": "2026-05-22T11:56:34Z",
+          "updatedAt": "2026-05-22T11:56:34Z"
         }
       ]
     },
@@ -186,15 +193,15 @@
       "id": "I_kwDOQdmGXs8AAAABCAFKUw",
       "title": "Mahesh's review Apr 28",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/issues/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "https://mailarchive.ietf.org/arch/msg/spasm/W4B1MFLSxjOhivSv7gQf0TrUqG8/\n\nThese comments need an on-list response, and some changes to the draft.\n\nNote that `org(3)` -> `identified-organization(3)` has been fixed in the upstream draft-ietf-lamps-pq-composite-sigs",
       "createdAt": "2026-05-12T12:54:25Z",
-      "updatedAt": "2026-05-20T09:13:49Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-22T11:56:51Z",
+      "closedAt": "2026-05-22T11:56:51Z",
       "comments": [
         {
           "author": "danvangeest",
@@ -202,6 +209,13 @@
           "body": "Responses in https://mailarchive.ietf.org/arch/msg/spasm/FbFbDnoc5RtzhIV0QofR3euT2yg/",
           "createdAt": "2026-05-20T09:13:49Z",
           "updatedAt": "2026-05-20T09:13:49Z"
+        },
+        {
+          "author": "danvangeest",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in PRs linked in the response above.",
+          "createdAt": "2026-05-22T11:56:51Z",
+          "updatedAt": "2026-05-22T11:56:51Z"
         }
       ]
     },
@@ -595,7 +609,7 @@
       "labels": [],
       "body": "\u2026 will come later.",
       "createdAt": "2026-05-15T14:46:13Z",
-      "updatedAt": "2026-05-20T14:15:14Z",
+      "updatedAt": "2026-05-22T11:42:25Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
       "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
@@ -645,24 +659,26 @@
       "id": "PR_kwDOQdmGXs7cmdZF",
       "title": "Add text to address prehash mismatch",
       "url": "https://github.com/lamps-wg/cms-composite-sigs/pull/16",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danvangeest",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-05-18T10:05:55Z",
-      "updatedAt": "2026-05-20T13:59:06Z",
+      "updatedAt": "2026-05-22T11:50:14Z",
       "baseRepository": "lamps-wg/cms-composite-sigs",
       "baseRefName": "main",
-      "baseRefOid": "1c2fa0b9b3ff858f58821faf89ce7f1e48e292ff",
+      "baseRefOid": "4ed5d626a5a2e5023d76dd46438a8e8fe246003c",
       "headRepository": "lamps-wg/cms-composite-sigs",
       "headRefName": "dvg/prehash_mismatch",
-      "headRefOid": "536cc4a824e6a619fea87bb0525222f8dbe4e50c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "22204ed155832f8868995a6ae48f316cccf0d732",
+      "closedAt": "2026-05-22T11:48:55Z",
+      "mergedAt": "2026-05-22T11:48:55Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "93a598d9ca4b96f62aa41e9e30e07de5d5d01c5b"
+      },
       "comments": [
         {
           "author": "danvangeest",
